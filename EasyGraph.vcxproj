@@ -113,8 +113,9 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;LOGLEVELFILE="$(ProjectDir)LogLevel.def";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\DEVELOP\Cplusplus\EasyControl;C:\DEVELOP\Cplusplus\EasyControl\Logger;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -200,11 +201,12 @@
     <ClInclude Include="SplashWindow.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="ViewTree.h" />
+    <ClInclude Include="wmuser.h" />
+    <ClInclude Include="WorkspaceBar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CalendarBar.cpp" />
     <ClCompile Include="ChartLineView.cpp" />
-    <ClCompile Include="ChildFrm.cpp" />
     <ClCompile Include="EasyGraph.cpp" />
     <ClCompile Include="EasyGraphDoc.cpp" />
     <ClCompile Include="EasyGraphView.cpp" />
@@ -220,6 +222,7 @@
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="SplashWindow.cpp" />
     <ClCompile Include="ViewTree.cpp" />
+    <ClCompile Include="WorkspaceBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EasyGraph.rc" />
@@ -255,6 +258,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\EasyGraph.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EasyControl\BASE\BASE.vcxproj">
+      <Project>{ab592a6e-7b7f-4f77-9d9d-618f24d8c87d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\EasyControl\Logger\Logger.vcxproj">
+      <Project>{6fe1dc42-88b7-4ebd-a91f-73826b869961}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

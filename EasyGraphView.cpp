@@ -26,124 +26,6 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-#if 0
-
-// EasyGraphView.cpp: Implementierung der CEasyGraphView-Klasse
-//
-
-
-// CEasyGraphView
-
-IMPLEMENT_DYNCREATE(CEasyGraphView, CView)
-
-BEGIN_MESSAGE_MAP(CEasyGraphView, CView)
-	// Standarddruckbefehle
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CEasyGraphView::OnFilePrintPreview)
-	ON_WM_CONTEXTMENU()
-	ON_WM_RBUTTONUP()
-END_MESSAGE_MAP()
-
-// CEasyGraphView-Erstellung/Zerstörung
-
-CEasyGraphView::CEasyGraphView() noexcept
-{
-	// TODO: Hier Code zur Konstruktion einfügen
-
-}
-
-CEasyGraphView::~CEasyGraphView()
-{
-}
-
-BOOL CEasyGraphView::PreCreateWindow(CREATESTRUCT& cs)
-{
-	// TODO: Ändern Sie hier die Fensterklasse oder die Darstellung, indem Sie
-	//  CREATESTRUCT cs modifizieren.
-
-	return CView::PreCreateWindow(cs);
-}
-
-// CEasyGraphView-Zeichnung
-
-void CEasyGraphView::OnDraw(CDC* /*pDC*/)
-{
-	CEasyGraphDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-	if (!pDoc)
-		return;
-
-	// TODO: Code zum Zeichnen der nativen Daten hinzufügen
-}
-
-
-// CEasyGraphView-Druck
-
-
-void CEasyGraphView::OnFilePrintPreview()
-{
-#ifndef SHARED_HANDLERS
-	AFXPrintPreview(this);
-#endif
-}
-
-BOOL CEasyGraphView::OnPreparePrinting(CPrintInfo* pInfo)
-{
-	// Standardvorbereitung
-	return DoPreparePrinting(pInfo);
-}
-
-void CEasyGraphView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: Zusätzliche Initialisierung vor dem Drucken hier einfügen
-}
-
-void CEasyGraphView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: Bereinigung nach dem Drucken einfügen
-}
-
-void CEasyGraphView::OnRButtonUp(UINT /* nFlags */, CPoint point)
-{
-	ClientToScreen(&point);
-	OnContextMenu(this, point);
-}
-
-void CEasyGraphView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
-{
-#ifndef SHARED_HANDLERS
-	theApp.GetContextMenuManager()->ShowPopupMenu(IDR_POPUP_EDIT, point.x, point.y, this, TRUE);
-#endif
-}
-
-
-// CEasyGraphView-Diagnose
-
-#ifdef _DEBUG
-void CEasyGraphView::AssertValid() const
-{
-	CView::AssertValid();
-}
-
-void CEasyGraphView::Dump(CDumpContext& dc) const
-{
-	CView::Dump(dc);
-}
-
-CEasyGraphDoc* CEasyGraphView::GetDocument() const // Nichtdebugversion ist inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CEasyGraphDoc)));
-	return (CEasyGraphDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-
-// CEasyGraphView-Meldungshandler
-
-#endif
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CEasyGraphView
 
@@ -165,6 +47,7 @@ BEGIN_MESSAGE_MAP(CEasyGraphView, CBCGPFormView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CBCGPFormView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
 	ON_MESSAGE(WM_INITDIALOG, HandleInitDialog)
+	ON_MESSAGE(WM_NEWDATE, &CEasyGraphView::OnNewDate)
 	//ON_COMMAND(ID_ANIMATE_CHART, OnAnimateChart)
 	//ON_UPDATE_COMMAND_UI(ID_ANIMATE_CHART, OnUpdateAnimateChart)
 	//ON_UPDATE_COMMAND_UI(ID_ANIMATION_COMBO, OnUpdateAnimationStyleCombo)
@@ -212,7 +95,7 @@ BOOL CEasyGraphView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-
+	//cs.style |= WS_MAXIMIZE;
 	return CBCGPFormView::PreCreateWindow(cs);
 }
 
@@ -258,7 +141,9 @@ LRESULT CEasyGraphView::HandleInitDialog(WPARAM wParam, LPARAM lParam)
 		
 		pProgress->SetOptions(options);
 	}
+	ShowWindow(SW_SHOWMAXIMIZED);
 #endif
+	GetParentFrame()->RecalcLayout();
 	if (GetLayout() != NULL)
 	{
 		UpdateData(FALSE);
@@ -311,8 +196,12 @@ void CEasyGraphView::OnInitialUpdate()
 
 	if (GetCtrl() != NULL)
 	{
-//		GetCtrl()->SetGraphicsManager(CBCGPGraphicsManager::BCGP_GRAPHICS_MANAGER_GDI);
+		//GetCtrl()->SetGraphicsManager(CBCGPGraphicsManager::BCGP_GRAPHICS_MANAGER_GDI);
 	}
+#if 0
+	GetParentFrame()->RecalcLayout();
+	ResizeParentToFit(); // FORCES CMainframe to be as small as the dialog template
+#endif
 }
 
 void CEasyGraphView::GetTitle(CString& strTitle)
@@ -718,7 +607,7 @@ void CEasyGraphView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!IsGroupView());
 }
-
+#if 0
 void CEasyGraphView::SetupShapeCombo(UINT nId, int nSel /*= -1*/)
 {
 	SetupShapeCombo(DYNAMIC_DOWNCAST(CComboBox, GetDlgItem(nId)), nSel);
@@ -747,7 +636,7 @@ void CEasyGraphView::SetupShapeCombo(CComboBox* pComboBox, int nSel /*= -1*/)
 		pComboBox->SetCurSel(nSel);
 	}
 }
-
+#endif
 int CEasyGraphView::GetMarkerSize(int nSel)
 {
 	return globalUtils.ScaleByDPI(nSel == 0 ? 7 : 5 * (nSel + 1), this);
@@ -776,3 +665,9 @@ void CEasyGraphView::SetProgress(int nCurr, int nTotal)
 		m_wndProgress.SetPos((double)nCurr);
 	}
 }
+
+LRESULT CEasyGraphView::OnNewDate(WPARAM wParam, LPARAM lParam)
+{
+	return 0L;
+}
+

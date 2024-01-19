@@ -125,11 +125,12 @@ void CChartLineView::OnInitialUpdate()
 	ASSERT_VALID(pChart);
 
 	auto m_Feature = theConfig.m_Feature;
-	BCGPChartType type = 
+	BCGPChartType type = BCGP_CT_SIMPLE;
+#if 0
 		(m_Feature == CDemoFeature::BCGP_StackedLine || m_Feature == CDemoFeature::BCGP_StackedLineSpline) ? BCGP_CT_STACKED :
 		(m_Feature == CDemoFeature::BCGP_StackedLine100) ? 
 		BCGP_CT_100STACKED : BCGP_CT_SIMPLE;
-
+#endif
 	pChart->SetChartType(BCGPChartLine, type);
 
 	pChart->SetChartTitle(_T("Furniture Sales"));
@@ -207,13 +208,14 @@ void CChartLineView::OnUpdateChart()
 
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 
-
-		style.m_curveType = (theConfig.m_Feature == CDemoFeature::BCGP_StackedLineSpline) ?
+		style.m_curveType = BCGPChartFormatSeries::CCT_LINE;
+#if 0
+	 	(theConfig.m_Feature == CDemoFeature::BCGP_StackedLineSpline) ?
 			BCGPChartFormatSeries::CCT_SPLINE : 
 			(theConfig.m_Feature == CDemoFeature::BCGP_StepLine) ?
 			BCGPChartFormatSeries::CCT_STEP :
 			BCGPChartFormatSeries::CCT_LINE;
-
+#endif
 		style.SetSeriesOutlineDashStyle((CBCGPStrokeStyle::BCGP_DASH_STYLE)m_nLineStyle);
 		style.SetSeriesLineWidth(m_nLineWidth + 1);
 

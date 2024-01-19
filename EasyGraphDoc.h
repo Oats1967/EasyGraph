@@ -9,7 +9,7 @@
 class CEasyGraphDoc : public CDocument
 {
 protected: // Nur aus Serialisierung erstellen
-	CEasyGraphDoc() noexcept;
+	CEasyGraphDoc();
 	DECLARE_DYNCREATE(CEasyGraphDoc)
 
 // Attribute

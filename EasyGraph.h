@@ -8,6 +8,7 @@
 #endif
 
 #include "resource.h"       // Hauptsymbole
+#include "Utils/LineConfig.h"
 
 
 // CEasyGraphApp:
@@ -19,6 +20,11 @@ class CEasyGraphApp : public CWinAppEx
 public:
 	CEasyGraphApp() noexcept;
 
+
+	utils::CLineConfig m_LineConfig;
+
+private:
+	BOOL InitLineConfig();
 
 // Überschreibungen
 public:

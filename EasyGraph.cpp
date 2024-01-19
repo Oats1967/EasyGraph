@@ -15,6 +15,7 @@
 #include "EasyGraphView.h"
 #include "ChartLineView.h"
 #include "ConfigItem.h"
+#include "wmuser.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -67,21 +68,31 @@ CEasyGraphApp theApp;
 
 
 // CEasyGraphApp-Initialisierung
+BOOL CEasyGraphApp::InitLineConfig()
+{
+	auto& rList = m_LineConfig.GetLineList();
+	rList.push_back( { "ZSK 58", "C:\\EasyControl\\data\\recorder"} );
+	rList.push_back( { "ZSK 76", "C:\\EasyControl\\data\\recorder" });
+	return TRUE;
+}
+
 
 BOOL CEasyGraphApp::InitInstance()
 {
 	// InitCommonControlsEx() ist für Windows XP erforderlich, wenn ein Anwendungsmanifest
 	// die Verwendung von ComCtl32.dll Version 6 oder höher zum Aktivieren
 	// von visuellen Stilen angibt.  Ansonsten treten beim Erstellen von Fenstern Fehler auf.
+#if 1
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
 	// Legen Sie dies fest, um alle allgemeinen Steuerelementklassen einzubeziehen,
 	// die Sie in Ihrer Anwendung verwenden möchten.
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
-
+#endif
 	CWinAppEx::InitInstance();
 
+	InitLineConfig();
 
 	// OLE-Bibliotheken initialisieren
 	if (!AfxOleInit())
@@ -97,9 +108,8 @@ BOOL CEasyGraphApp::InitInstance()
 	// display final splash screen and have it turn off after 3 seconds (3000 milliseconds)
 	//CSplashWindow::ShowSplashScreen(NULL, "http://applehome.com/", 3000);
 
-
 	EnableTaskbarInteraction();
-
+#if 0
 	CSplashWindow::ShowSplashScreen(NULL, "Starting application...");
 	Sleep(1000);
 
@@ -108,7 +118,7 @@ BOOL CEasyGraphApp::InitInstance()
 
 	CSplashWindow::ShowSplashScreen(NULL, "Initializing database...");
 	Sleep(1000);
-
+#endif
 	// AfxInitRichEdit2() ist für die Verwendung des RichEdit-Steuerelements erforderlich.
 	// AfxInitRichEdit2();
 
@@ -120,14 +130,24 @@ BOOL CEasyGraphApp::InitInstance()
 	// TODO: Ändern Sie diese Zeichenfolge entsprechend,
 	// z.B. zum Namen Ihrer Firma oder Organisation.
 	SetRegistryKey(_T("Vom lokalen Anwendungs-Assistenten generierte Anwendungen"));
-	LoadStdProfileSettings(4);  // Standard INI-Dateioptionen laden (einschließlich MRU)
-
+	LoadStdProfileSettings();  // Standard INI-Dateioptionen laden (einschließlich MRU)
+	SetRegistryBase(_T("Settings"));
 
 	InitContextMenuManager();
 
 	InitKeyboardManager();
 
 	InitTooltipManager();
+
+	CMFCToolTipInfo params;
+	params.m_bVislManagerTheme = TRUE;
+
+	GetTooltipManager()->SetTooltipParams(
+		0xFFFF,
+		RUNTIME_CLASS(CMFCToolTipCtrl),
+		&params);
+
+
 	CMFCToolTipInfo ttParams;
 	ttParams.m_bVislManagerTheme = TRUE;
 	GetTooltipManager()->SetTooltipParams(AFX_TOOLTIP_TYPE_ALL,
@@ -135,15 +155,19 @@ BOOL CEasyGraphApp::InitInstance()
 
 	// Dokumentvorlagen der Anwendung registrieren.  Dokumentvorlagen
 	//  dienen als Verbindung zwischen Dokumenten, Rahmenfenstern und Ansichten.
-	CMultiDocTemplate* pDocTemplate;
-	pDocTemplate = new CMultiDocTemplate(IDR_EasyGraphTYPE,
+	CSingleDocTemplate* pDocTemplate;
+	pDocTemplate = new CSingleDocTemplate(
+		IDR_MAINFRAME,
 		RUNTIME_CLASS(CEasyGraphDoc),
-		RUNTIME_CLASS(CChildFrame), // Benutzerspezifischer MDI-Child-Rahmen
-		RUNTIME_CLASS(CChartLineView));
+		RUNTIME_CLASS(CMainFrame), // Benutzerspezifischer MDI-Child-Rahmen
+		RUNTIME_CLASS(CEasyGraphView));
+
 	if (!pDocTemplate)
 		return FALSE;
+
 	AddDocTemplate(pDocTemplate);
 
+#if 0
 	// Haupt-MDI-Rahmenfenster erstellen
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME))
@@ -152,23 +176,25 @@ BOOL CEasyGraphApp::InitInstance()
 		return FALSE;
 	}
 	m_pMainWnd = pMainFrame;
+#endif
 
 
 	// Befehlszeile auf Standardumgebungsbefehle überprüfen, DDE, Datei öffnen
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-
-
 	// Verteilung der in der Befehlszeile angegebenen Befehle.  Gibt FALSE zurück, wenn
 	// die Anwendung mit /RegServer, /Register, /Unregserver oder /Unregister gestartet wurde.
-	if (!ProcessShellCommand(cmdInfo))
+	if ( ! ProcessShellCommand(cmdInfo))
 		return FALSE;
+
 	// Das Hauptfenster ist initialisiert und kann jetzt angezeigt und aktualisiert werden.
-	pMainFrame->ShowWindow(m_nCmdShow);
-	pMainFrame->UpdateWindow();
+	m_pMainWnd->ShowWindow(SW_SHOW);
+	m_pMainWnd->UpdateWindow();
 
 	CSplashWindow::HideSplashScreen();
+
+	::PostMessage(m_pMainWnd->m_hWnd, WM_SETVIEW, WPARAM(0), LPARAM(0));
 
 	return TRUE;
 }
@@ -256,8 +282,9 @@ void CEasyGraphApp::SaveCustomState()
 
 BOOL CEasyGraphApp::PreTranslateMessage(MSG* pMsg)
 {
+#if 0
 	if (CSplashWindow::PreTranslateAppMessage(pMsg))
 		return TRUE;
-
+#endif
 	return CWinAppEx::PreTranslateMessage(pMsg);
 }

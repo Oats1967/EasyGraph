@@ -3,10 +3,11 @@
 //
 
 #include "pch.h"
-#include "framework.h"
+#include "wmuser.h"
 #include "EasyGraph.h"
-
 #include "MainFrm.h"
+#include "StringConvert.h"
+#include "BASE/Utils/public/RecItemList.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -14,20 +15,22 @@
 
 // CMainFrame
 
-IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWndEx)
+IMPLEMENT_DYNCREATE(CMainFrame, CBCGPMultiViewFrameWnd)
 
 const int  iMaxUserToolbars = 10;
 const UINT uiFirstUserToolBarId = AFX_IDW_CONTROLBAR_FIRST + 40;
 const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
 
-BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWndEx)
+BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
+	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_WM_SETTINGCHANGE()
+	ON_MESSAGE(WM_NEWDATE, &CMainFrame::OnNewDate)
+	ON_MESSAGE(WM_SETVIEW, &CMainFrame::OnSetView)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -40,7 +43,7 @@ static UINT indicators[] =
 
 // CMainFrame-Erstellung/Zerstörung
 
-CMainFrame::CMainFrame() noexcept
+CMainFrame::CMainFrame() noexcept : m_ActiveLine (0)
 {
 	// TODO: Hier Code für die Memberinitialisierung einfügen
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
@@ -52,7 +55,8 @@ CMainFrame::~CMainFrame()
 #if 1
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
+	//lpCreateStruct->style |= WS_MAXIMIZE;
+	if (CBCGPMultiViewFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
 #ifdef _BCGSUITE_INC_
@@ -100,49 +104,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
 
-	comboTheme.AddItem(_T("Default Theme"));
-	comboTheme.AddItem(_T("Pastel Theme"));
-	comboTheme.AddItem(_T("Spring Theme"));
-	comboTheme.AddItem(_T("Forest Green Theme"));
-	comboTheme.AddItem(_T("Sea Blue Theme"));
-	comboTheme.AddItem(_T("Golden Theme"));
-	comboTheme.AddItem(_T("Dark Rose Theme"));
-	comboTheme.AddItem(_T("Black and Gold Theme"));
-	comboTheme.AddItem(_T("Rainbow Theme"));
-	comboTheme.AddItem(_T("Gray Theme"));
-	comboTheme.AddItem(_T("Arctic Theme"));
-	comboTheme.AddItem(_T("Black and Red Theme"));
-	comboTheme.AddItem(_T("Plum Theme"));
-	comboTheme.AddItem(_T("Sunny Theme"));
-	comboTheme.AddItem(_T("Violet Theme"));
-	comboTheme.AddItem(_T("Flower Theme"));
-	comboTheme.AddItem(_T("Steel Theme"));
-	comboTheme.AddItem(_T("Gray and Green Theme"));
-	comboTheme.AddItem(_T("Olive Theme"));
-	comboTheme.AddItem(_T("Autumn Theme"));
-	comboTheme.AddItem(_T("Black and Green Theme"));
-	comboTheme.AddItem(_T("Black and Blue Theme"));
-	comboTheme.AddItem(_T("Flat 2014 1-st Theme"));
-	comboTheme.AddItem(_T("Flat 2014 2-nd Theme"));
-	comboTheme.AddItem(_T("Flat 2014 3-rd Theme"));
-	comboTheme.AddItem(_T("Flat 2014 4-th Theme"));
-	comboTheme.AddItem(_T("Flat 2015 1-st Theme"));
-	comboTheme.AddItem(_T("Flat 2015 2-nd Theme"));
-	comboTheme.AddItem(_T("Flat 2015 3-rd Theme"));
-	comboTheme.AddItem(_T("Flat 2015 4-th Theme"));
-	comboTheme.AddItem(_T("Flat 2015 5-th Theme"));
-	comboTheme.AddItem(_T("Flat 2016 1-st Theme"));
-	comboTheme.AddItem(_T("Flat 2016 2-nd Theme"));
-	comboTheme.AddItem(_T("Flat 2016 3-rd Theme"));
-	comboTheme.AddItem(_T("Flat 2016 4-th Theme"));
-	comboTheme.AddItem(_T("Flat 2016 5-th Theme"));
-	comboTheme.AddItem(_T("SPB Theme"));
-	comboTheme.AddItem(_T("Palace Theme"));
-	comboTheme.AddItem(_T("Ice Theme"));
-	comboTheme.AddItem(_T("Custom Theme (Color)"));
-	comboTheme.AddItem(_T("Custom Theme (Textures)"));
-
-	comboTheme.SelectItem(m_nColorTheme < 0 ? (int)comboTheme.GetCount() + m_nColorTheme : m_nColorTheme);
+	auto& rList = theApp.m_LineConfig.GetLineList();
+	for (auto& rItem : rList)
+	{
+		comboTheme.AddItem(toCString(rItem.m_szName));
+	}
+	comboTheme.SelectItem(0);
 
 	m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
 
@@ -203,12 +170,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
+
 	return 0;
 }
 #else
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	if (CMDIFrameWndEx::OnCreate(lpCreateStruct) == -1)
+	if (CBCGPMultiViewFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
 	BOOL bNameValid;
@@ -369,10 +337,21 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
-	if( !CMDIFrameWndEx::PreCreateWindow(cs) )
+	cs.style &= ~FWS_ADDTOTITLE;
+
+	if (!CBCGPMultiViewFrameWnd::PreCreateWindow(cs))
 		return FALSE;
-	// TODO: Ändern Sie hier die Fensterklasse oder die Darstellung, indem Sie
-	//  CREATESTRUCT cs modifizieren.
+
+	WNDCLASS wndcls;
+
+	if (GetClassInfo(AfxGetInstanceHandle(), cs.lpszClass, &wndcls))
+	{
+		HINSTANCE hInst = AfxFindResourceHandle(MAKEINTRESOURCE(IDR_MAINFRAME), RT_GROUP_ICON);
+		HICON hIcon = ::LoadIcon(hInst, MAKEINTRESOURCE(IDR_MAINFRAME));
+
+		// register a very similar WNDCLASS but without CS_HREDRAW and CS_VREDRAW styles:
+		cs.lpszClass = AfxRegisterWndClass(CS_DBLCLKS, wndcls.hCursor, wndcls.hbrBackground, hIcon);
+	}
 
 	return TRUE;
 }
@@ -442,7 +421,7 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 	HICON hPropertiesBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_PROPERTIES_WND_HC : IDI_PROPERTIES_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
 
-	UpdateMDITabbedBarsIcons();
+	//UpdateMDITabbedBarsIcons();
 }
 
 // CMainFrame-Diagnose
@@ -450,12 +429,12 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
 {
-	CMDIFrameWndEx::AssertValid();
+	CBCGPMultiViewFrameWnd::AssertValid();
 }
 
 void CMainFrame::Dump(CDumpContext& dc) const
 {
-	CMDIFrameWndEx::Dump(dc);
+	CBCGPMultiViewFrameWnd::Dump(dc);
 }
 #endif //_DEBUG
 
@@ -464,7 +443,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 void CMainFrame::OnWindowManager()
 {
-	ShowWindowsDialog();
+	//ShowWindowsDialog();
 }
 
 void CMainFrame::OnViewCustomize()
@@ -476,7 +455,7 @@ void CMainFrame::OnViewCustomize()
 
 LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 {
-	LRESULT lres = CMDIFrameWndEx::OnToolbarCreateNew(wp,lp);
+	LRESULT lres = CBCGPMultiViewFrameWnd::OnToolbarCreateNew(wp,lp);
 	if (lres == 0)
 	{
 		return 0;
@@ -573,9 +552,7 @@ void CMainFrame::OnUpdateApplicationLook(CCmdUI* pCmdUI)
 
 BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParentWnd, CCreateContext* pContext)
 {
-	// Basisklasse erledigt die Hauptfunktionen
-
-	if (!CMDIFrameWndEx::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
+	if (!CBCGPMultiViewFrameWnd::LoadFrame(nIDResource, dwDefaultStyle, pParentWnd, pContext))
 	{
 		return FALSE;
 	}
@@ -595,13 +572,70 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 			pUserToolbar->EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 		}
 	}
-
 	return TRUE;
 }
 
 
 void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
-	CMDIFrameWndEx::OnSettingChange(uFlags, lpszSection);
+	CBCGPMultiViewFrameWnd::OnSettingChange(uFlags, lpszSection);
 	//m_wndOutput.UpdateFonts();
+}
+
+
+LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
+{
+	auto pDate = (DateToShow*)wParam;
+	if (pDate != nullptr)
+	{
+		LoadRectItemList(*pDate);
+		auto pView = GetActiveView();
+		if (pView)
+		{
+			pView->SendMessage(WM_NEWDATE, wParam);
+		}
+	}
+	return 0L;
+}
+
+LRESULT CMainFrame::OnSetView(WPARAM wParam, LPARAM lParam)
+{
+	SelectView(wParam);
+	return 0L;
+}
+
+
+
+void CMainFrame::LoadRectItemList(DateToShow& rDate)
+{
+	base::utils::CRecItemList gList;
+
+	auto pLineItem = theApp.m_LineConfig[m_ActiveLine];
+	if (pLineItem != nullptr)
+	{
+		COleDateTime dSO(rDate.dateStart);
+		COleDateTime dEO(rDate.dateEnd);
+
+		COleDateTimeSpan difftime = dEO - dSO;
+		int32_t days = difftime.GetDays();
+		COleDateTimeSpan dayskip(1, 0, 0, 0);
+
+		for (int32_t k = 0; k < days; k++)
+		{
+			tm date_tm;
+			memset(&date_tm, 0, sizeof(date_tm));
+			date_tm.tm_year = dSO.GetYear() - 1900;
+			date_tm.tm_mon = dSO.GetMonth() - 1;
+			date_tm.tm_mday = dSO.GetDay();
+			date_tm.tm_isdst = 0;
+			time_t aTime = std::mktime(&date_tm);
+
+			base::utils::CRecItemList tempList;
+			tempList.SetPath(pLineItem->m_szPath);
+			tempList.SetFilename(aTime);
+			tempList.Load();
+			gList += tempList;
+			dSO += dayskip;
+		}
+	}
 }

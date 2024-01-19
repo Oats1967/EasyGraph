@@ -96,6 +96,8 @@ void CCalendarBar::OnPaint()
 
 LRESULT CCalendarBar::OnSelChanged(WPARAM, LPARAM)
 {
+	static DateToShow g_Date;
+
 	CMainFrame* pFrame = DYNAMIC_DOWNCAST (CMainFrame, GetTopLevelFrame ());
 	if (pFrame != NULL)
 	{
@@ -107,11 +109,11 @@ LRESULT CCalendarBar::OnSelChanged(WPARAM, LPARAM)
 
 		CBCGPCalendar::GetMinMaxSelection (lstDates, date1, date2);
 
-#if 0
-		pFrame->SetDateInterval (date1, date2);
-#endif
-	}
+		g_Date.dateStart = date1;
+		g_Date.dateEnd = date2;
 
+		pFrame->SendMessage(WM_NEWDATE, WPARAM(&g_Date));
+	}
 	return 0;
 }
 

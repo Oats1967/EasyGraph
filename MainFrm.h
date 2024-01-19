@@ -3,10 +3,12 @@
 //
 
 #pragma once
+
 #include "FileView.h"
 #include "CalendarBar.h"
-#include "OutputWnd.h"
+#include "wmuser.h"
 #include "PropertiesWnd.h"
+#include "WorkspaceBar.h"
 
 
 #ifdef _BCGSUITE_INC_
@@ -14,11 +16,19 @@
 #define CBCGPToolbarComboBoxButton CMFCToolBarComboBoxButton
 #endif
 
-class CMainFrame : public CMDIFrameWndEx
+struct DateToShow
 {
-	DECLARE_DYNAMIC(CMainFrame)
+	DATE dateStart;
+	DATE dateEnd;
+};
+
+
+class CMainFrame : public CBCGPMultiViewFrameWnd
+{
 public:
 	CMainFrame() noexcept;
+
+	DECLARE_DYNCREATE(CMainFrame)
 
 // Attribute
 public:
@@ -43,11 +53,13 @@ protected:  // Eingebettete Member der Steuerleiste
 	//CMFCMenuBar       m_wndMenuBar;
 	CMFCStatusBar     m_wndStatusBar;
 	CBCGPExplorerToolBar       m_wndToolBar;
+	CWorkspaceBar		m_wndWorkSpace;
 	// CMFCToolBarImages m_UserImages;
 	CFileView         m_wndDoseSelectView;
 	//COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 	CCalendarBar      m_wndCalendarView;
+	int32_t			  m_ActiveLine;
 
 private:
 	int				  m_nColorTheme = 0;
@@ -67,6 +79,8 @@ protected:
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
+	void LoadRectItemList(DateToShow& rDate);
+
 
 public:
 	int	GetColorTheme() const
@@ -78,6 +92,15 @@ public:
 	{
 		return m_bIsDarkTheme;
 	}
+
+	virtual CBCGPMultiViewsCollection& GetViewsCollection()
+	{
+		return m_wndWorkSpace;
+	}
+
+
+	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetView(WPARAM wParam, LPARAM lParam);
 
 };
 

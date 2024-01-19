@@ -3,15 +3,8 @@
 //
 
 #include "pch.h"
-#include "framework.h"
-// SHARED_HANDLERS können in einem ATL-Projekt definiert werden, in dem Vorschau-, Miniaturansichts- 
-// und Suchfilterhandler implementiert werden, und die Freigabe von Dokumentcode für das Projekt wird ermöglicht.
-#ifndef SHARED_HANDLERS
 #include "EasyGraph.h"
-#endif
-
 #include "EasyGraphDoc.h"
-
 #include <propkey.h>
 
 #ifdef _DEBUG
@@ -28,7 +21,7 @@ END_MESSAGE_MAP()
 
 // CEasyGraphDoc-Erstellung/Zerstörung
 
-CEasyGraphDoc::CEasyGraphDoc() noexcept
+CEasyGraphDoc::CEasyGraphDoc() 
 {
 	// TODO: Hier Code für One-Time-Konstruktion einfügen
 

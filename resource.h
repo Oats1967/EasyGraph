@@ -4,6 +4,7 @@
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
+#define IDS_STRING101                   101
 #define IDR_POPUP_EDIT                  119
 #define ID_STATUSBAR_PANE1              120
 #define ID_STATUSBAR_PANE2              121
@@ -82,14 +83,14 @@
 #define IDS_EXPLORER                    305
 #define IDS_EDIT_MENU                   306
 #define IDD_TEST                        310
-#define ID_VIEW_CALENDAR                310
-#define IDD_FORM                        310
-#define ID_VIEW_DOSESELECT              312
-#define IDB_SPLASH                      312
-#define ID_VIEW_FORWARD                 313
-#define ID_VIEW_BACK                    314
-#define IDB_TOOLBAR_HC                  314
-#define IDR_MENU_VIEW                   315
+#define ID_VIEW_CALENDAR                311
+#define IDD_FORM                        312
+#define ID_VIEW_DOSESELECT              313
+#define IDB_SPLASH                      314
+#define ID_VIEW_FORWARD                 315
+#define ID_VIEW_BACK                    316
+#define IDB_TOOLBAR_HC                  317
+#define IDR_MENU_VIEW                   318
 #define IDC_CHART                       1000
 #define IDC_TITLE                       1002
 #define ID_COLOR_THEME_COMBO            32771

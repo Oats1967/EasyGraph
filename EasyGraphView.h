@@ -40,21 +40,33 @@ public:
 };
 
 
+class CEasyGraphDoc;
+
 class CEasyGraphView : public CBCGPFormView
 {
 	friend class CMainFrame;
+
+
+	enum { IDD = IDD_FORM };
+
+
+protected:
+	CBCGPStatic	m_wndTitle;
+	CString	m_strTitle;
+	//CDemoFeature::Feature				m_Feature;
+	BOOL								m_bIsReady;
+	CString								m_arYears[YEARS_NUM];
+	BOOL								m_bIsDarkBackground;
+	BOOL								m_bIsTexturedTheme;
+	BOOL								m_bIsFlatTheme;
+	UINT								m_nThumbnailFlags;
+	CBCGPCircularProgressIndicatorCtrl	m_wndProgress;
 
 protected: // create from serialization only
 	CEasyGraphView(UINT id = 0);
 	DECLARE_DYNCREATE(CEasyGraphView)
 
 // Form Data
-public:
-	//{{AFX_DATA(CEasyGraphView)
-	enum { IDD = IDD_FORM };
-	CBCGPStatic	m_wndTitle;
-	CString	m_strTitle;
-	//}}AFX_DATA
 
 // Attributes
 public:
@@ -123,8 +135,10 @@ public:
 	virtual HBITMAP CreateThumbnail(const CSize& size, BOOL bIsDarkTheme);
 	virtual void Repos() {}
 
+#if 0
 	void SetupShapeCombo(CComboBox* pComboBox, int nSel = -1);
 	void SetupShapeCombo(UINT nID, int nSel = -1);
+#endif
 	
 	int GetMarkerSize(int nSel);
 
@@ -143,6 +157,8 @@ protected:
 	//}}AFX_MSG
 	afx_msg void OnFilePrintPreview();
 	afx_msg LRESULT HandleInitDialog(WPARAM, LPARAM);
+
+	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 #if 0
 	afx_msg void OnAnimateChart();
 	afx_msg void OnUpdateAnimateChart(CCmdUI* pCmdUI);
@@ -150,14 +166,6 @@ protected:
 #endif
 	DECLARE_MESSAGE_MAP()
 
-	//CDemoFeature::Feature				m_Feature;
-	BOOL								m_bIsReady;
-	CString								m_arYears[YEARS_NUM];
-	BOOL								m_bIsDarkBackground;
-	BOOL								m_bIsTexturedTheme;
-	BOOL								m_bIsFlatTheme;
-	UINT								m_nThumbnailFlags;
-	CBCGPCircularProgressIndicatorCtrl	m_wndProgress;
 };
 
 #ifndef _DEBUG  // debug version in EasyGraphView.cpp
