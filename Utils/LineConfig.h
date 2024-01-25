@@ -36,33 +36,18 @@ struct LineItem
 
 using LineList = std::vector< LineItem >;
 
-class CLineConfig
+class CLineConfig : public LineList
 {
-    LineList m_LineList;
-
 public:
-    CLineConfig() : m_LineList()
+    CLineConfig()
     {}
     ~CLineConfig() = default;
 
-    LineList& GetLineList()
-    {   return m_LineList;   }
-
     const LineItem* GetLineListItem(const std::string& szName)
     {
-        auto ptr = std::find_if(m_LineList.cbegin(), m_LineList.cend(), [&szName](const LineItem& rItem)  { return rItem.m_szName == szName; });
-        return (ptr == m_LineList.cend()) ? nullptr : &(*ptr);
+        auto ptr = std::find_if(cbegin(), cend(), [&szName](const LineItem& rItem)  { return rItem.m_szName == szName; });
+        return (ptr == cend()) ? nullptr : &(*ptr);
     }
-
-    const LineItem* operator[] ( const int32_t index) 
-    {
-        if (index >= 0 && index < m_LineList.size())
-        {
-            return &m_LineList[index];
-        }
-        return nullptr;
-    }
-
 };
 
 

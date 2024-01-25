@@ -47,7 +47,7 @@ BEGIN_MESSAGE_MAP(CEasyGraphView, CBCGPFormView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CBCGPFormView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
 	ON_MESSAGE(WM_INITDIALOG, HandleInitDialog)
-	ON_MESSAGE(WM_NEWDATE, &CEasyGraphView::OnNewDate)
+	//ON_MESSAGE(WM_NEWDATE, &CEasyGraphView::OnNewDate)
 	//ON_COMMAND(ID_ANIMATE_CHART, OnAnimateChart)
 	//ON_UPDATE_COMMAND_UI(ID_ANIMATE_CHART, OnUpdateAnimateChart)
 	//ON_UPDATE_COMMAND_UI(ID_ANIMATION_COMBO, OnUpdateAnimationStyleCombo)
@@ -86,8 +86,6 @@ void CEasyGraphView::DoDataExchange(CDataExchange* pDX)
 {
 	CBCGPFormView::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CEasyGraphView)
-	DDX_Control(pDX, IDC_TITLE, m_wndTitle);
-	DDX_Text(pDX, IDC_TITLE, m_strTitle);
 	//}}AFX_DATA_MAP
 }
 
@@ -162,15 +160,11 @@ void CEasyGraphView::OnInitialUpdate()
 		return;
 	}
 	
-	srand((unsigned)time(NULL));
-
-	if (m_arYears[0].IsEmpty())
+	if (m_arHours[0].IsEmpty())
 	{
-		COleDateTime now = COleDateTime::GetCurrentTime();
-
-		for (int i = 0; i < YEARS_NUM; i++)
+		for (int i = 0; i < HOURS_NUM; i++)
 		{
-			m_arYears[i].Format(_T("%d"), now.GetYear() - i - 1);
+			m_arHours[i].Format(_T("%2d"), i);
 		}
 	}
 
@@ -340,6 +334,28 @@ void CEasyGraphView::SetDefaultLineWidth()
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 		style.SetSeriesLineWidth(theConfig.GetDefaultLineWidth());
 
+		pSeries->SetSeriesFormat(style);
+	}
+}
+
+
+void CEasyGraphView::SetSeriesFillColors(const CBCGPColor::BCGP_COLOR* pColors, int32_t count)
+{
+	CBCGPChartVisualObject* pChart = GetChart();
+	if (pChart == NULL)
+	{
+		return;
+	}
+
+	ASSERT_VALID(pChart);
+
+	for (int i = 0; i < __min(pChart->GetSeriesCount(), count); i++)
+	{
+		CBCGPChartSeries* pSeries = pChart->GetSeries(i);
+		ASSERT_VALID(pSeries);
+
+		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
+		style.SetSeriesFill(CBCGPBrush(pColors[i]));
 		pSeries->SetSeriesFormat(style);
 	}
 }
@@ -549,6 +565,7 @@ void CEasyGraphView::UpdateChartColorTheme(int nTheme, BOOL bIsDarkTheme)
 #endif
 }
 
+#if 0
 void CEasyGraphView::OnChartAnimation()
 {
 	if (!IsWindowVisible())
@@ -572,8 +589,6 @@ void CEasyGraphView::OnChartAnimation()
 		}
 	}
 }
-
-#if 0
 void CEasyGraphView::OnAnimateChart()
 {
 	OnChartAnimation();
@@ -664,10 +679,5 @@ void CEasyGraphView::SetProgress(int nCurr, int nTotal)
 		
 		m_wndProgress.SetPos((double)nCurr);
 	}
-}
-
-LRESULT CEasyGraphView::OnNewDate(WPARAM wParam, LPARAM lParam)
-{
-	return 0L;
 }
 

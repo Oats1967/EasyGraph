@@ -193,13 +193,17 @@
     <ClInclude Include="EasyGraphView.h" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="GroupView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SplashWindow.h" />
+    <ClInclude Include="Statistics.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TotalizerView.h" />
     <ClInclude Include="ViewTree.h" />
     <ClInclude Include="wmuser.h" />
     <ClInclude Include="WorkspaceBar.h" />
@@ -210,7 +214,8 @@
     <ClCompile Include="EasyGraph.cpp" />
     <ClCompile Include="EasyGraphDoc.cpp" />
     <ClCompile Include="EasyGraphView.cpp" />
-    <ClCompile Include="FileView.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="GroupView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">
@@ -221,6 +226,8 @@
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="SplashWindow.cpp" />
+    <ClCompile Include="Statistics.cpp" />
+    <ClCompile Include="TotalizerView.cpp" />
     <ClCompile Include="ViewTree.cpp" />
     <ClCompile Include="WorkspaceBar.cpp" />
   </ItemGroup>

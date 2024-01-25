@@ -16,6 +16,7 @@
 #include "ChartLineView.h"
 #include "ConfigItem.h"
 #include "wmuser.h"
+#include "global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -68,13 +69,6 @@ CEasyGraphApp theApp;
 
 
 // CEasyGraphApp-Initialisierung
-BOOL CEasyGraphApp::InitLineConfig()
-{
-	auto& rList = m_LineConfig.GetLineList();
-	rList.push_back( { "ZSK 58", "C:\\EasyControl\\data\\recorder"} );
-	rList.push_back( { "ZSK 76", "C:\\EasyControl\\data\\recorder" });
-	return TRUE;
-}
 
 
 BOOL CEasyGraphApp::InitInstance()
@@ -92,7 +86,7 @@ BOOL CEasyGraphApp::InitInstance()
 #endif
 	CWinAppEx::InitInstance();
 
-	InitLineConfig();
+	g_Statistics.InitLineConfig();
 
 	// OLE-Bibliotheken initialisieren
 	if (!AfxOleInit())

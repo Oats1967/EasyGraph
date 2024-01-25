@@ -28,7 +28,7 @@ struct ConfigItem
 	CBCGPAnimationManager::BCGPAnimationType	m_animationType;
 	CBCGPChartSeries::BCGPChartAnimationStyle	m_animationStyle;
 	CStringArray								m_arAnimationStyleNames;
-	CDemoFeature::Feature						m_Feature = CDemoFeature::Feature::BCGP_ChartElements;
+	CDemoFeature::Feature						m_Feature = CDemoFeature::Feature::BCGP_Unknown;
 	BOOL										m_bHiColorIcons = FALSE;
 	UINT m_nAppLook;
 

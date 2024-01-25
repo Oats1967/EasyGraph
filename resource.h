@@ -86,13 +86,26 @@
 #define ID_VIEW_CALENDAR                311
 #define IDD_FORM                        312
 #define ID_VIEW_DOSESELECT              313
+#define IDD_CHART                       313
 #define IDB_SPLASH                      314
+#define IDD_TOTALIZER                   314
 #define ID_VIEW_FORWARD                 315
+#define IDD_FORM1                       315
+#define IDD_GROUP                       315
 #define ID_VIEW_BACK                    316
 #define IDB_TOOLBAR_HC                  317
 #define IDR_MENU_VIEW                   318
 #define IDC_CHART                       1000
 #define IDC_TITLE                       1002
+#define IDC_CHART_TITLE                 1003
+#define IDC_FORM_TITLE                  1003
+#define IDC_FORM                        1004
+#define IDC_TOTALIZER_TITLE             1005
+#define IDC_TOTALIZER_LINE              1005
+#define IDC_TOTALIZER                   1006
+#define IDC_GROUP_TITLE                 1007
+#define IDC_TOTALIZER_DATE              1007
+#define IDC_GROUP                       1008
 #define ID_COLOR_THEME_COMBO            32771
 #define ID_VIEW_UP                      32774
 #define ID_TOOLBAR_VIEW                 32778
@@ -109,7 +122,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32786
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           315
 #endif
 #endif

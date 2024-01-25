@@ -7,7 +7,8 @@
 #include "EasyGraph.h"
 #include "MainFrm.h"
 #include "StringConvert.h"
-#include "BASE/Utils/public/RecItemList.h"
+#include "EasyGraphView.h"
+#include "global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -104,7 +105,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
 
-	auto& rList = theApp.m_LineConfig.GetLineList();
+	auto& rList = g_Statistics.GetLineConfig();
 	for (auto& rItem : rList)
 	{
 		comboTheme.AddItem(toCString(rItem.m_szName));
@@ -160,11 +161,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	m_wndDoseSelectView.EnableDocking(CBRS_ALIGN_ANY);
+	m_wndWorkSpace.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndCalendarView.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndDoseSelectView);
+	DockPane(&m_wndWorkSpace);
 	CDockablePane* pTabbedBar = nullptr;
-	m_wndCalendarView.AttachToTabWnd(&m_wndDoseSelectView, DM_SHOW, TRUE, &pTabbedBar);
+	m_wndCalendarView.AttachToTabWnd(&m_wndWorkSpace, DM_SHOW, TRUE, &pTabbedBar);
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
 	EnableDocking(CBRS_ALIGN_ANY);
@@ -375,7 +376,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strDoseSelectView;
 	bNameValid = strDoseSelectView.LoadString(IDS_GRAFIKSELECT_VIEW);
 	ASSERT(bNameValid);
-	if (!m_wndDoseSelectView.Create(strDoseSelectView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_DOSESELECT, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	if (!m_wndWorkSpace.Create(strDoseSelectView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_DOSESELECT, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Fehler beim Erstellen des Dateiansichtsfensters.\n");
 		return FALSE; // Fehler beim Erstellen
@@ -408,7 +409,7 @@ BOOL CMainFrame::CreateDockingWindows()
 void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 {
 	HICON hFileViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_FILE_VIEW_HC : IDI_FILE_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
-	m_wndDoseSelectView.SetIcon(hFileViewIcon, FALSE);
+	m_wndWorkSpace.SetIcon(hFileViewIcon, FALSE);
 
 	HICON hClassViewIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_CLASS_VIEW_HC : IDI_CLASS_VIEW), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndCalendarView.SetIcon(hClassViewIcon, FALSE);
@@ -576,19 +577,13 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 }
 
 
-void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
-{
-	CBCGPMultiViewFrameWnd::OnSettingChange(uFlags, lpszSection);
-	//m_wndOutput.UpdateFonts();
-}
-
 
 LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
 	auto pDate = (DateToShow*)wParam;
 	if (pDate != nullptr)
 	{
-		LoadRectItemList(*pDate);
+		g_Statistics.LoadRectItemList(*pDate);
 		auto pView = GetActiveView();
 		if (pView)
 		{
@@ -605,37 +600,28 @@ LRESULT CMainFrame::OnSetView(WPARAM wParam, LPARAM lParam)
 }
 
 
-
-void CMainFrame::LoadRectItemList(DateToShow& rDate)
+void CMainFrame::OnSelectView(int nView)
 {
-	base::utils::CRecItemList gList;
+	BOOL bFirstTime = m_wndWorkSpace.GetSelected() <= 0;
 
-	auto pLineItem = theApp.m_LineConfig[m_ActiveLine];
-	if (pLineItem != nullptr)
+	m_wndWorkSpace.SelectView(nView);
+
+	if (!bFirstTime)
 	{
-		COleDateTime dSO(rDate.dateStart);
-		COleDateTime dEO(rDate.dateEnd);
-
-		COleDateTimeSpan difftime = dEO - dSO;
-		int32_t days = difftime.GetDays();
-		COleDateTimeSpan dayskip(1, 0, 0, 0);
-
-		for (int32_t k = 0; k < days; k++)
+		CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
+		if (pChartView != NULL)
 		{
-			tm date_tm;
-			memset(&date_tm, 0, sizeof(date_tm));
-			date_tm.tm_year = dSO.GetYear() - 1900;
-			date_tm.tm_mon = dSO.GetMonth() - 1;
-			date_tm.tm_mday = dSO.GetDay();
-			date_tm.tm_isdst = 0;
-			time_t aTime = std::mktime(&date_tm);
-
-			base::utils::CRecItemList tempList;
-			tempList.SetPath(pLineItem->m_szPath);
-			tempList.SetFilename(aTime);
-			tempList.Load();
-			gList += tempList;
-			dSO += dayskip;
+			ASSERT_VALID(pChartView);
+			//pChartView->OnChartAnimation();
 		}
 	}
+
+	theApp.WriteInt(_T("GroupID"), m_nSelGroup);
+	theApp.WriteInt(_T("ViewType"), m_nSelView);
+}
+
+
+CView* CMainFrame::GetFeatureView(CDemoFeature* pFeature)
+{
+	return GetView(pFeature->GetIndex());
 }

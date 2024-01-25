@@ -14,8 +14,10 @@
 //
 
 #include "pch.h"
+#include "wmuser.h"
 #include "ChartLineView.h"
 #include "ConfigItem.h"
+#include "global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -87,6 +89,7 @@ BEGIN_MESSAGE_MAP(CChartLineView, CEasyGraphView)
 	ON_CBN_SELENDOK(IDC_DATA_LABEL_ANGLE, OnUpdateChart)
 	ON_BN_CLICKED(IDC_SERIES_SHADOW, OnUpdateChart)
 #endif
+	ON_MESSAGE(WM_NEWDATE, OnNewDate)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -139,6 +142,7 @@ void CChartLineView::OnInitialUpdate()
 	CBCGPChartSeries* pSeries2 = pChart->CreateSeries(_T("Chairs"));
 	CBCGPChartSeries* pSeries3 = pChart->CreateSeries(_T("Cabinets"));
 
+#if 0
 	pSeries1->AddDataPoint(m_arYears[4], 5.);
 	pSeries1->AddDataPoint(m_arYears[3], 8.);
 	pSeries1->AddDataPoint(m_arYears[2], 12.);
@@ -156,7 +160,7 @@ void CChartLineView::OnInitialUpdate()
 	pSeries3->AddDataPoint(16.);
 	pSeries3->AddDataPoint(19.);
 	pSeries3->AddDataPoint(19.);
-
+#endif
 	CBCGPChartAxis* pYAxis = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
 	ASSERT_VALID(pYAxis);
 
@@ -184,13 +188,6 @@ void CChartLineView::OnUpdateChart()
 {
 	UpdateData();
 
-#if 0
-	m_wndMarkerShape.EnableWindow(m_bShowDataMarkers);
-	m_wndMarkerSize.EnableWindow(m_bShowDataMarkers);
-
-	m_wndDataLabelAngle.EnableWindow(m_bShowDataLabels);
-#endif
-
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
@@ -208,7 +205,7 @@ void CChartLineView::OnUpdateChart()
 
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 
-		style.m_curveType = BCGPChartFormatSeries::CCT_LINE;
+		style.m_curveType = BCGPChartFormatSeries::CCT_SPLINE;
 #if 0
 	 	(theConfig.m_Feature == CDemoFeature::BCGP_StackedLineSpline) ?
 			BCGPChartFormatSeries::CCT_SPLINE : 
@@ -225,4 +222,44 @@ void CChartLineView::OnUpdateChart()
 	}
 	
 	pChart->Redraw();
+}
+
+
+LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
+	auto m_Feature = theConfig.m_Feature;
+	BCGPChartType type = BCGP_CT_SIMPLE;
+	pChart->SetChartType(BCGPChartLine, type);
+
+	pChart->SetChartTitle(_T("Furniture Sales"));
+	CBCGPChartSeries* pSeries1 = pChart->CreateSeries(_T("Tables"));
+	CBCGPChartSeries* pSeries2 = pChart->CreateSeries(_T("Chairs"));
+	CBCGPChartSeries* pSeries3 = pChart->CreateSeries(_T("Cabinets"));
+
+	for (int32_t i = 0; i < sizeof(m_arHours) / sizeof(m_arHours[0]); i++)
+	{
+		//pSeries1->AddDataPoint(m_arHours[i], g_RecList.GetItem(i));
+	}
+#if 0
+	pSeries1->AddDataPoint(m_arYears[3], 8.);
+	pSeries1->AddDataPoint(m_arYears[2], 12.);
+	pSeries1->AddDataPoint(m_arYears[1], 13.);
+	pSeries1->AddDataPoint(m_arYears[0], 15.);
+
+	pSeries2->AddDataPoint(9.);
+	pSeries2->AddDataPoint(15.);
+	pSeries2->AddDataPoint(19.);
+	pSeries2->AddDataPoint(21.);
+	pSeries2->AddDataPoint(23.);
+
+	pSeries3->AddDataPoint(2.);
+	pSeries3->AddDataPoint(3.);
+	pSeries3->AddDataPoint(16.);
+	pSeries3->AddDataPoint(19.);
+	pSeries3->AddDataPoint(19.);
+#endif
+	return 0L;
 }

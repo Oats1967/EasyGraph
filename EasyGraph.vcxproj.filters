@@ -72,6 +72,18 @@
     <ClInclude Include="WorkspaceBar.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Statistics.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupView.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TotalizerView.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EasyGraph.cpp">
@@ -84,9 +96,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="EasyGraphView.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="FileView.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
@@ -111,6 +120,18 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="WorkspaceBar.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Statistics.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GroupView.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TotalizerView.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

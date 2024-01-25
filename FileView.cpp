@@ -1,3 +1,4 @@
+#if 0
 
 #include "pch.h"
 #include "framework.h"
@@ -91,17 +92,20 @@ void CFileView::OnSize(UINT nType, int cx, int cy)
 
 void CFileView::FillFileView()
 {
-	HTREEITEM hRoot = m_wndDoseSelectView.InsertItem(_T("Grafikauswahl"), 0, 0);
+	HTREEITEM hRoot = m_wndDoseSelectView.InsertItem(_T("Auswahl"), 0, 0);
 	m_wndDoseSelectView.SetItemState(hRoot, TVIS_BOLD, TVIS_BOLD);
 
-	//HTREEITEM hSrc = m_wndDoseSelectView.InsertItem(_T("FakeApp-Quelldateien"), 0, 0, hRoot);
+	HTREEITEM hSrc = m_wndDoseSelectView.InsertItem(_T("Grafikauswahl"), 0, 0, hRoot);
 
-	m_wndDoseSelectView.InsertItem(_T("Durchsatz"), 1, 1, hRoot);
-	m_wndDoseSelectView.InsertItem(_T("Sollwert"), 1, 1, hRoot);
-	m_wndDoseSelectView.InsertItem(_T("Gewicht"), 1, 1, hRoot);
-	m_wndDoseSelectView.InsertItem(_T("Stellbefehl"), 1, 1, hRoot);
-	m_wndDoseSelectView.InsertItem(_T("Drehzahl"), 1, 1, hRoot);
-	m_wndDoseSelectView.InsertItem(_T("Dosierperformanz"), 1, 1, hRoot);
+	m_wndDoseSelectView.InsertItem(_T("Durchsatz"), 1, 1, hSrc);
+	m_wndDoseSelectView.InsertItem(_T("Sollwert"), 1, 1, hSrc);
+	m_wndDoseSelectView.InsertItem(_T("Gewicht"), 1, 1, hSrc);
+	m_wndDoseSelectView.InsertItem(_T("Stellbefehl"), 1, 1, hSrc);
+	m_wndDoseSelectView.InsertItem(_T("Drehzahl"), 1, 1, hSrc);
+	m_wndDoseSelectView.InsertItem(_T("Dosierperformanz"), 1, 1, hSrc);
+
+	hSrc = m_wndDoseSelectView.InsertItem(_T("Statistik"), 0, 0, hRoot);
+	m_wndDoseSelectView.InsertItem(_T("Totalisator"), 1, 1, hSrc);
 
 	m_wndDoseSelectView.Expand(hRoot, TVE_EXPAND);
 
@@ -258,3 +262,4 @@ void CFileView::OnChangeVisualStyle()
 }
 
 
+#endif

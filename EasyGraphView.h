@@ -18,13 +18,13 @@
 #include "pch.h"
 #include "resource.h"
 
-#define YEARS_NUM 5
+#define HOURS_NUM 24
 #define ROTATE_BY_MOUSE_INFOTIP _T("Rotate by mouse\nWhen this option is checked, you may press and hold left mouse button and move the mouse to rotate the chart. Using mouse wheel you may change the perspective.")
 
 inline double Rand (double dblStart, double dblFinish)
 {
-	double minVal = min(dblStart, dblFinish);
-	double maxVal = max(dblStart, dblFinish);
+	double minVal = __min(dblStart, dblFinish);
+	double maxVal = __max(dblStart, dblFinish);
 
 	return (maxVal - minVal) * (double)rand() / (RAND_MAX + 1) + minVal;
 }
@@ -55,7 +55,7 @@ protected:
 	CString	m_strTitle;
 	//CDemoFeature::Feature				m_Feature;
 	BOOL								m_bIsReady;
-	CString								m_arYears[YEARS_NUM];
+	CString								m_arHours[HOURS_NUM];
 	BOOL								m_bIsDarkBackground;
 	BOOL								m_bIsTexturedTheme;
 	BOOL								m_bIsFlatTheme;
@@ -113,12 +113,6 @@ public:
 	virtual void UpdateChartColorTheme(int nTheme, BOOL bIsDarkTheme);
 	virtual void OnChangeBackgroundDarkness() {}
 
-	virtual void OnChartAnimation();
-	virtual BOOL IsAnimationAvailable() const
-	{
-		return TRUE;
-	}
-
 	virtual BOOL IsFillGradientAvailable() const
 	{
 		return !m_bIsTexturedTheme && !m_bIsFlatTheme;
@@ -126,6 +120,8 @@ public:
 
 	void RotateChart(CBCGPRotationObject::RotationElement hit, double xDelta = 10., double yDelta = 10., double persperctiveDelta = 0.1);
 	void SetDefaultLineWidth();
+	void SetSeriesFillColors(const CBCGPColor::BCGP_COLOR* pColors, int32_t count);
+
 
 	virtual BOOL IsGroupView() const
 	{
@@ -158,8 +154,8 @@ protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg LRESULT HandleInitDialog(WPARAM, LPARAM);
 
-	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 #if 0
+	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnAnimateChart();
 	afx_msg void OnUpdateAnimateChart(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateAnimationStyleCombo(CCmdUI* pCmdUI);

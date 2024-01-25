@@ -4,11 +4,12 @@
 
 #pragma once
 
-#include "FileView.h"
+//#include "FileView.h"
 #include "CalendarBar.h"
 #include "wmuser.h"
 #include "PropertiesWnd.h"
 #include "WorkspaceBar.h"
+#include "Statistics.h"
 
 
 #ifdef _BCGSUITE_INC_
@@ -16,11 +17,6 @@
 #define CBCGPToolbarComboBoxButton CMFCToolBarComboBoxButton
 #endif
 
-struct DateToShow
-{
-	DATE dateStart;
-	DATE dateEnd;
-};
 
 
 class CMainFrame : public CBCGPMultiViewFrameWnd
@@ -31,7 +27,6 @@ public:
 	DECLARE_DYNCREATE(CMainFrame)
 
 // Attribute
-public:
 
 // Vorgänge
 public:
@@ -55,7 +50,6 @@ protected:  // Eingebettete Member der Steuerleiste
 	CBCGPExplorerToolBar       m_wndToolBar;
 	CWorkspaceBar		m_wndWorkSpace;
 	// CMFCToolBarImages m_UserImages;
-	CFileView         m_wndDoseSelectView;
 	//COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 	CCalendarBar      m_wndCalendarView;
@@ -74,12 +68,11 @@ protected:
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 	afx_msg void OnApplicationLook(UINT id);
 	afx_msg void OnUpdateApplicationLook(CCmdUI* pCmdUI);
-	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
-	void LoadRectItemList(DateToShow& rDate);
+	virtual void OnSelectView(int nView);
 
 
 public:
@@ -99,8 +92,16 @@ public:
 	}
 
 
+	CWorkspaceBar& GetWorkspace()
+	{
+		return m_wndWorkSpace;
+	}
+
 	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetView(WPARAM wParam, LPARAM lParam);
+
+	CView* GetFeatureView(CDemoFeature* pFeature);
+
 
 };
 
