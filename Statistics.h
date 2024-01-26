@@ -35,8 +35,9 @@ private:
 	void CalcTotalizerQMNUmber(void);
 
 public:
-    BOOL LoadRectItemList(const DateToShow& rDate);
+    BOOL LoadRectItemList();
 
+	SETGET(const DateToShow&, DateToShow);
 	SETGET(const base::CLineGraphConfig&, LineGraphConfig);
 	SETGET(const base::CProductDatabaseMap&, ProductDatabase);
 	SETGET(const CTotalizerMap&, QMTotalizerMap);

@@ -456,6 +456,7 @@ void CMainFrame::OnLineCombo()
 	ASSERT_VALID(pCombobox);
 	m_nColorTheme = pCombobox->GetCurSel();
 	g_Statistics.SetActiveLine(m_nColorTheme);
+	g_Statistics.LoadRectItemList();
 	auto pView = GetActiveView();
 	if (pView)
 	{
@@ -600,7 +601,8 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 	auto pDate = (DateToShow*)wParam;
 	if (pDate != nullptr)
 	{
-		g_Statistics.LoadRectItemList(*pDate);
+		g_Statistics.SetDateToShow(*pDate);
+		g_Statistics.LoadRectItemList();
 		auto pView = GetActiveView();
 		if (pView)
 		{

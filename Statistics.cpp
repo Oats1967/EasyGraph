@@ -5,17 +5,15 @@
 
 CStatistics g_Statistics;
 
-BOOL CStatistics::LoadRectItemList(const DateToShow& rDate)
+BOOL CStatistics::LoadRectItemList()
 {
-	m_DateToShow = rDate;
-
 	BOOL result = FALSE;
 	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
 		m_RecList.Clear();
 		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
-		COleDateTime dSO(rDate.dateStart);
-		COleDateTime dEO(rDate.dateEnd);
+		COleDateTime dSO(m_DateToShow.dateStart);
+		COleDateTime dEO(m_DateToShow.dateEnd);
 
 		COleDateTimeSpan difftime = dEO - dSO;
 		int32_t days = difftime.GetDays();
