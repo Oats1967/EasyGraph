@@ -36,18 +36,7 @@ CTotalizerView::CTotalizerView()
 	: CEasyGraphView(CTotalizerView::IDD)
 {
 	//{{AFX_DATA_INIT(CTotalizerView)
-#if 0
-	m_nLineStyle = 0;
-	m_nLineWidth = 0;
-	m_bShowDataMarkers = TRUE;
-	m_nMarkerSize = 1;
-	m_nMarkerShape = 0;
-	m_bShowDataLabels = TRUE;
-	m_nDataLabelAngle = 3;
-	m_bDisplayShadow = TRUE;
-	//}}AFX_DATA_INIT
-	m_nLineWidth = theConfig.GetDefaultLineWidth() - 1;
-#endif
+
 }
 
 CTotalizerView::~CTotalizerView()

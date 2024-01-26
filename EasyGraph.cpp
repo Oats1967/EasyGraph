@@ -17,14 +17,23 @@
 #include "ConfigItem.h"
 #include "wmuser.h"
 #include "global.h"
+#include "StringConvert.h"
+
+#include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
+#include "BASE/Utils/public/xml/LineGraphConfigXml.h"
+#include "BASE/Utils/public/xml/ProductDatabaseXml.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
+#define EASYGRAPHCONFIGFILE "EasyGraph.xml"
+
 // CEasyGraphApp
 struct ConfigItem theConfig;
+static base::CEasyGraphConfig g_EasyGraphCfg;
 
 
 BEGIN_MESSAGE_MAP(CEasyGraphApp, CWinAppEx)
@@ -39,6 +48,27 @@ END_MESSAGE_MAP()
 
 
 // CEasyGraphApp-Erstellung
+static BOOL ReadCMDPath(CString& sz)
+{
+	char path_buffer[_MAX_PATH];
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	char fname[_MAX_FNAME];
+	char ext[_MAX_EXT];
+
+	_splitpath_s(LPCSTR(sz), drive, dir, fname, ext);
+	_makepath_s(path_buffer, drive, dir, "", "");
+	int sLen = (int)strlen(path_buffer) - 1;
+
+	while ((sLen > 0) && (path_buffer[sLen] == '\\'))
+	{
+		path_buffer[sLen] = 0;
+		sLen--;
+	}
+	sz = CString(path_buffer);
+	return !sz.IsEmpty();
+}
+
 
 CEasyGraphApp::CEasyGraphApp() noexcept
 {
@@ -69,6 +99,48 @@ CEasyGraphApp theApp;
 
 
 // CEasyGraphApp-Initialisierung
+//**************************************************************************************************************
+//**************************************************************************************************************
+BOOL CEasyGraphApp::LoadInitFile()
+{
+	const std::string xmlfile{ toStdString(m_szCMDPath) + "\\" + std::string(EASYGRAPHCONFIGFILE) };
+	base::xml::CEasyGraphConfigXml myxml;
+	auto result = myxml.Load(xmlfile);
+	if (result)
+	{
+		m_SaveCfg = EASYCGRAPHCONFIGFILE = myxml.Get();
+	}
+	return result;
+}
+//**************************************************************************************************************
+//**************************************************************************************************************
+BOOL CEasyGraphApp::LoadLineGraphConfig()
+{
+	const std::string xmlfile{ EASYCGRAPHCONFIGFILE.m_LineConfigFile };
+	base::xml::CLineGraphConfigXml myxml;
+	auto result = myxml.Load(xmlfile);
+	if (result)
+	{
+		g_Statistics.SetLineGraphConfig(myxml.Get());
+	}
+	return result;
+}
+//************************************************************************************************************************
+BOOL CEasyGraphApp::LoadProductDatabase(void)
+{
+	LOGDEBUG("Reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	base::xml::CProductDatabaseXml config;
+	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	if (!result)
+	{
+		LOGERROR("Error reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	}
+	else
+	{
+		g_Statistics.SetProductDatabase(config.Get());
+	}
+	return result;
+}
 
 
 BOOL CEasyGraphApp::InitInstance()
@@ -76,17 +148,39 @@ BOOL CEasyGraphApp::InitInstance()
 	// InitCommonControlsEx() ist für Windows XP erforderlich, wenn ein Anwendungsmanifest
 	// die Verwendung von ComCtl32.dll Version 6 oder höher zum Aktivieren
 	// von visuellen Stilen angibt.  Ansonsten treten beim Erstellen von Fenstern Fehler auf.
-#if 1
+
+	m_szCMDPath = m_pszHelpFilePath;
+	VERIFY(ReadCMDPath(m_szCMDPath));
+
 	INITCOMMONCONTROLSEX InitCtrls;
 	InitCtrls.dwSize = sizeof(InitCtrls);
 	// Legen Sie dies fest, um alle allgemeinen Steuerelementklassen einzubeziehen,
 	// die Sie in Ihrer Anwendung verwenden möchten.
 	InitCtrls.dwICC = ICC_WIN95_CLASSES;
 	InitCommonControlsEx(&InitCtrls);
-#endif
+
 	CWinAppEx::InitInstance();
 
-	g_Statistics.InitLineConfig();
+	auto result = LoadInitFile();
+	if (!result)
+	{
+		AfxMessageBox("Error loading ini-file!", MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+
+	result = LoadLineGraphConfig();
+	if (!result)
+	{
+		AfxMessageBox("Error loading LineConfig!", MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+
+	result = LoadProductDatabase();
+	if (!result)
+	{
+		AfxMessageBox("Error loading ProductDatabase!", MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
 
 	// OLE-Bibliotheken initialisieren
 	if (!AfxOleInit())
@@ -160,7 +254,7 @@ BOOL CEasyGraphApp::InitInstance()
 		return FALSE;
 
 	AddDocTemplate(pDocTemplate);
-
+	 
 #if 0
 	// Haupt-MDI-Rahmenfenster erstellen
 	CMainFrame* pMainFrame = new CMainFrame;

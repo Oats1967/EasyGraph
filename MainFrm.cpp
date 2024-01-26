@@ -105,7 +105,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
 
-	auto& rList = g_Statistics.GetLineConfig();
+	auto& rList = g_Statistics.GetLineGraphConfig().m_field;
 	for (auto& rItem : rList)
 	{
 		comboTheme.AddItem(toCString(rItem.m_szName));

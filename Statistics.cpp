@@ -3,17 +3,17 @@
 #include "StringConvert.h"
 
 
-
+CStatistics g_Statistics;
 
 BOOL CStatistics::LoadRectItemList(const DateToShow& rDate)
 {
 	m_DateToShow = rDate;
 
 	BOOL result = FALSE;
-	if (m_ActiveLine >= 0)
+	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
 		m_RecList.Clear();
-		auto& rLineItem = m_LineConfig[m_ActiveLine];
+		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
 		COleDateTime dSO(rDate.dateStart);
 		COleDateTime dEO(rDate.dateEnd);
 
@@ -146,18 +146,12 @@ void CStatistics::CalcTotalizerFeeder(void)
 }
 
 
-BOOL CStatistics::InitLineConfig()
-{
-	m_LineConfig.clear();
-	m_LineConfig.push_back({ "ZSK 58", "C:\\EasyControl\\data\\recorder" });
-	m_LineConfig.push_back({ "ZSK 76", "C:\\EasyControl\\data\\recorder" });
-	return TRUE;
-}
 
 
 CString CStatistics::GetHeaderLine() const
 {
-	return (m_ActiveLine < m_LineConfig.size()) ? CString("Linie : ") + toCString(m_LineConfig[m_ActiveLine].m_szName) : "";
+	const base::CLineGraphConfig::VectorConfig& rIt = m_LineGraphConfig.m_field;
+	return (m_ActiveLine < rIt.size()) ? CString("Linie : ") + toCString(rIt[m_ActiveLine].m_szName) : "";
 }
 
 

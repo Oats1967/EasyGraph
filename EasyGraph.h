@@ -8,6 +8,8 @@
 #endif
 
 #include "resource.h"       // Hauptsymbole
+#include "global.h"
+
 
 
 // CEasyGraphApp:
@@ -16,6 +18,17 @@
 
 class CEasyGraphApp : public CWinAppEx
 {
+private:
+	CString m_szCMDPath;
+	base::CEasyGraphConfig m_SaveCfg;
+
+
+private:
+	BOOL LoadInitFile(void);
+	BOOL LoadLineGraphConfig(void);
+	BOOL LoadProductDatabase(void);
+
+
 public:
 	CEasyGraphApp() noexcept;
 

@@ -122,9 +122,6 @@
     <ClCompile Include="WorkspaceBar.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="global.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="Statistics.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
