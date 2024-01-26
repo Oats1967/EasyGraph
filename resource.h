@@ -105,6 +105,8 @@
 #define IDC_GROUP_TITLE                 1007
 #define IDC_TOTALIZER_DATE              1007
 #define IDC_GROUP                       1008
+#define IDC_TOTALIZER_COMBO             1009
+#define IDC_TOTALIZER_KEYSELECT         1009
 #define ID_COLOR_THEME_COMBO            32771
 #define ID_VIEW_UP                      32774
 #define ID_TOOLBAR_VIEW                 32778
@@ -121,7 +123,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32786
-#define _APS_NEXT_CONTROL_VALUE         1009
+#define _APS_NEXT_CONTROL_VALUE         1010
 #define _APS_NEXT_SYMED_VALUE           315
 #endif
 #endif

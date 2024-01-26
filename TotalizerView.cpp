@@ -18,6 +18,7 @@
 #include "TotalizerView.h"
 #include "ConfigItem.h"
 #include "global.h"
+#include "StringConvert.h"
 
 
 
@@ -34,6 +35,7 @@ IMPLEMENT_DYNCREATE(CTotalizerView, CEasyGraphView)
 
 CTotalizerView::CTotalizerView()
 	: CEasyGraphView(CTotalizerView::IDD)
+	, m_KeySelected (0)
 {
 	//{{AFX_DATA_INIT(CTotalizerView)
 
@@ -52,6 +54,9 @@ void CTotalizerView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TOTALIZER_DATE, m_DateWnd);
 	DDX_Text(pDX, IDC_TOTALIZER_LINE, m_szLine);
 	DDX_Text(pDX, IDC_TOTALIZER_DATE, m_szDate);
+	DDX_Control(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelectWnd);
+	DDX_CBIndex(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelected);
+
 	//}}AFX_DATA_MAP
 }
 
@@ -59,6 +64,7 @@ void CTotalizerView::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CTotalizerView, CEasyGraphView)
 	//{{AFX_MSG_MAP(CTotalizerView)
 	ON_MESSAGE(WM_NEWDATE, OnNewDate)
+	ON_CBN_SELENDOK(IDC_TOTALIZER_KEYSELECT, OnKeySelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -112,6 +118,9 @@ void CTotalizerView::OnInitialUpdate()
 
 	m_bIsReady = TRUE;
 
+	m_KeySelectWnd.ResetContent();
+	m_KeySelectWnd.AddString("QMNummer");
+	m_KeySelectWnd.AddString("Produktname");
 
 	//SetupShapeCombo(&m_wndMarkerShape, m_nMarkerShape);
 	SendMessage(WM_NEWDATE);
@@ -119,8 +128,6 @@ void CTotalizerView::OnInitialUpdate()
 
 void CTotalizerView::OnUpdateChart()
 {
-	UpdateData();
-
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
@@ -159,6 +166,8 @@ void CTotalizerView::OnUpdateChart()
 
 LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
+	UpdateData();
+
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
@@ -173,12 +182,24 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 	const auto& rMap = g_Statistics.GetQMTotalizerMap();
 	for (const auto& rItem : rMap)
 	{
-		pSeries1->AddDataPoint(CString(std::to_string(rItem.first).c_str()), rItem.second  );
+		CString szTemp;
+		if (m_KeySelected == 0)
+		{
+			szTemp = CString(std::to_string(rItem.first).c_str());
+		}
+		else
+		{
+			szTemp = toCString(g_Statistics.GetProductDatabase().get(rItem.first).c_str());
+		}
+
+		if (! szTemp.IsEmpty())
+		{
+			pSeries1->AddDataPoint(szTemp, rItem.second);
+		}
 	}
 	pSeries1->SetMinValue(0.0);
 	pSeries1->SetMaxValue(rMap.GetMax());
 
-	OnUpdateChart();
 
 	CBCGPChartAxis* pYAxis = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
 	ASSERT_VALID(pYAxis);
@@ -195,11 +216,20 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 	m_szLine = g_Statistics.GetHeaderLine();
 	m_szDate = g_Statistics.GetHeaderDateTime();
 
+	OnUpdateChart();
+
 	UpdateData(FALSE);
 
 	return 0L;
 }
 
+
+
+void CTotalizerView::OnKeySelect()
+{
+	auto m_KeySelect = m_KeySelectWnd.GetCurSel();
+	SendMessage(WM_NEWDATE);
+}
 
 void CTotalizerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {

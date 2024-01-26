@@ -50,10 +50,12 @@ public:
 	BOOL	m_bDisplayShadow;
 #endif
 	CFont m_Font;
+	CBCGPComboBox	m_KeySelectWnd;
 	CBCGPStatic m_LineWnd;
 	CBCGPStatic m_DateWnd;
 	CString m_szLine;
 	CString m_szDate;
+	int32_t m_KeySelected;
 	//}}AFX_DATA
 
 // Attributes
@@ -94,6 +96,7 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(CTotalizerView)
 	afx_msg void OnUpdateChart();
+	afx_msg void OnKeySelect();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
