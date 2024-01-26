@@ -90,7 +90,6 @@
 #define IDB_SPLASH                      314
 #define IDD_TOTALIZER                   314
 #define ID_VIEW_FORWARD                 315
-#define IDD_FORM1                       315
 #define IDD_GROUP                       315
 #define ID_VIEW_BACK                    316
 #define IDB_TOOLBAR_HC                  317

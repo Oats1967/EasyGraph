@@ -206,6 +206,5 @@ void CTotalizerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView*
 	// TODO: Fügen Sie hier Ihren spezialisierten Code ein, und/oder rufen Sie die Basisklasse auf.
 	if ( bActivate )
 		SendMessage(WM_NEWDATE);
-
 	CEasyGraphView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 }

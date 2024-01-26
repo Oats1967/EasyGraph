@@ -26,6 +26,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
+	ON_COMMAND(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
+	ON_CBN_SELENDOK(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
+
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
@@ -446,6 +449,20 @@ void CMainFrame::OnWindowManager()
 {
 	//ShowWindowsDialog();
 }
+
+void CMainFrame::OnLineCombo()
+{
+	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_COLOR_THEME_COMBO)));
+	ASSERT_VALID(pCombobox);
+	m_nColorTheme = pCombobox->GetCurSel();
+	g_Statistics.SetActiveLine(m_nColorTheme);
+	auto pView = GetActiveView();
+	if (pView)
+	{
+		pView->SendMessage(WM_NEWDATE);
+	}
+}
+
 
 void CMainFrame::OnViewCustomize()
 {
