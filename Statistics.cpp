@@ -10,7 +10,7 @@ BOOL CStatistics::LoadRectItemList()
 	BOOL result = FALSE;
 	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
-		m_RecList.Clear();
+		m_RecDaysList.Clear();
 		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
 		COleDateTime dSO(m_DateToShow.dateStart);
 		COleDateTime dEO(m_DateToShow.dateEnd);
@@ -33,7 +33,7 @@ BOOL CStatistics::LoadRectItemList()
 			tempList.SetPath(rLineItem.m_szPath);
 			tempList.SetFilename(aTime);
 			tempList.Load();
-			m_RecList += tempList;
+			m_RecDaysList += tempList;;
 			dSO += dayskip;
 		}
 		CalcTotalizerQMNUmber();
@@ -43,44 +43,20 @@ BOOL CStatistics::LoadRectItemList()
 	return result;
 }
 
-#if 0
-
-void CStatistics::GetQMNUmbers(void)
-{
-	m_qmNumbers.clear();
-
-	auto count = m_RecList.GetCount();
-	for (uint32_t k = 0; k < count; k++)
-	{
-		const auto& rItem = m_RecList.GetItem(k);
-		for (uint32_t index = 0; index < rItem.GetMaxItems(); index++)
-		{
-			auto& rQM = rItem.GetQMNumber(index);
-			auto it = std::find(m_qmNumbers.cbegin(), m_qmNumbers.cend(), rQM);
-			if ( it == m_qmNumbers.cend())
-			{
-				m_qmNumbers.push_back(rQM);
-			}
-		}
-	}
-}
-#endif
-
-
 void CStatistics::CalcTotalizerQMNUmber(void)
 {
-	std::map < uint64_t, std::pair<time_t, float64_t >> history;
+	std::map < uint64_t, std::pair<COleDateTime, float64_t >> history;
 
 	BOOL bInit = FALSE;
-	auto count = m_RecList.GetCount();
-	for (uint32_t k = 0; k < count; k++)
+	const auto& rRecItemList = m_RecDaysList;
+	for (uint32_t k = 0; k < rRecItemList.GetCount(); k++)
 	{
-		const auto& rItem = m_RecList.GetItem(k);
-		const auto& rTime = rItem.GetTime();
-		uint32_t rMax = rItem.GetMaxItems();
+		const auto& rRecItem = rRecItemList.GetItem(k);;
+		const auto& rTime = COleDateTime(rRecItem.GetTime());
+		const uint32_t rMax = rRecItem.GetMaxItems();
 		for (uint32_t index = 0; index < rMax; index++)
 		{
-			const auto& qmNUmber = rItem.GetQMNumber(index);
+			const auto& qmNUmber = rRecItem.GetQMNumber(index);
 			auto hit = history.find(qmNUmber);
 			if (hit == history.cend())
 			{
@@ -89,12 +65,12 @@ void CStatistics::CalcTotalizerQMNUmber(void)
 			else
 			{
 				auto& rLasttime = std::get<0>(hit->second);
-				COleDateTimeSpan difftime = COleDateTime(rTime) - COleDateTime(rLasttime);
+				COleDateTimeSpan difftime = rTime - rLasttime;
 #if _DEBUG
 				uint32_t seconds = difftime.GetSeconds();
-				float32_t massflow = rItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index);
+				float32_t massflow = rRecItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index);
 #endif
-				float32_t fTot = rItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index) * _F32(difftime.GetSeconds());
+				float32_t fTot = rRecItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index) * _F32(difftime.GetSeconds());
 				std::get<1>(hit->second) += fTot;
 				rLasttime = rTime;
 			}
@@ -111,14 +87,15 @@ void CStatistics::CalcTotalizerQMNUmber(void)
 
 void CStatistics::CalcTotalizerFeeder(void)
 {
-	std::map< uint32_t, std::pair<time_t, float64_t >> history;
+	std::map< uint32_t, std::pair<COleDateTime, float64_t >> history;
 
-	auto count = m_RecList.GetCount();
-	for (uint32_t k = 0; k < count; k++)
+	//auto count = m_RecList.count();
+	const auto& rRecItemList = m_RecDaysList;
+	for (uint32_t k = 0; k < rRecItemList.GetCount(); k++)
 	{
-		const auto& rItem = m_RecList.GetItem(k);
-		const auto& rTime = rItem.GetTime();
-		uint32_t rMax = rItem.GetMaxItems();
+		const auto& rRecItem = rRecItemList.GetItem(k);;
+		const auto& rTime	 = COleDateTime(rRecItem.GetTime());
+		uint32_t rMax		 = rRecItem.GetMaxItems();
 		for (uint32_t index = 0; index < rMax; index++)
 		{
 			auto hit = history.find(index);
@@ -129,8 +106,8 @@ void CStatistics::CalcTotalizerFeeder(void)
 			else
 			{
 				auto& rLasttime = std::get<0>(hit->second);
-				COleDateTimeSpan difftime = COleDateTime(rTime) - COleDateTime(rLasttime);
-				float32_t fTot = rItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index) * _F32(difftime.GetSeconds());
+				COleDateTimeSpan difftime = rTime - rLasttime;
+				float32_t fTot = rRecItem.Get(base::eMassflowSelect::eVIEWMASSFLOW, index) * _F32(difftime.GetSeconds());
 				std::get<1>(hit->second) += fTot;
 				rLasttime = rTime;
 			}

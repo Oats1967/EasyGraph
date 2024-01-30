@@ -160,6 +160,7 @@ void CEasyGraphView::OnInitialUpdate()
 		return;
 	}
 	
+#if 0
 	if (m_arHours[0].IsEmpty())
 	{
 		for (int i = 0; i < HOURS_NUM; i++)
@@ -167,7 +168,7 @@ void CEasyGraphView::OnInitialUpdate()
 			m_arHours[i].Format(_T("%2d"), i);
 		}
 	}
-
+#endif
 	GetParentFrame()->RecalcLayout();
 
 	if (AfxGetMainWnd() == NULL)
@@ -333,7 +334,7 @@ void CEasyGraphView::SetDefaultLineWidth()
 
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 		style.SetSeriesLineWidth(theConfig.GetDefaultLineWidth());
-
+		style.m_curveType = BCGPChartFormatSeries::CCT_SPLINE;
 		pSeries->SetSeriesFormat(style);
 	}
 }

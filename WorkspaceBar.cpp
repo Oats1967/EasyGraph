@@ -21,6 +21,8 @@
 #include "EasyGraphView.h"
 #include "ChartLineView.h"
 #include "TotalizerView.h"
+#include "MassflowChart.h"
+#include "SetpointChart.h"
 #include "GroupView.h"
 
 #ifdef _DEBUG
@@ -71,8 +73,8 @@ static CBCGPMultiViewData groups[] =
 // CWorkspaceBar message handlers
 static CDemoFeature features[] =
 {
-	CDemoFeature(0, CDemoFeature::BCGP_Massflow, _T("Durchsatz"), RUNTIME_CLASS(CChartLineView)),
-	CDemoFeature(0, CDemoFeature::BCGP_Setpoint, _T("Sollwert"), RUNTIME_CLASS(CChartLineView)),
+	CDemoFeature(0, CDemoFeature::BCGP_Massflow, _T("Durchsatz"), RUNTIME_CLASS(CMassflowChart)),
+	CDemoFeature(0, CDemoFeature::BCGP_Setpoint, _T("Sollwert"), RUNTIME_CLASS(CSetpointChart)),
 	CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, _T("Stellbefehl"), RUNTIME_CLASS(CChartLineView)),
 	CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, _T("Drehzahl"), RUNTIME_CLASS(CChartLineView)),
 	CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, _T("Dosierperformanz"), RUNTIME_CLASS(CChartLineView)),

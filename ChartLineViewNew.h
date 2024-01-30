@@ -1,10 +1,7 @@
 #pragma once
 
-//#include "pch.h"
 #include "EasyGraphDoc.h"
 #include "EasyGraphView.h"
-#include "VirtualSeries.h"
-#include "Statistics.h"
 #include "resource.h"
 
 
@@ -15,19 +12,20 @@ protected:
 	DECLARE_DYNCREATE(CChartLineView)
 
 // Form Data
-protected:
+public:
 	//{{AFX_DATA(CChartLineView)
 	enum { IDD = IDD_CHART };
 	CBCGPScrollBar	m_wndScrollBarVert;
 	CBCGPScrollBar	m_wndScrollBarHorz;
-	CBCGPStatic		m_LineWnd;
-	CBCGPStatic		m_DateWnd;
-	CString			m_szLine;
-	CString			m_szDate;
-	CFont			m_Font;
+#if 0
+	CBCGPComboBox	m_wndSelectionType;
+	CBCGPComboBox	m_wndZoomType;
+#endif
 	CBCGPChartCtrl	m_wndChart;
 
+	int		m_nDataPoints;
 	int		m_nZoomType;
+	int		m_nSelectionType;
 	CString	m_strInfo;
 	int		m_nChartCategory;
 	BOOL	m_bExternalScrollBar;
@@ -64,13 +62,18 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+	//}}AFX_VIRTUAL
+
 	virtual void SetupLayout();
 
-	virtual const base::eMassflowSelect GetSelection() const
-	{ return base::eMassflowSelect::eVIEWMAX;	}
-
+// Implementation
 protected:
 	virtual ~CChartLineView();
+#ifdef _DEBUG
+	virtual void AssertValid() const;
+	virtual void Dump(CDumpContext& dc) const;
+#endif
+
 	CBCGPChartAxis* GetChartAxis(BOOL bIsHorizontal);
 	void UpdateScrollBars();
 	void DoScroll(CBCGPScrollBar& wndScrollBar, UINT nSBCode);
@@ -86,9 +89,5 @@ protected:
 	//}}AFX_MSG
 	afx_msg LRESULT OnAxisScrolled(WPARAM wp, LPARAM lp);
 	afx_msg LRESULT OnAxisZoomed(WPARAM wp, LPARAM lp);
-	afx_msg LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
-
 	DECLARE_MESSAGE_MAP()
 };
-
-

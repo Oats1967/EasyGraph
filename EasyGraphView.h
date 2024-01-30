@@ -55,7 +55,7 @@ protected:
 	CString	m_strTitle;
 	//CDemoFeature::Feature				m_Feature;
 	BOOL								m_bIsReady;
-	CString								m_arHours[HOURS_NUM];
+	//CString								m_arHours[HOURS_NUM];
 	BOOL								m_bIsDarkBackground;
 	BOOL								m_bIsTexturedTheme;
 	BOOL								m_bIsFlatTheme;

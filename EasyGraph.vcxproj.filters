@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\Charts">
+      <UniqueIdentifier>{1a55d81e-0b89-4626-b93d-a6555fd9485e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Charts">
+      <UniqueIdentifier>{39e0e4fd-b886-48f5-9985-005d9eb51335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EasyGraph.h">
@@ -60,9 +66,6 @@
     <ClInclude Include="SplashWindow.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
-    <ClInclude Include="ChartLineView.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="BCGPChartExampleView.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -81,8 +84,20 @@
     <ClInclude Include="GroupView.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="TotalizerView.h">
+    <ClInclude Include="VirtualSeries.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="MassflowChart.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="TotalizerView.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="SetpointChart.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartLineView.h">
+      <Filter>Headerdateien\Charts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,9 +131,6 @@
     <ClCompile Include="SplashWindow.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ChartLineView.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="WorkspaceBar.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -128,8 +140,20 @@
     <ClCompile Include="GroupView.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="TotalizerView.cpp">
+    <ClCompile Include="VirtualSeries.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SetpointChart.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="MassflowChart.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="TotalizerView.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartLineView.cpp">
+      <Filter>Quelldateien\Charts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,10 +16,11 @@ struct DateToShow
 };
 
 using CTotalizerMap	 = CQualityMap<uint64_t, float32_t>;
+//using CRecDaysList = std::map< COleDateTime, base::utils::CRecItemList>;
 
 class CStatistics
 {
-	base::utils::CRecItemList	  m_RecList;
+	base::utils::CRecItemList	  m_RecDaysList;
 	CTotalizerMap				  m_FeederTotalizerMap;
 	CTotalizerMap				  m_QMTotalizerMap;
 	base::CLineGraphConfig		  m_LineGraphConfig;
@@ -44,6 +45,7 @@ public:
 	SETGET(const CTotalizerMap&, FeederTotalizerMap);
 	SETGET(const int32_t, ActiveLine)
 	SETGET(const base::eMassflowSelect, DoseSelect)
+	SETGET(const base::utils::CRecItemList&, RecDaysList);
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;

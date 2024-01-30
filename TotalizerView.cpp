@@ -57,6 +57,7 @@ void CTotalizerView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelectWnd);
 	DDX_CBIndex(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelected);
 
+
 	//}}AFX_DATA_MAP
 }
 
@@ -85,6 +86,20 @@ void CTotalizerView::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CTotalizerView message handlers
+void CTotalizerView::SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/)
+{
+	ASSERT_VALID(pComboBox);
+
+	pComboBox->ResetContent();
+	pComboBox->AddString(_T("QMNummer"));
+	pComboBox->AddString(_T("Produktname"));
+
+	if (nSel >= 0)
+	{
+		pComboBox->SetCurSel(nSel);
+	}
+}
+
 
 void CTotalizerView::OnInitialUpdate() 
 {
@@ -117,10 +132,7 @@ void CTotalizerView::OnInitialUpdate()
 	m_LineWnd.m_clrText = COLORREF(RGB(0, 0, 0));
 
 	m_bIsReady = TRUE;
-
-	m_KeySelectWnd.ResetContent();
-	m_KeySelectWnd.AddString("QMNummer");
-	m_KeySelectWnd.AddString("Produktname");
+	SetupSelectCombo(&m_KeySelectWnd, m_KeySelected);
 
 	//SetupShapeCombo(&m_wndMarkerShape, m_nMarkerShape);
 	SendMessage(WM_NEWDATE);
@@ -141,7 +153,7 @@ void CTotalizerView::OnUpdateChart()
 
 	BCGPChartDataLabelOptions dataLabelOptions = pChart->GetDataLabelOptions();
 	dataLabelOptions.m_position = BCGPChartDataLabelOptions::LabelPosition::LP_OUTSIDE_END;
-	dataLabelOptions.m_strDataFormat = CString("%3.1 [kg/h]");
+	//dataLabelOptions.m_strDataFormat = CString("%3.1 [kg/h]");
 
 	CBCGPBrush::BCGP_GRADIENT_TYPE type = CBCGPBrush::BCGP_NO_GRADIENT;
 	for (int i = 0; i < pChart->GetSeriesCount(); i++)
@@ -180,6 +192,8 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 	pChart->SetChartTitle(_T("Totalisator"));
 
 	const auto& rMap = g_Statistics.GetQMTotalizerMap();
+	const auto& rBase = g_Statistics.GetProductDatabase();
+	const auto& rBaseMap = rBase.getMap();
 	for (const auto& rItem : rMap)
 	{
 		CString szTemp;
@@ -189,9 +203,16 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			szTemp = toCString(g_Statistics.GetProductDatabase().get(rItem.first).c_str());
+			auto it = rBaseMap.find(rItem.first);
+			if (it != rBaseMap.cend())
+			{
+				szTemp = toCString(it->second.c_str());
+			}
+			else
+			{
+				szTemp = "??";
+			}
 		}
-
 		if (! szTemp.IsEmpty())
 		{
 			pSeries1->AddDataPoint(szTemp, rItem.second);
@@ -217,7 +238,6 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 	m_szDate = g_Statistics.GetHeaderDateTime();
 
 	OnUpdateChart();
-
 	UpdateData(FALSE);
 
 	return 0L;
@@ -238,3 +258,4 @@ void CTotalizerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView*
 		SendMessage(WM_NEWDATE);
 	CEasyGraphView::OnActivateView(bActivate, pActivateView, pDeactiveView);
 }
+

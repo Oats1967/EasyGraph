@@ -13,11 +13,11 @@
 // of the accompanying license agreement.
 //*******************************************************************************
 //
-// TotalizerView.h : header file
+// ChartLineView.h : header file
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// CTotalizerView form view
+// CChartLineView form view
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
@@ -27,23 +27,17 @@
 #include "EasyGraphView.h"
 #include "resource.h"
 
-
-class CTotalizerView : public CEasyGraphView
+class CChartLineView : public CEasyGraphView
 {
 protected:
-	CTotalizerView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CTotalizerView)
-
-private:
-	void SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/);
-
+	CChartLineView();           // protected constructor used by dynamic creation
+	DECLARE_DYNCREATE(CChartLineView)
 
 // Form Data
 public:
-	//{{AFX_DATA(CTotalizerView)
-	enum { IDD = IDD_TOTALIZER };
+	//{{AFX_DATA(CChartLineView)
+	enum { IDD = IDD_CHART };
 	CBCGPChartCtrl	m_wndChart;
-#if 0
 	int		m_nLineStyle;
 	int		m_nLineWidth;
 	BOOL	m_bShowDataMarkers;
@@ -52,15 +46,9 @@ public:
 	BOOL	m_bShowDataLabels;
 	int		m_nDataLabelAngle;
 	BOOL	m_bDisplayShadow;
-#endif
-	CFont m_Font;
-	CBCGPComboBox	m_KeySelectWnd;
-	CBCGPStatic m_LineWnd;
-	CBCGPStatic m_DateWnd;
-	CString m_szLine;
-	CString m_szDate;
-	int32_t m_KeySelected;
 	//}}AFX_DATA
+
+protected:
 
 // Attributes
 public:
@@ -70,7 +58,7 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTotalizerView)
+	//{{AFX_VIRTUAL(CChartLineView)
 	public:
 	virtual void OnInitialUpdate();
 	protected:
@@ -89,7 +77,7 @@ public:
 
 // Implementation
 protected:
-	virtual ~CTotalizerView();
+	virtual ~CChartLineView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -98,10 +86,12 @@ protected:
 	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 
 	// Generated message map functions
-	//{{AFX_MSG(CTotalizerView)
+	//{{AFX_MSG(CChartLineView)
 	afx_msg void OnUpdateChart();
-	afx_msg void OnKeySelect();
+	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
+
+
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 };
+
