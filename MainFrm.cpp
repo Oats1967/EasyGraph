@@ -670,7 +670,7 @@ LRESULT CMainFrame::OnSetLineColor(WPARAM wParam, LPARAM lParam)
 	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
 	if (pChartView != NULL)
 	{
-		pChartView->OnSetLineColor(CBCGPColor::BCGP_COLOR(wParam));
+		pChartView->OnSetLineColor(CBCGPColor(COLORREF(wParam)));
 	}
 	return 0L;
 }

@@ -201,7 +201,7 @@ void CChartLineView::OnUpdateChart()
 		CreateSeries(GetSelection(), g_Statistics.GetActiveFeeder());
 	}
 	SetDefaultLineWidth();
-	SetSeriesLineColor((CBCGPColor::BCGP_COLOR*)&m_LineColor, 1);
+	SetSeriesLineColor(&m_LineColor, 1);
 
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
@@ -592,7 +592,7 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 }
 
 
-void CChartLineView::OnSetLineColor(CBCGPColor::BCGP_COLOR rColor)
+void CChartLineView::OnSetLineColor(const CBCGPColor& rColor)
 {
 	m_LineColor = rColor;
 	SetSeriesLineColor(&m_LineColor, 1);

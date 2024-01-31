@@ -32,7 +32,7 @@ protected:
 	int		 m_nChartCategory;
 	BOOL	 m_bExternalScrollBar;
 	BOOL	 m_bInScroll;
-	CBCGPColor::BCGP_COLOR m_LineColor;
+	CBCGPColor m_LineColor;
 
 	//}}AFX_DATA
 
@@ -70,7 +70,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	virtual void SetupLayout();
-	virtual void OnSetLineColor(CBCGPColor::BCGP_COLOR rColor) override;
+	virtual void OnSetLineColor(const CBCGPColor& rColor) override;
 
 
 	virtual const base::eMassflowSelect GetSelection() const

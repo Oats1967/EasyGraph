@@ -332,7 +332,7 @@ void CEasyGraphView::SetDefaultLineWidth()
 	}
 }
 
-void CEasyGraphView::SetSeriesLineColor(const CBCGPColor::BCGP_COLOR* pColors, int32_t count)
+void CEasyGraphView::SetSeriesLineColor(const CBCGPColor* pColors, int32_t count)
 {
 	CBCGPChartVisualObject* pChart = GetChart();
 	if (pChart == NULL)
