@@ -34,12 +34,10 @@ IMPLEMENT_DYNCREATE(CEasyGraphView, CBCGPFormView)
 BEGIN_MESSAGE_MAP(CEasyGraphView, CBCGPFormView)
 	//{{AFX_MSG_MAP(CEasyGraphView)
 	ON_WM_NCPAINT()
-#if 0
 	ON_COMMAND(ID_CHART_COPY, OnChartCopy)
 	ON_COMMAND(ID_CHART_EXPORT, OnChartExport)
 	ON_UPDATE_COMMAND_UI(ID_CHART_COPY, OnUpdateChartCopy)
 	ON_UPDATE_COMMAND_UI(ID_CHART_EXPORT, OnUpdateChartExport)
-#endif
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT, OnUpdateFilePrint)
 	ON_UPDATE_COMMAND_UI(ID_FILE_PRINT_PREVIEW, OnUpdateFilePrintPreview)
 	//}}AFX_MSG_MAP
@@ -47,10 +45,6 @@ BEGIN_MESSAGE_MAP(CEasyGraphView, CBCGPFormView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CBCGPFormView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
 	ON_MESSAGE(WM_INITDIALOG, HandleInitDialog)
-	//ON_MESSAGE(WM_NEWDATE, &CEasyGraphView::OnNewDate)
-	//ON_COMMAND(ID_ANIMATE_CHART, OnAnimateChart)
-	//ON_UPDATE_COMMAND_UI(ID_ANIMATE_CHART, OnUpdateAnimateChart)
-	//ON_UPDATE_COMMAND_UI(ID_ANIMATION_COMBO, OnUpdateAnimationStyleCombo)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -335,6 +329,24 @@ void CEasyGraphView::SetDefaultLineWidth()
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 		style.SetSeriesLineWidth(theConfig.GetDefaultLineWidth());
 		pSeries->SetSeriesFormat(style);
+	}
+}
+
+void CEasyGraphView::SetSeriesLineColor(const CBCGPColor::BCGP_COLOR* pColors, int32_t count)
+{
+	CBCGPChartVisualObject* pChart = GetChart();
+	if (pChart == NULL)
+	{
+		return;
+	}
+	ASSERT_VALID(pChart);
+
+	auto seriescount = __min(pChart->GetSeriesCount(), count);
+	for (int i = 0; i < seriescount; i++)
+	{
+		CBCGPChartSeries* pSeries = pChart->GetSeries(i);
+		ASSERT_VALID(pSeries);
+		pSeries->SetSeriesLineColor(CBCGPBrush(pColors[i]));
 	}
 }
 

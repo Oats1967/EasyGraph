@@ -27,11 +27,13 @@ protected:
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
 
-	int		m_nZoomType;
-	CString	m_strInfo;
-	int		m_nChartCategory;
-	BOOL	m_bExternalScrollBar;
-	BOOL	m_bInScroll;
+	int		 m_nZoomType;
+	CString	 m_strInfo;
+	int		 m_nChartCategory;
+	BOOL	 m_bExternalScrollBar;
+	BOOL	 m_bInScroll;
+	CBCGPColor::BCGP_COLOR m_LineColor;
+
 	//}}AFX_DATA
 
 // Attributes
@@ -68,6 +70,8 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	virtual void SetupLayout();
+	virtual void OnSetLineColor(CBCGPColor::BCGP_COLOR rColor) override;
+
 
 	virtual const base::eMassflowSelect GetSelection() const
 	{ return base::eMassflowSelect::eVIEWMAX;	}

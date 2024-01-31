@@ -33,6 +33,7 @@ protected:
 	CComboBox m_wndObjectCombo;
 	CPropertiesToolBar m_wndToolBar;
 	CMFCPropertyGridCtrl m_wndPropList;
+	int32_t m_LinienColorPos;
 
 // Implementierung
 public:
@@ -52,6 +53,8 @@ protected:
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
 
+
+	LRESULT OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 
 	void InitPropList();

@@ -113,6 +113,8 @@ public:
 	virtual void UpdateChartColorTheme(int nTheme, BOOL bIsDarkTheme);
 	virtual void OnChangeBackgroundDarkness() {}
 
+	virtual void OnSetLineColor(CBCGPColor::BCGP_COLOR) {}
+
 	virtual BOOL IsFillGradientAvailable() const
 	{
 		return !m_bIsTexturedTheme && !m_bIsFlatTheme;
@@ -121,6 +123,7 @@ public:
 	void RotateChart(CBCGPRotationObject::RotationElement hit, double xDelta = 10., double yDelta = 10., double persperctiveDelta = 0.1);
 	void SetDefaultLineWidth();
 	void SetSeriesFillColors(const CBCGPColor::BCGP_COLOR* pColors, int32_t count);
+	void SetSeriesLineColor(const CBCGPColor::BCGP_COLOR* pColors, int32_t count);
 
 
 	virtual BOOL IsGroupView() const

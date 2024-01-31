@@ -38,6 +38,7 @@ BEGIN_MESSAGE_MAP(CPropertiesWnd, CDockablePane)
 	ON_UPDATE_COMMAND_UI(ID_PROPERTIES2, OnUpdateProperties2)
 	ON_WM_SETFOCUS()
 	ON_WM_SETTINGCHANGE()
+	ON_REGISTERED_MESSAGE(AFX_WM_PROPERTY_CHANGED, OnPropertyChanged)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -138,6 +139,7 @@ void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
 void CPropertiesWnd::OnProperties1()
 {
 	// TODO: Fügen Sie hier Ihren Befehlshandlercode ein.
+	int k = 0;
 }
 
 void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
@@ -154,7 +156,7 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Fügen Sie hier Ihren Befehlsaktualisierungs-UI-Befehlshandlercode ein.
 }
-
+#if 0
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
@@ -166,7 +168,7 @@ void CPropertiesWnd::InitPropList()
 
 	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Darstellung"));
 
-	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
+	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
 
 	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Rahmen"), _T("Dialogfeldrahmen"), _T("Eine der folgenden Optionen: 'Keiner', 'Dünn', 'Größe änderbar' oder 'Dialogfeldrahmen'"));
 	pProp->AddOption(_T("Keiner"));
@@ -210,7 +212,7 @@ void CPropertiesWnd::InitPropList()
 	pProp->Enable(FALSE);
 	pGroup3->AddSubItem(pProp);
 
-	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Fensterfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
+	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
 	pColorProp->EnableOtherButton(_T("Andere..."));
 	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
 	pGroup3->AddSubItem(pColorProp);
@@ -221,7 +223,7 @@ void CPropertiesWnd::InitPropList()
 	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Ordner"), _T("c:\\")));
 
 	m_wndPropList.AddProperty(pGroup3);
-
+#if 0
 	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchie"));
 
 	CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("Erste Unterebene"));
@@ -235,8 +237,95 @@ void CPropertiesWnd::InitPropList()
 	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 3"), (_variant_t) _T("Wert 3"), _T("Dies ist eine Beschreibung.")));
 
 	pGroup4->Expand(FALSE);
+#endif
 	m_wndPropList.AddProperty(pGroup4);
 }
+#else
+void CPropertiesWnd::InitPropList()
+{
+	SetPropListFont();
+
+	m_wndPropList.EnableHeaderCtrl(FALSE);
+	m_wndPropList.EnableDescriptionArea();
+	m_wndPropList.SetVSDotNetLook();
+	m_wndPropList.MarkModifiedProperties();
+
+	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Darstellung"));
+	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
+	pColorProp->EnableOtherButton(_T("Andere..."));
+	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
+	pGroup1->AddSubItem(pColorProp);
+	m_LinienColorPos = m_wndPropList.AddProperty(pGroup1);
+
+#if 0
+	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
+
+	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Rahmen"), _T("Dialogfeldrahmen"), _T("Eine der folgenden Optionen: 'Keiner', 'Dünn', 'Größe änderbar' oder 'Dialogfeldrahmen'"));
+	pProp->AddOption(_T("Keiner"));
+	pProp->AddOption(_T("Dünn"));
+	pProp->AddOption(_T("Größe änderbar"));
+	pProp->AddOption(_T("Dialogfeldrahmen"));
+	pProp->AllowEdit(FALSE);
+
+	pGroup1->AddSubItem(pProp);
+	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Beschriftung"), (_variant_t)_T("Info"), _T("Gibt den Text an, der in der Titelleiste des Fensters angezeigt wird.")));
+
+	m_wndPropList.AddProperty(pGroup1);
+
+	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Fenstergröße"), 0, TRUE);
+
+	pProp = new CMFCPropertyGridProperty(_T("Höhe"), (_variant_t)250l, _T("Gibt die Höhe des Fensters an."));
+	pProp->EnableSpinControl(TRUE, 50, 300);
+	pSize->AddSubItem(pProp);
+
+	pProp = new CMFCPropertyGridProperty(_T("Breite"), (_variant_t)150l, _T("Gibt die Breite des Fensters an."));
+	pProp->EnableSpinControl(TRUE, 50, 200);
+	pSize->AddSubItem(pProp);
+
+	m_wndPropList.AddProperty(pSize);
+
+	CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Schriftart"));
+
+	LOGFONT lf;
+	CFont* font = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
+	font->GetLogFont(&lf);
+
+	_tcscpy_s(lf.lfFaceName, _T("Arial"));
+
+	pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Schriftart"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Gibt die Standardschriftart für das Fenster an.")));
+	pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Systemschriftart verwenden"), (_variant_t)true, _T("Gibt an, dass im Fenster die Schriftart 'MS Shell Dlg' verwendet wird.")));
+
+	m_wndPropList.AddProperty(pGroup2);
+
+	CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Sonstiges"));
+	pProp = new CMFCPropertyGridProperty(_T("(Name)"), _T("Anwendung"));
+	pProp->Enable(FALSE);
+	pGroup3->AddSubItem(pProp);
+
+
+	static const TCHAR szFilter[] = _T("Symboldateien(*.ico)|*.ico|Alle Dateien(*.*)|*.*||");
+	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Symbol"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("Gibt das Fenstersymbol an.")));
+
+	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Ordner"), _T("c:\\")));
+
+	m_wndPropList.AddProperty(pGroup3);
+	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchie"));
+
+	CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("Erste Unterebene"));
+	pGroup4->AddSubItem(pGroup41);
+
+	CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("Zweite Unterebene"));
+	pGroup41->AddSubItem(pGroup411);
+
+	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 1"), (_variant_t)_T("Wert 1"), _T("Dies ist eine Beschreibung.")));
+	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 2"), (_variant_t)_T("Wert 2"), _T("Dies ist eine Beschreibung.")));
+	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 3"), (_variant_t)_T("Wert 3"), _T("Dies ist eine Beschreibung.")));
+
+	pGroup4->Expand(FALSE);
+#endif
+}
+
+#endif
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {
@@ -249,6 +338,7 @@ void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 	CDockablePane::OnSettingChange(uFlags, lpszSection);
 	SetPropListFont();
 }
+
 
 void CPropertiesWnd::SetPropListFont()
 {
@@ -270,4 +360,62 @@ void CPropertiesWnd::SetPropListFont()
 
 	m_wndPropList.SetFont(&m_fntPropList);
 	m_wndObjectCombo.SetFont(&m_fntPropList);
+}
+
+
+LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam)
+{
+
+	// pProp will have all the variables and info of the active or change property
+	CMFCPropertyGridProperty* pProp = (CMFCPropertyGridProperty*)lParam;
+	CString str = pProp->GetName(); // get the change property name.
+	if (str == "Linienfarbe")
+	{
+		CMFCPropertyGridColorProperty* pColorGrid = (CMFCPropertyGridColorProperty*)pProp;
+		auto color = pColorGrid->GetColor();
+		AfxGetMainWnd()->SendMessage(WM_LINECOLOR, WPARAM(color));
+
+	}
+	else
+	{
+		int pID = pProp->GetData();
+
+		COleVariant i = pProp->GetValue();// get the change value.
+
+		//below is the code to change COleVariant to other variable type
+		LPVARIANT pVar = (LPVARIANT)i;
+		int x;
+		short y;
+		double d;
+		float f;
+		bool status;
+		CString str1;
+		switch (pVar->vt)
+		{
+		case VT_I2:    // short
+			y = pVar->iVal;
+			break;
+		case VT_I4:     // int
+			x = pVar->lVal;
+			break;
+		case VT_R4:    // float
+			f = pVar->fltVal;
+			break;
+		case VT_R8:    // double
+			d = pVar->dblVal;
+			break;
+		case VT_INT:
+			x = pVar->lVal;
+			break;
+		case VT_BOOL:
+			status = pVar->boolVal;
+			break;
+		case VT_BSTR:
+			str1 = pVar->bstrVal;
+			break;
+			// etc.
+		}
+	}
+
+	return 0;
 }

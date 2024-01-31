@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_WM_SETTINGCHANGE()
 	ON_MESSAGE(WM_NEWDATE, &CMainFrame::OnNewDate)
 	ON_MESSAGE(WM_SETVIEW, &CMainFrame::OnSetView)
+	ON_MESSAGE(WM_LINECOLOR, &CMainFrame::OnSetLineColor)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -661,6 +662,16 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 LRESULT CMainFrame::OnSetView(WPARAM wParam, LPARAM lParam)
 {
 	SelectView(wParam);
+	return 0L;
+}
+
+LRESULT CMainFrame::OnSetLineColor(WPARAM wParam, LPARAM lParam)
+{
+	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
+	if (pChartView != NULL)
+	{
+		pChartView->OnSetLineColor(CBCGPColor::BCGP_COLOR(wParam));
+	}
 	return 0L;
 }
 
