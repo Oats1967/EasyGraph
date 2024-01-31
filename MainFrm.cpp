@@ -28,6 +28,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
 	ON_COMMAND(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
 	ON_CBN_SELENDOK(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
+	ON_COMMAND(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
+	ON_CBN_SELENDOK(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
 
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
@@ -100,22 +102,39 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndToolBar.ReplaceButton(ID_COLOR_LABEL, CBCGPToolbarLabel(ID_COLOR_LABEL, _T("Color theme:")));
 
-	CBCGPToolbarComboBoxButton comboTheme(ID_COLOR_THEME_COMBO,
-#ifdef _BCGSUITE_INC_
-		GetCmdMgr()->GetCmdImage(ID_COLOR_THEME_COMBO, FALSE),
-#else
-		CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
-#endif
-		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
-
-	auto& rList = g_Statistics.GetLineGraphConfig().m_field;
-	for (auto& rItem : rList)
 	{
-		comboTheme.AddItem(toCString(rItem.m_szName));
-	}
-	comboTheme.SelectItem(0);
+		CBCGPToolbarComboBoxButton comboTheme(ID_COLOR_THEME_COMBO,
+#ifdef _BCGSUITE_INC_
+			GetCmdMgr()->GetCmdImage(ID_COLOR_THEME_COMBO, FALSE),
+#else
+			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
+#endif
+			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
 
-	m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
+		auto& rList = g_Statistics.GetLineGraphConfig().m_field;
+		for (auto& rItem : rList)
+		{
+			comboTheme.AddItem(toCString(rItem.m_szName));
+		}
+		comboTheme.SelectItem(0);
+
+		m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
+	}
+	{
+		CBCGPToolbarComboBoxButton comboTheme(ID_DOSESELECT_COMBO,
+#ifdef _BCGSUITE_INC_
+			GetCmdMgr()->GetCmdImage(ID_DOSESELECT_COMBO, FALSE),
+#else
+			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
+#endif
+			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
+
+		CString szTemp;
+		szTemp.Format("Dosierung: all");
+		comboTheme.AddItem(szTemp);
+		comboTheme.SelectItem(0);
+		m_wndToolBar.ReplaceButton(ID_DOSESELECT_COMBO, comboTheme);
+	}
 
 	//m_wndToolBar.ReplaceButton(ID_ANIMATION_LABEL, CBCGPToolbarLabel(ID_ANIMATION_LABEL, _T("Animation:")));
 
@@ -235,7 +254,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	comboTheme.AddItem(_T("Dark Theme"));
 	comboTheme.AddItem(_T("Blue Theme"));
 
-	comboTheme.SelectItem(m_nColorTheme);
+	comboTheme.SelectItem(m_nActiveLine);
 	m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
 
 	// Benutzerdefinierte Symbolleistenvorgänge zulassen:
@@ -454,9 +473,22 @@ void CMainFrame::OnLineCombo()
 {
 	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_COLOR_THEME_COMBO)));
 	ASSERT_VALID(pCombobox);
-	m_nColorTheme = pCombobox->GetCurSel();
-	g_Statistics.SetActiveLine(m_nColorTheme);
+	m_nActiveLine = pCombobox->GetCurSel();
+	g_Statistics.SetActiveLine(m_nActiveLine);
 	g_Statistics.LoadRectItemList();
+	auto pView = GetActiveView();
+	if (pView)
+	{
+		pView->SendMessage(WM_NEWDATE);
+	}
+}
+
+void CMainFrame::OnDoseSelectCombo()
+{
+	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO)));
+	ASSERT_VALID(pCombobox);
+	m_nActiveFeeder = pCombobox->GetCurSel();
+	g_Statistics.SetActiveFeeder(m_nActiveFeeder - 1);
 	auto pView = GetActiveView();
 	if (pView)
 	{
@@ -603,6 +635,20 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 	{
 		g_Statistics.SetDateToShow(*pDate);
 		g_Statistics.LoadRectItemList();
+		auto count = g_Statistics.GetFeederCount();
+
+		// Find button index for command ID
+		int index = m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO);
+
+		// Retrieve button
+		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+		pButton->ClearData();
+		for (uint32_t k = 0; k < count; k++)
+		{
+			CString szTemp;
+			szTemp.Format("Dosierung: %u", k+1);
+			pButton->AddItem(szTemp);
+		}
 		auto pView = GetActiveView();
 		if (pView)
 		{

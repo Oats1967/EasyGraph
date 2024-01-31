@@ -56,7 +56,8 @@ protected:  // Eingebettete Member der Steuerleiste
 	int32_t			  m_ActiveLine;
 
 private:
-	int				  m_nColorTheme = 0;
+	int				  m_nActiveLine = 0;
+	int				  m_nActiveFeeder = 0;
 	BOOL			  m_bIsDarkTheme = FALSE;
 
 
@@ -66,6 +67,7 @@ protected:
 	afx_msg void OnWindowManager();
 	afx_msg void OnViewCustomize();
 	afx_msg void OnLineCombo();
+	afx_msg void OnDoseSelectCombo();
 
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 	afx_msg void OnApplicationLook(UINT id);
@@ -80,7 +82,7 @@ protected:
 public:
 	int	GetColorTheme() const
 	{
-		return m_nColorTheme;
+		return m_nActiveLine;
 	}
 
 	BOOL IsDarkTheme() const

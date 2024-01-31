@@ -87,16 +87,28 @@
     <ClInclude Include="VirtualSeries.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="MassflowChart.h">
-      <Filter>Headerdateien\Charts</Filter>
-    </ClInclude>
-    <ClInclude Include="TotalizerView.h">
-      <Filter>Headerdateien\Charts</Filter>
-    </ClInclude>
-    <ClInclude Include="SetpointChart.h">
-      <Filter>Headerdateien\Charts</Filter>
-    </ClInclude>
     <ClInclude Include="ChartLineView.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartMassflow.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartNetweight.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartSetpoint.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartTotalizer.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartDriveCommand.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartDoseperformance.h">
+      <Filter>Headerdateien\Charts</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartRotSpeed.h">
       <Filter>Headerdateien\Charts</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,16 +155,28 @@
     <ClCompile Include="VirtualSeries.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="SetpointChart.cpp">
-      <Filter>Quelldateien\Charts</Filter>
-    </ClCompile>
-    <ClCompile Include="MassflowChart.cpp">
-      <Filter>Quelldateien\Charts</Filter>
-    </ClCompile>
-    <ClCompile Include="TotalizerView.cpp">
+    <ClCompile Include="ChartDriveCommand.cpp">
       <Filter>Quelldateien\Charts</Filter>
     </ClCompile>
     <ClCompile Include="ChartLineView.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartMassflow.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartNetweight.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartSetpoint.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartTotalizer.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartDoseperformance.cpp">
+      <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartRotSpeed.cpp">
       <Filter>Quelldateien\Charts</Filter>
     </ClCompile>
   </ItemGroup>

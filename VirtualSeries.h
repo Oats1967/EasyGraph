@@ -12,6 +12,7 @@ public:
 	CVirtualSeries(CBCGPChartVisualObject* pChart) : CBCGPChartLineSeries(pChart)
 	{
 		pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
+		SetCurveType(BCGPChartFormatSeries::CCT_LINE);
 	}
 
 	/// Sample data creation

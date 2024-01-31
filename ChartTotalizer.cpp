@@ -10,12 +10,12 @@
 // of the accompanying license agreement.
 //*******************************************************************************
 //
-// TotalizerView.cpp : implementation file
+// ChartTotalizer.cpp : implementation file
 //
 
 #include "pch.h"
 #include "wmuser.h"
-#include "TotalizerView.h"
+#include "ChartTotalizer.h"
 #include "ConfigItem.h"
 #include "global.h"
 #include "StringConvert.h"
@@ -29,26 +29,26 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 /////////////////////////////////////////////////////////////////////////////
-// CTotalizerView
+// CChartTotalizer
 
-IMPLEMENT_DYNCREATE(CTotalizerView, CEasyGraphView)
+IMPLEMENT_DYNCREATE(CChartTotalizer, CEasyGraphView)
 
-CTotalizerView::CTotalizerView()
-	: CEasyGraphView(CTotalizerView::IDD)
+CChartTotalizer::CChartTotalizer()
+	: CEasyGraphView(CChartTotalizer::IDD)
 	, m_KeySelected (0)
 {
-	//{{AFX_DATA_INIT(CTotalizerView)
+	//{{AFX_DATA_INIT(CChartTotalizer)
 
 }
 
-CTotalizerView::~CTotalizerView()
+CChartTotalizer::~CChartTotalizer()
 {
 }
 
-void CTotalizerView::DoDataExchange(CDataExchange* pDX)
+void CChartTotalizer::DoDataExchange(CDataExchange* pDX)
 {
 	CEasyGraphView::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CTotalizerView)
+	//{{AFX_DATA_MAP(CChartTotalizer)
 	DDX_Control(pDX, IDC_TOTALIZER, m_wndChart);
 	DDX_Control(pDX, IDC_TOTALIZER_LINE, m_LineWnd);
 	DDX_Control(pDX, IDC_TOTALIZER_DATE, m_DateWnd);
@@ -62,31 +62,31 @@ void CTotalizerView::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CTotalizerView, CEasyGraphView)
-	//{{AFX_MSG_MAP(CTotalizerView)
+BEGIN_MESSAGE_MAP(CChartTotalizer, CEasyGraphView)
+	//{{AFX_MSG_MAP(CChartTotalizer)
 	ON_MESSAGE(WM_NEWDATE, OnNewDate)
 	ON_CBN_SELENDOK(IDC_TOTALIZER_KEYSELECT, OnKeySelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CTotalizerView diagnostics
+// CChartTotalizer diagnostics
 
 #ifdef _DEBUG
-void CTotalizerView::AssertValid() const
+void CChartTotalizer::AssertValid() const
 {
 	CEasyGraphView::AssertValid();
 }
 
-void CTotalizerView::Dump(CDumpContext& dc) const
+void CChartTotalizer::Dump(CDumpContext& dc) const
 {
 	CEasyGraphView::Dump(dc);
 }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
-// CTotalizerView message handlers
-void CTotalizerView::SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/)
+// CChartTotalizer message handlers
+void CChartTotalizer::SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/)
 {
 	ASSERT_VALID(pComboBox);
 
@@ -101,7 +101,7 @@ void CTotalizerView::SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/)
 }
 
 
-void CTotalizerView::OnInitialUpdate() 
+void CChartTotalizer::OnInitialUpdate() 
 {
 	CEasyGraphView::OnInitialUpdate();
 	
@@ -138,7 +138,7 @@ void CTotalizerView::OnInitialUpdate()
 	SendMessage(WM_NEWDATE);
 }
 
-void CTotalizerView::OnUpdateChart()
+void CChartTotalizer::OnUpdateChart()
 {
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -176,7 +176,7 @@ void CTotalizerView::OnUpdateChart()
 }
 
 
-LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
+LRESULT CChartTotalizer::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
 	UpdateData();
 
@@ -245,13 +245,13 @@ LRESULT CTotalizerView::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 
 
-void CTotalizerView::OnKeySelect()
+void CChartTotalizer::OnKeySelect()
 {
 	auto m_KeySelect = m_KeySelectWnd.GetCurSel();
 	SendMessage(WM_NEWDATE);
 }
 
-void CTotalizerView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
+void CChartTotalizer::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
 {
 	// TODO: Fügen Sie hier Ihren spezialisierten Code ein, und/oder rufen Sie die Basisklasse auf.
 	if ( bActivate )

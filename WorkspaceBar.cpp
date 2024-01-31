@@ -20,9 +20,13 @@
 //#include "MainFrm.h"
 #include "EasyGraphView.h"
 #include "ChartLineView.h"
-#include "TotalizerView.h"
-#include "MassflowChart.h"
-#include "SetpointChart.h"
+#include "ChartTotalizer.h"
+#include "ChartMassflow.h"
+#include "ChartSetpoint.h"
+#include "ChartNetweight.h"
+#include "ChartDriveCommand.h"
+#include "ChartDoseperformance.h"
+#include "ChartRotSpeed.h"
 #include "GroupView.h"
 
 #ifdef _DEBUG
@@ -73,13 +77,13 @@ static CBCGPMultiViewData groups[] =
 // CWorkspaceBar message handlers
 static CDemoFeature features[] =
 {
-	CDemoFeature(0, CDemoFeature::BCGP_Massflow, _T("Durchsatz"), RUNTIME_CLASS(CMassflowChart)),
-	CDemoFeature(0, CDemoFeature::BCGP_Setpoint, _T("Sollwert"), RUNTIME_CLASS(CSetpointChart)),
-	CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, _T("Stellbefehl"), RUNTIME_CLASS(CChartLineView)),
-	CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, _T("Drehzahl"), RUNTIME_CLASS(CChartLineView)),
-	CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, _T("Dosierperformanz"), RUNTIME_CLASS(CChartLineView)),
-	CDemoFeature(0, CDemoFeature::BCGP_Weight, _T("Gewicht"), RUNTIME_CLASS(CChartLineView)),
-	CDemoFeature(1, CDemoFeature::BCGP_Statistics, _T("Totalisator"), RUNTIME_CLASS(CTotalizerView)),
+	CDemoFeature(0, CDemoFeature::BCGP_Massflow, _T("Durchsatz"), RUNTIME_CLASS(CChartMassflow)),
+	CDemoFeature(0, CDemoFeature::BCGP_Setpoint, _T("Sollwert"), RUNTIME_CLASS(CChartSetpoint)),
+	CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, _T("Stellbefehl"), RUNTIME_CLASS(CChartDriveCommand)),
+	CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, _T("Drehzahl"), RUNTIME_CLASS(CChartRotSpeed)),
+	CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, _T("Dosierperformanz"), RUNTIME_CLASS(CChartDoseperformance)),
+	CDemoFeature(0, CDemoFeature::BCGP_Weight, _T("Gewicht"), RUNTIME_CLASS(CChartNetweight)),
+	CDemoFeature(1, CDemoFeature::BCGP_Statistics, _T("Totalisator"), RUNTIME_CLASS(CChartTotalizer)),
 };
 
 

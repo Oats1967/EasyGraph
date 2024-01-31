@@ -334,7 +334,6 @@ void CEasyGraphView::SetDefaultLineWidth()
 
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 		style.SetSeriesLineWidth(theConfig.GetDefaultLineWidth());
-		style.m_curveType = BCGPChartFormatSeries::CCT_SPLINE;
 		pSeries->SetSeriesFormat(style);
 	}
 }

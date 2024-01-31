@@ -3,22 +3,25 @@
 #include "ChartLineView.h"
 
 
-class CMassflowChart : public CChartLineView
+class CChartMassflow : public CChartLineView
 {
 protected:
-	CMassflowChart() : CChartLineView() 
+	CChartMassflow() : CChartLineView() 
 	{}
 	// protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CMassflowChart)
+	DECLARE_DYNCREATE(CChartMassflow)
 
 public:
 	const base::eMassflowSelect GetSelection() const override
 	{	return base::eMassflowSelect::eVIEWMASSFLOW;	}
 
+	const CString GetTitle() const override
+	{	return CString("Durchsatz");	}
+
 
 	// Implementation
 protected:
-	virtual ~CMassflowChart() {}
+	virtual ~CChartMassflow() {}
 
 //	DECLARE_MESSAGE_MAP()
 };

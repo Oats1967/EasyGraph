@@ -186,7 +186,14 @@
   <ItemGroup>
     <ClInclude Include="BCGPChartExampleView.h" />
     <ClInclude Include="CalendarBar.h" />
+    <ClInclude Include="ChartDoseperformance.h" />
+    <ClInclude Include="ChartDriveCommand.h" />
     <ClInclude Include="ChartLineView.h" />
+    <ClInclude Include="ChartMassflow.h" />
+    <ClInclude Include="ChartNetweight.h" />
+    <ClInclude Include="ChartRotSpeed.h" />
+    <ClInclude Include="ChartSetpoint.h" />
+    <ClInclude Include="ChartTotalizer.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="EasyGraph.h" />
     <ClInclude Include="EasyGraphDoc.h" />
@@ -196,16 +203,13 @@
     <ClInclude Include="global.h" />
     <ClInclude Include="GroupView.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="MassflowChart.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SetpointChart.h" />
     <ClInclude Include="SplashWindow.h" />
     <ClInclude Include="Statistics.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TotalizerView.h" />
     <ClInclude Include="ViewTree.h" />
     <ClInclude Include="VirtualSeries.h" />
     <ClInclude Include="wmuser.h" />
@@ -213,13 +217,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CalendarBar.cpp" />
+    <ClCompile Include="ChartDoseperformance.cpp" />
+    <ClCompile Include="ChartDriveCommand.cpp" />
     <ClCompile Include="ChartLineView.cpp" />
+    <ClCompile Include="ChartMassflow.cpp" />
+    <ClCompile Include="ChartNetweight.cpp" />
+    <ClCompile Include="ChartRotSpeed.cpp" />
+    <ClCompile Include="ChartSetpoint.cpp" />
+    <ClCompile Include="ChartTotalizer.cpp" />
     <ClCompile Include="EasyGraph.cpp" />
     <ClCompile Include="EasyGraphDoc.cpp" />
     <ClCompile Include="EasyGraphView.cpp" />
     <ClCompile Include="GroupView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="MassflowChart.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -228,10 +238,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp" />
-    <ClCompile Include="SetpointChart.cpp" />
     <ClCompile Include="SplashWindow.cpp" />
     <ClCompile Include="Statistics.cpp" />
-    <ClCompile Include="TotalizerView.cpp" />
     <ClCompile Include="ViewTree.cpp" />
     <ClCompile Include="VirtualSeries.cpp" />
     <ClCompile Include="WorkspaceBar.cpp" />

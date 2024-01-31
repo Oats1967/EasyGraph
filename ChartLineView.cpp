@@ -56,6 +56,8 @@ void CChartLineView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHART, m_wndChart);
 	DDX_Control(pDX, IDC_CHART_LINE, m_LineWnd);
 	DDX_Control(pDX, IDC_CHART_DATE, m_DateWnd);
+	CBCGPComboBox	m_KeySelectWnd;
+
 	DDX_Text(pDX, IDC_CHART_LINE, m_szLine);
 	DDX_Text(pDX, IDC_CHART_DATE, m_szDate);
 
@@ -158,15 +160,31 @@ void CChartLineView::OnUpdateChart()
 	//pChart->ShowAxisIntervalInterlacing(BCGP_CHART_X_PRIMARY_AXIS);
 	pChart->SetLegendPosition(BCGPChartLayout::LP_NONE);
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
-	pChart->SetCurveType(BCGPChartFormatSeries::CCT_SPLINE);
+	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
+	pChart->SetChartTitle(GetTitle());
 
-	auto pSeries = new CVirtualSeries(pChart);
-	pSeries->CreateData(GetSelection(), 0);
 
-	int32_t nDataPoints = pSeries->GetDataPointCount();
+	std::vector< CVirtualSeries*> pVec;
+	if (g_Statistics.GetActiveFeeder() < 0)
+	{
+		for (int32_t k = 0; k < g_Statistics.GetFeederCount(); k++)
+		{
+			auto pSeries = new CVirtualSeries(pChart);
+			pSeries->CreateData(GetSelection(), k);
+			pVec.push_back(pSeries);
+		}
+	}
+	else
+	{
+		auto pSeries = new CVirtualSeries(pChart);
+		pSeries->CreateData(GetSelection(), g_Statistics.GetActiveFeeder());
+		pVec.push_back(pSeries);
+	}
 
-	double dblMaxVal = 0;
-	double dblVal = 0;
+	//int32_t nDataPoints = pSeries->GetDataPointCount();
+
+	//double dblMaxVal = 0;
+	//double dblVal = 0;
 
 	CBCGPChartAxis* pAxisX = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
 	CBCGPChartAxis* pAxisY = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
@@ -183,8 +201,11 @@ void CChartLineView::OnUpdateChart()
 	//pAxisX->UseApproximation(FALSE);
 	//pAxisX->SetFixedDisplayRange(pSeries->GetFirstDate(), pSeries->GetLastDate());
 	pAxisX->m_axisLabelsFormat.m_textFormat.SetDrawingAngle(90);
-	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
-	pChart->AddSeries(pSeries);
+
+	for (auto& rItem : pVec)
+	{
+		pChart->AddSeries(rItem);
+	}
 
 #if 0
 	pSeries->SetChartType(BCGPChartLine);
@@ -293,7 +314,7 @@ void CChartLineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView*
 
 	if (bActivate)
 	{
-		m_wndChart.SetFocus();
+		PostMessage(WM_NEWDATE);
 	}
 }
 
@@ -516,15 +537,12 @@ CBCGPChartAxis* CChartLineView::GetChartAxis(BOOL bIsHorizontal)
 
 LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
+	m_szLine = g_Statistics.GetHeaderLine();
+	m_szDate = g_Statistics.GetHeaderDateTime();
+
 	OnUpdateChartCategory();
 	OnUpdateChart();
 	OnUpdateZoom();
 	SetDefaultLineWidth();
-
-	m_szLine = g_Statistics.GetHeaderLine();
-	m_szDate = g_Statistics.GetHeaderDateTime();
-
-	UpdateData(FALSE);
-
 	return 0L;
 }

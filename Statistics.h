@@ -28,12 +28,16 @@ class CStatistics
 
 	DateToShow					  m_DateToShow;
 	int32_t						  m_ActiveLine;
+	int32_t						  m_ActiveFeeder;
+	uint32_t				      m_FeederCount;
 	base::eMassflowSelect		  m_DoseSelect;
 
 private:
 	void GetQMNUmbers(void);
 	void CalcTotalizerFeeder(void);
 	void CalcTotalizerQMNUmber(void);
+	void CalcFeederCount(void);
+
 
 public:
     BOOL LoadRectItemList();
@@ -44,8 +48,10 @@ public:
 	SETGET(const CTotalizerMap&, QMTotalizerMap);
 	SETGET(const CTotalizerMap&, FeederTotalizerMap);
 	SETGET(const int32_t, ActiveLine)
+	SETGET(const int32_t, ActiveFeeder)
 	SETGET(const base::eMassflowSelect, DoseSelect)
 	SETGET(const base::utils::CRecItemList&, RecDaysList);
+	SETGET(const uint32_t, FeederCount);
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;

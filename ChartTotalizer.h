@@ -13,11 +13,11 @@
 // of the accompanying license agreement.
 //*******************************************************************************
 //
-// TotalizerView.h : header file
+// ChartTotalizer.h : header file
 //
 
 /////////////////////////////////////////////////////////////////////////////
-// CTotalizerView form view
+// CChartTotalizer form view
 
 #ifndef __AFXEXT_H__
 #include <afxext.h>
@@ -28,11 +28,11 @@
 #include "resource.h"
 
 
-class CTotalizerView : public CEasyGraphView
+class CChartTotalizer : public CEasyGraphView
 {
 protected:
-	CTotalizerView();           // protected constructor used by dynamic creation
-	DECLARE_DYNCREATE(CTotalizerView)
+	CChartTotalizer();           // protected constructor used by dynamic creation
+	DECLARE_DYNCREATE(CChartTotalizer)
 
 private:
 	void SetupSelectCombo(CComboBox* pComboBox, int nSel /*= -1*/);
@@ -40,7 +40,7 @@ private:
 
 // Form Data
 public:
-	//{{AFX_DATA(CTotalizerView)
+	//{{AFX_DATA(CChartTotalizer)
 	enum { IDD = IDD_TOTALIZER };
 	CBCGPChartCtrl	m_wndChart;
 #if 0
@@ -70,7 +70,7 @@ public:
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTotalizerView)
+	//{{AFX_VIRTUAL(CChartTotalizer)
 	public:
 	virtual void OnInitialUpdate();
 	protected:
@@ -89,7 +89,7 @@ public:
 
 // Implementation
 protected:
-	virtual ~CTotalizerView();
+	virtual ~CChartTotalizer();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -98,7 +98,7 @@ protected:
 	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 
 	// Generated message map functions
-	//{{AFX_MSG(CTotalizerView)
+	//{{AFX_MSG(CChartTotalizer)
 	afx_msg void OnUpdateChart();
 	afx_msg void OnKeySelect();
 	//}}AFX_MSG

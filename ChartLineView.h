@@ -69,6 +69,9 @@ protected:
 	virtual const base::eMassflowSelect GetSelection() const
 	{ return base::eMassflowSelect::eVIEWMAX;	}
 
+	virtual const CString GetTitle() const
+	{	return CString("EasyGraph");	}
+
 protected:
 	virtual ~CChartLineView();
 	CBCGPChartAxis* GetChartAxis(BOOL bIsHorizontal);

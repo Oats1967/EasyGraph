@@ -5,6 +5,23 @@
 
 CStatistics g_Statistics;
 
+
+void CStatistics::CalcFeederCount() 
+{
+	const uint32_t count = m_RecDaysList.GetCount();
+	uint32_t maxItems = 0;
+	for (uint32_t index = 0; index < count; index++)
+	{
+		const auto& rItem = m_RecDaysList.GetItem(index);
+		const auto rMax = rItem.GetMaxItems();
+		if (rMax > maxItems)
+		{
+			maxItems = rMax;
+		}
+	}
+	m_FeederCount = maxItems;
+}
+
 BOOL CStatistics::LoadRectItemList()
 {
 	BOOL result = FALSE;
@@ -38,6 +55,7 @@ BOOL CStatistics::LoadRectItemList()
 		}
 		CalcTotalizerQMNUmber();
 		CalcTotalizerFeeder();
+		CalcFeederCount();
 		result = TRUE;
 	}
 	return result;
