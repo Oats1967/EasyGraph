@@ -32,6 +32,8 @@ public:
 			auto szTime = dtTime.Format("%d.%m.%y %H:%M:%S");
 			AddDataPoint(szTime, rItem.Get(select, index));
 		}
+		m_strSeriesName = "Dosierung";
+
 	}
 
 

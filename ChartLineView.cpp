@@ -37,7 +37,7 @@ CChartLineView::CChartLineView()
 	m_nZoomType = 0;
 	m_strInfo = _T("");
 	m_nChartCategory = 0;
-	m_bExternalScrollBar = TRUE;
+	m_bExternalScrollBar = FALSE;
 	//}}AFX_DATA_INIT
 
 	m_bInScroll = FALSE;
@@ -139,10 +139,41 @@ void CChartLineView::OnInitialUpdate()
 	OnUpdateChart();
 	OnUpdateZoom();
 	OnExternalScrollbar();
-
-	SetDefaultLineWidth();
-
 	m_wndChart.SetFocus();
+}
+
+
+CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect select, const int32_t index)
+{
+	CBCGPChartSeries* pSeries = nullptr;
+
+	const auto& rRecDayList = g_Statistics.GetRecDaysList();
+	int32_t nDataPointCount = rRecDayList.GetCount();
+	if (nDataPointCount > 0)
+	{
+		CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+		ASSERT_VALID(pChart);
+
+		CString szFormat;
+		szFormat.Format("Dosierung : % d", index+1);
+
+		pSeries = pChart->CreateSeries(szFormat);
+		if (pSeries)
+		{
+			const auto& cTimeSpan = g_Statistics.GetDateToShow();
+			COleDateTime dtStartTime{ cTimeSpan.dateStart };
+
+			for (int i = 0; i < nDataPointCount; i++)
+			{
+				const auto& rItem = rRecDayList.GetItem(i);
+
+				COleDateTime dtTime{ rItem.GetTime() };
+				auto szTime = dtTime.Format("%d.%m.%y %H:%M:%S");
+				pSeries->AddDataPoint(szTime, rItem.Get(select, index));
+			}
+		}
+	}
+	return pSeries;
 }
 
 
@@ -151,35 +182,31 @@ void CChartLineView::OnUpdateChart()
 {
 	CWaitCursor wait;
 
-	UpdateData();
+	//UpdateData();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
-	pChart->CleanUpChartData ();
-	//pChart->ShowAxisIntervalInterlacing(BCGP_CHART_X_PRIMARY_AXIS);
-	pChart->SetLegendPosition(BCGPChartLayout::LP_NONE);
-	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
-	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
-	pChart->SetChartTitle(GetTitle());
-
-
-	std::vector< CVirtualSeries*> pVec;
+	pChart->CleanUpChartData(-1, TRUE);
 	if (g_Statistics.GetActiveFeeder() < 0)
 	{
 		for (int32_t k = 0; k < g_Statistics.GetFeederCount(); k++)
 		{
-			auto pSeries = new CVirtualSeries(pChart);
-			pSeries->CreateData(GetSelection(), k);
-			pVec.push_back(pSeries);
+			CreateSeries(GetSelection(), k);
 		}
 	}
 	else
 	{
-		auto pSeries = new CVirtualSeries(pChart);
-		pSeries->CreateData(GetSelection(), g_Statistics.GetActiveFeeder());
-		pVec.push_back(pSeries);
+		CreateSeries(GetSelection(), g_Statistics.GetActiveFeeder());
 	}
+	SetDefaultLineWidth();
+
+	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
+	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
+	pChart->SetChartTitle(GetTitle());
+	//pChart->ShowAxisIntervalInterlacing(BCGP_CHART_X_PRIMARY_AXIS, FALSE);
+	//pChart->ShowAxisIntervalInterlacing(BCGP_CHART_Y_PRIMARY_AXIS);
+	pChart->ShowDataLabels(FALSE);
 
 	//int32_t nDataPoints = pSeries->GetDataPointCount();
 
@@ -187,9 +214,9 @@ void CChartLineView::OnUpdateChart()
 	//double dblVal = 0;
 
 	CBCGPChartAxis* pAxisX = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
-	CBCGPChartAxis* pAxisY = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
 
 #if 0
+	CBCGPChartAxis* pAxisY = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
 	CString strLabel;
 	pAxisY->GetDisplayedLabel(dblMaxVal, strLabel);
  	pAxisY->m_strMaxDisplayedLabel = strLabel;
@@ -201,27 +228,41 @@ void CChartLineView::OnUpdateChart()
 	//pAxisX->UseApproximation(FALSE);
 	//pAxisX->SetFixedDisplayRange(pSeries->GetFirstDate(), pSeries->GetLastDate());
 	pAxisX->m_axisLabelsFormat.m_textFormat.SetDrawingAngle(90);
-
+#if 0
 	for (auto& rItem : pVec)
 	{
 		pChart->AddSeries(rItem);
 	}
+	pVec.clear();
+	auto c = pChart->GetSeriesCount();
+	if (c > 0)
+	{
+		auto pSeries = pChart->GetSeries(0);
+		uint32_t dp = pSeries->GetDataPointCount();
+	}
 
-#if 0
+
 	pSeries->SetChartType(BCGPChartLine);
 	auto format = pSeries->GetSeriesFormat();
 	format.m_curveType = BCGPChartFormatSeries::CCT_LINE;
 	pSeries->SetSeriesFormat(format);
 #endif
-	pChart->SetDirty(TRUE, TRUE);
+	pChart->SetThemeOpacity(100);
+	pChart->SetDirty(TRUE, FALSE);
+
+	//pChart->EnableLegendCustomPosition(FALSE); // clear custom state
+	pChart->SetLegendPosition(BCGPChartLayout::LegendPosition::LP_BOTTOM);
+	pChart->EnableDrawLegendShape(FALSE);
+
 	UpdateScrollBars();
+	pChart->Redraw();
 
 	m_wndChart.SetFocus();
 }
 
 void CChartLineView::OnUpdateChartCategory()
 {
-	UpdateData();
+	//UpdateData();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -276,16 +317,18 @@ void CChartLineView::OnUpdateChartCategory()
 	pAxisY->SetScrollRange(dblMinScrollValueY, dblMaxScrollValueY);
 	pAxisY->SetFixedDisplayRange(dblMinDisplayedValueY, dblMaxDisplayedValueY);
 
-	pChart->SetDirty(TRUE, TRUE);
+	pChart->SetDirty(TRUE, false);
 
 	UpdateScrollBars();
+
+	pChart->Redraw();
 
 	m_wndChart.SetFocus();
 }
 
 void CChartLineView::OnUpdateZoom() 
 {
-	UpdateData();
+	//UpdateData();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -304,7 +347,6 @@ void CChartLineView::OnUpdateZoom()
 		break;
 	}
 
-	UpdateData(FALSE);
 	m_wndChart.SetFocus();
 }
 
@@ -342,7 +384,7 @@ LRESULT CChartLineView::OnAxisZoomed(WPARAM /*wp*/, LPARAM /*lp*/)
 
 void CChartLineView::OnExternalScrollbar() 
 {
-	UpdateData();
+	//UpdateData();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -511,6 +553,7 @@ void CChartLineView::DoScroll(CBCGPScrollBar& wndScrollBar, UINT nSBCode)
 	pAxis->ScrollTo(dScrollValue);
 
 	pChart->SetDirty(TRUE, TRUE);
+
 	
 	m_bInScroll = FALSE;
 }
@@ -539,10 +582,9 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
 	m_szLine = g_Statistics.GetHeaderLine();
 	m_szDate = g_Statistics.GetHeaderDateTime();
-
 	OnUpdateChartCategory();
 	OnUpdateChart();
 	OnUpdateZoom();
-	SetDefaultLineWidth();
+	UpdateData(FALSE);
 	return 0L;
 }

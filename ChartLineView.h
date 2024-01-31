@@ -52,6 +52,9 @@ public:
 		return FALSE;
 	}
 
+
+	CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
+
 // Operations
 public:
 

@@ -19,7 +19,7 @@
 
 struct ConfigItem
 {
-	int32_t m_DefaultLineWidth = 1;
+	int32_t m_DefaultLineWidth = 2;
 	double m_dblThumbnailFontRatio = 0.3;
 
 	CBCGPChartTheme		m_CustomColorTheme;

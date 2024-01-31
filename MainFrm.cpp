@@ -100,7 +100,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.ReplaceButton(ID_TOOLBAR_VIEW,
 		CBCGPToolbarMenuButton((UINT)-1, menuView.Detach(), -1, _T("&View")));
 
-	m_wndToolBar.ReplaceButton(ID_COLOR_LABEL, CBCGPToolbarLabel(ID_COLOR_LABEL, _T("Color theme:")));
+	m_wndToolBar.ReplaceButton(ID_COLOR_LABEL, CBCGPToolbarLabel(ID_COLOR_LABEL, _T("Linie:")));
 
 	{
 		CBCGPToolbarComboBoxButton comboTheme(ID_COLOR_THEME_COMBO,
@@ -109,7 +109,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #else
 			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
 #endif
-			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
+			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
 		auto& rList = g_Statistics.GetLineGraphConfig().m_field;
 		for (auto& rItem : rList)
@@ -127,7 +127,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #else
 			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
 #endif
-			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150, this));
+			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
 		CString szTemp;
 		szTemp.Format("Dosierung: all");
@@ -193,7 +193,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
-
+	RecalcLayout();
 	return 0;
 }
 #else
