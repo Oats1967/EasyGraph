@@ -17,7 +17,6 @@
 #include "ChartLineView.h"
 #include "wmuser.h"
 #include "Statistics.h"
-#include "VirtualSeries.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -32,12 +31,13 @@ IMPLEMENT_DYNCREATE(CChartLineView, CEasyGraphView)
 
 CChartLineView::CChartLineView()
 	: CEasyGraphView(CChartLineView::IDD)
-	, m_LineColor{ CBCGPColor::BCGP_COLOR::AliceBlue }
+	, m_LineColor{ CBCGPColor::BCGP_COLOR::Blue }
+	, m_nChartCategory{ BCGPChartCategory::BCGPChartLine }
 {
 	//{{AFX_DATA_INIT(CChartLineView)
 	m_nZoomType = 0;
 	m_strInfo = _T("");
-	m_nChartCategory = 0;
+	
 	m_bExternalScrollBar = FALSE;
 	//}}AFX_DATA_INIT
 
@@ -158,7 +158,7 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 		CString szFormat;
 		szFormat.Format("Dosierung : % d", index+1);
 
-		pSeries = pChart->CreateSeries(szFormat);
+		pSeries = pChart->CreateSeries(szFormat, CBCGPColor(), BCGPChartType::BCGP_CT_SIMPLE, m_nChartCategory);
 		if (pSeries)
 		{
 			const auto& cTimeSpan = g_Statistics.GetDateToShow();
@@ -268,7 +268,7 @@ void CChartLineView::OnUpdateChartCategory()
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
-	
+#if 0	
 	BCGPChartCategory category = BCGPChartLine;
 	switch(m_nChartCategory)
 	{
@@ -292,7 +292,7 @@ void CChartLineView::OnUpdateChartCategory()
 		category = BCGPChartHistogram;
 		break;
 	}
-
+#endif
 	CBCGPChartAxis* pAxisX = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
 	CBCGPChartAxis* pAxisY = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
 
@@ -307,7 +307,7 @@ void CChartLineView::OnUpdateChartCategory()
 	const double dblMinScrollValueY = pAxisY->GetMinScrollValue();
 	const double dblMaxScrollValueY = pAxisY->GetMaxScrollValue();
 
-	pChart->SetChartType(category, BCGP_CT_SIMPLE, FALSE, FALSE);
+	pChart->SetChartType(m_nChartCategory, BCGP_CT_SIMPLE, FALSE, FALSE);
 
 	if (bIsFixedIntervalWidth)
 	{
@@ -601,3 +601,13 @@ void CChartLineView::OnSetLineColor(const CBCGPColor& rColor)
 	ASSERT_VALID(pChart);
 	pChart->Redraw();
 }
+
+void CChartLineView::OnSetCategory(const BCGPChartCategory& rCategory)
+{
+	m_nChartCategory = rCategory;
+	//OnUpdateChartCategory();
+	OnUpdateChart();
+	OnUpdateZoom();
+	UpdateData(FALSE);
+}
+

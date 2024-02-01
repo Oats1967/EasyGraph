@@ -128,9 +128,6 @@
     <ClCompile Include="ViewTree.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="OutputWnd.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -150,9 +147,6 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GroupView.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="VirtualSeries.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="ChartDriveCommand.cpp">

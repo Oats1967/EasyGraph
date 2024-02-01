@@ -3,7 +3,6 @@
 //#include "pch.h"
 #include "EasyGraphDoc.h"
 #include "EasyGraphView.h"
-#include "VirtualSeries.h"
 #include "Statistics.h"
 #include "resource.h"
 
@@ -29,7 +28,7 @@ protected:
 
 	int		 m_nZoomType;
 	CString	 m_strInfo;
-	int		 m_nChartCategory;
+	BCGPChartCategory m_nChartCategory;
 	BOOL	 m_bExternalScrollBar;
 	BOOL	 m_bInScroll;
 	CBCGPColor m_LineColor;
@@ -71,6 +70,8 @@ protected:
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
 	virtual void SetupLayout();
 	virtual void OnSetLineColor(const CBCGPColor& rColor) override;
+	virtual void OnSetCategory(const BCGPChartCategory&) override;
+
 
 
 	virtual const base::eMassflowSelect GetSelection() const

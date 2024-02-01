@@ -255,7 +255,22 @@ void CPropertiesWnd::InitPropList()
 	pColorProp->EnableOtherButton(_T("Andere..."));
 	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
 	pGroup1->AddSubItem(pColorProp);
-	m_LinienColorPos = m_wndPropList.AddProperty(pGroup1);
+
+	CMFCPropertyGridProperty* pCategoryProp = new CMFCPropertyGridProperty(_T("Kategorie"), _T("Linientyp"), _T("Eine der folgenden Optionen: 'Linie', 'Fläche"));
+	pCategoryProp->AddOption(_T("Linie"));
+
+	pCategoryProp->AddOption(_T("Flaeche"));
+	pCategoryProp->AllowEdit(FALSE);
+	pGroup1->AddSubItem(pCategoryProp);
+
+	CMFCPropertyGridProperty* pLineWidthProp = new CMFCPropertyGridProperty(_T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	pLineWidthProp->AddOption(_T("1"));
+	pLineWidthProp->AddOption(_T("2"));
+	pLineWidthProp->AddOption(_T("3"));
+	pLineWidthProp->AllowEdit(TRUE);
+	pGroup1->AddSubItem(pLineWidthProp);
+
+	m_wndPropList.AddProperty(pGroup1);
 
 #if 0
 	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
@@ -376,7 +391,31 @@ LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam
 		AfxGetMainWnd()->SendMessage(WM_LINECOLOR, WPARAM(color));
 
 	}
-	else
+	else if (str == "Kategorie")
+	{
+		auto val = pProp->GetValue();
+		LPVARIANT pVar = (LPVARIANT)val;
+		ASSERT(pVar->vt == VT_BSTR);
+
+		CString str1{ pVar->bstrVal };
+		if (str1 == "Linie")
+		{
+			AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(BCGPChartCategory::BCGPChartLine));
+		}
+		else if (str1 == "Flaeche")
+		{
+			AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(BCGPChartCategory::BCGPChartArea));
+		}
+	}
+	else if (str == "Linienstaerke")
+	{
+		auto val = pProp->GetValue();
+		LPVARIANT pVar = (LPVARIANT)val;
+		ASSERT(pVar->vt == VT_BSTR);
+		CString str1{ pVar->bstrVal };
+		int32_t iVal = _ttoi(str1);
+		AfxGetMainWnd()->SendMessage(WM_LINEWIDTH, WPARAM(iVal));
+	}
 	{
 		int pID = pProp->GetData();
 

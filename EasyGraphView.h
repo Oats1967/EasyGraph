@@ -114,6 +114,7 @@ public:
 	virtual void OnChangeBackgroundDarkness() {}
 
 	virtual void OnSetLineColor(const CBCGPColor&) {}
+	virtual void OnSetCategory(const BCGPChartCategory&) {}
 
 	virtual BOOL IsFillGradientAvailable() const
 	{

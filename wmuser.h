@@ -22,4 +22,6 @@
 #define WM_NEWDATE			                    (WM_EASYGRAPH + 1) // Send if application will be closed
 #define WM_SETVIEW			                    (WM_EASYGRAPH + 2) // Send if application will be closed
 #define WM_LINECOLOR			                (WM_EASYGRAPH + 3) // Send if application will be closed
+#define WM_CATEGORY			                    (WM_EASYGRAPH + 4) // Send if application will be closed
+#define WM_LINEWIDTH			                (WM_EASYGRAPH + 5) // Send if application will be closed
 
