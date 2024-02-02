@@ -28,6 +28,7 @@ struct CDemoFeature : public CBCGPMultiViewData
 		BCGP_DosePerformance,
 		BCGP_Weight,
 		BCGP_Table,
+		BCGP_OverallView,
 		BCGP_Statistics,
 	};
 

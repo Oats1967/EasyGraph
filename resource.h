@@ -30,6 +30,7 @@
 #define IDC_TOTALIZER_KEYSELECT         115
 #define IDC_TOTALIZER_LINE              116
 #define IDC_TOTALIZER_TITLE             117
+#define IDC_SCROLLBAR1                  118
 #define IDD_ABOUTBOX                    200
 #define IDD_CHART                       201
 #define IDD_FORM                        202
@@ -129,7 +130,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        13
 #define _APS_NEXT_COMMAND_VALUE         32832
-#define _APS_NEXT_CONTROL_VALUE         118
+#define _APS_NEXT_CONTROL_VALUE         119
 #define _APS_NEXT_SYMED_VALUE           105
 #endif
 #endif

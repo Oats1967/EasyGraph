@@ -15,64 +15,31 @@ protected:
 
 // Form Data
 protected:
-	//{{AFX_DATA(CChartLineView)
 	enum { IDD = IDD_CHART };
-	CBCGPScrollBar	m_wndScrollBarVert;
-	CBCGPScrollBar	m_wndScrollBarHorz;
+
 	CBCGPStatic		m_LineWnd;
 	CBCGPStatic		m_DateWnd;
 	CString			m_szLine;
 	CString			m_szDate;
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
+	const std::array<const CString, base::cMassflowSelectMax> c_SelectString;
 
-	int		 m_nZoomType;
-	CString	 m_strInfo;
-	BCGPChartCategory m_nChartCategory;
-	BOOL	 m_bExternalScrollBar;
-	BOOL	 m_bInScroll;
-	CBCGPColor m_LineColor;
-
-	//}}AFX_DATA
-
-// Attributes
-public:
-
-	virtual CBCGPChartVisualObject* GetChart()
-	{
-		return m_wndChart.GetChart();
-	}
-
-	virtual CBCGPBaseVisualCtrl* GetCtrl()
-	{
-		return &m_wndChart;
-	}
-
-	virtual BOOL IsAnimationAvailable() const
-	{
-		return FALSE;
-	}
-
-
-	CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
-
-// Operations
-public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CChartLineView)
-public:
-	virtual void OnInitialUpdate();
+	int					m_nZoomType;
+	CString				m_strInfo;
+	BCGPChartCategory	m_nChartCategory;
+	BOOL				m_bInScroll;
+	CBCGPColor			m_LineColor;
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView);
-	virtual void SetupLayout();
+	virtual void OnInitialUpdate() override;
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX) override;    // DDX/DDV support
+	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
 	virtual void OnSetLineColor(const CBCGPColor& rColor) override;
 	virtual void OnSetCategory(const BCGPChartCategory&) override;
-
-
+	virtual CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
 
 	virtual const base::eMassflowSelect GetSelection() const
 	{ return base::eMassflowSelect::eVIEWMAX;	}
@@ -80,25 +47,25 @@ protected:
 	virtual const CString GetTitle() const
 	{	return CString("EasyGraph");	}
 
+	virtual void OnUpdateChart();
+	virtual void OnUpdateChartCategory();
+	virtual void OnUpdateZoom();
+	void UpdateScrollBars();
+
 protected:
 	virtual ~CChartLineView();
-	CBCGPChartAxis* GetChartAxis(BOOL bIsHorizontal);
-	void UpdateScrollBars();
-	void DoScroll(CBCGPScrollBar& wndScrollBar, UINT nSBCode);
 
-	// Generated message map functions
-	//{{AFX_MSG(CChartLineView)
-	afx_msg void OnUpdateChart();
-	afx_msg void OnUpdateChartCategory();
-	afx_msg void OnUpdateZoom();
-	afx_msg void OnExternalScrollbar();
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	afx_msg void OnVScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
-	//}}AFX_MSG
-	afx_msg LRESULT OnAxisScrolled(WPARAM wp, LPARAM lp);
-	afx_msg LRESULT OnAxisZoomed(WPARAM wp, LPARAM lp);
+public:
+	virtual CBCGPChartVisualObject* GetChart()
+	{	return m_wndChart.GetChart();	}
+
+	virtual CBCGPBaseVisualCtrl* GetCtrl()
+	{	return &m_wndChart;	}
+
+	virtual BOOL IsAnimationAvailable() const
+	{	return FALSE;	}
+
 	afx_msg LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
-
 	DECLARE_MESSAGE_MAP()
 };
 

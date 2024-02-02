@@ -27,6 +27,7 @@
 #include "ChartDriveCommand.h"
 #include "ChartDoseperformance.h"
 #include "ChartRotSpeed.h"
+#include "ChartCombinedView.h"
 #include "GroupView.h"
 
 #ifdef _DEBUG
@@ -68,7 +69,8 @@ CWorkspaceBar::~CWorkspaceBar()
 
 static CBCGPMultiViewData groups[] =
 {
-	CBCGPMultiViewData(_T("Analyse"), RUNTIME_CLASS(CGroupView)),
+	CBCGPMultiViewData(_T("Einzelanalyse"), RUNTIME_CLASS(CGroupView)),
+	CBCGPMultiViewData(_T("Gesamtanalyse"), RUNTIME_CLASS(CGroupView)),
 	CBCGPMultiViewData(_T("Statistik"), RUNTIME_CLASS(CGroupView)),
 };
 
@@ -83,7 +85,8 @@ static CDemoFeature features[] =
 	CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, _T("Drehzahl"), RUNTIME_CLASS(CChartRotSpeed)),
 	CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, _T("Dosierperformanz"), RUNTIME_CLASS(CChartDoseperformance)),
 	CDemoFeature(0, CDemoFeature::BCGP_Weight, _T("Gewicht"), RUNTIME_CLASS(CChartNetweight)),
-	CDemoFeature(1, CDemoFeature::BCGP_Statistics, _T("Totalisator"), RUNTIME_CLASS(CChartTotalizer)),
+	CDemoFeature(1, CDemoFeature::BCGP_OverallView, _T("Kombinierte Ansicht"), RUNTIME_CLASS(CChartCombinedView)),
+	CDemoFeature(2, CDemoFeature::BCGP_Statistics, _T("Totalisator"), RUNTIME_CLASS(CChartTotalizer)),
 };
 
 

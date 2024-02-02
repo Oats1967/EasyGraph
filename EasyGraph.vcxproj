@@ -185,8 +185,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BCGPChartExampleView.h" />
     <ClInclude Include="CalendarBar.h" />
+    <ClInclude Include="ChartCombinedView.h" />
     <ClInclude Include="ChartDoseperformance.h" />
     <ClInclude Include="ChartDriveCommand.h" />
     <ClInclude Include="ChartLineView.h" />
@@ -196,6 +196,8 @@
     <ClInclude Include="ChartSetpoint.h" />
     <ClInclude Include="ChartTotalizer.h" />
     <ClInclude Include="ChildFrm.h" />
+    <ClInclude Include="CustomChart.h" />
+    <ClInclude Include="CustomYAxis.h" />
     <ClInclude Include="EasyGraph.h" />
     <ClInclude Include="EasyGraphDoc.h" />
     <ClInclude Include="EasyGraphView.h" />
@@ -218,6 +220,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CalendarBar.cpp" />
+    <ClCompile Include="ChartCombinedView.cpp" />
     <ClCompile Include="ChartDoseperformance.cpp" />
     <ClCompile Include="ChartDriveCommand.cpp" />
     <ClCompile Include="ChartLineView.cpp" />
@@ -226,6 +229,8 @@
     <ClCompile Include="ChartRotSpeed.cpp" />
     <ClCompile Include="ChartSetpoint.cpp" />
     <ClCompile Include="ChartTotalizer.cpp" />
+    <ClCompile Include="CustomChart.cpp" />
+    <ClCompile Include="CustomYAxis.cpp" />
     <ClCompile Include="EasyGraph.cpp" />
     <ClCompile Include="EasyGraphDoc.cpp" />
     <ClCompile Include="EasyGraphView.cpp" />
