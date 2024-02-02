@@ -117,6 +117,9 @@
     <ClInclude Include="CustomYAxis.h">
       <Filter>Headerdateien\Charts</Filter>
     </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EasyGraph.cpp">

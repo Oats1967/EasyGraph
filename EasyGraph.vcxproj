@@ -195,6 +195,7 @@
     <ClInclude Include="ChartRotSpeed.h" />
     <ClInclude Include="ChartSetpoint.h" />
     <ClInclude Include="ChartTotalizer.h" />
+    <ClInclude Include="CheckBox.h" />
     <ClInclude Include="ChildFrm.h" />
     <ClInclude Include="CustomChart.h" />
     <ClInclude Include="CustomYAxis.h" />

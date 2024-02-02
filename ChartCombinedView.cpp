@@ -212,15 +212,12 @@ void CChartCombinedView::OnInitialUpdate()
 
 void CChartCombinedView::OnUpdateChart()
 {
-	CWaitCursor wait;
-
-
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
-	pChart->CleanUpChartData(-1, TRUE);
 	if (g_Statistics.GetActiveFeeder() >= 0)
 	{
+		pChart->CleanUpChartData(-1, TRUE);
 		m_pSeries.clear();
 		int32_t iCount = 0;
 		DECLARE_MASSFLOWSELECT(field);

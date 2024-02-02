@@ -6,6 +6,7 @@
 #include "Resource.h"
 #include "MainFrm.h"
 #include "EasyGraph.h"
+#include "CheckBox.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -269,6 +270,9 @@ void CPropertiesWnd::InitPropList()
 	pLineWidthProp->AddOption(_T("3"));
 	pLineWidthProp->AllowEdit(TRUE);
 	pGroup1->AddSubItem(pLineWidthProp);
+
+	auto* pMassflowhProp = new CCheckBoxProp(_T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	pGroup1->AddSubItem(pMassflowhProp);
 
 	m_wndPropList.AddProperty(pGroup1);
 
