@@ -31,11 +31,38 @@ IMPLEMENT_DYNCREATE(CChartLineView, CEasyGraphView)
 
 CChartLineView::CChartLineView()
 	: CEasyGraphView(CChartLineView::IDD)
-#if 0
-	, m_LineColor{ CBCGPColor::BCGP_COLOR::Blue }
-	, m_nChartCategory{ BCGPChartCategory::BCGPChartLine }
-	, m_LineWidth { 1 }
-#endif
+	, c_Colors{ CBCGPColor::BCGP_COLOR::DeepSkyBlue,
+				CBCGPColor::BCGP_COLOR::Gold,
+				CBCGPColor::BCGP_COLOR::Red,
+				CBCGPColor::BCGP_COLOR::Violet,
+				CBCGPColor::BCGP_COLOR::Yellow,
+				CBCGPColor::BCGP_COLOR::Brown,
+				CBCGPColor::BCGP_COLOR::Green,
+				CBCGPColor::BCGP_COLOR::Cornsilk,
+				CBCGPColor::BCGP_COLOR::Cyan,
+				CBCGPColor::BCGP_COLOR::DarkOliveGreen,
+				CBCGPColor::BCGP_COLOR::ForestGreen,
+				CBCGPColor::BCGP_COLOR::Gold,
+				CBCGPColor::BCGP_COLOR::Ivory,
+				CBCGPColor::BCGP_COLOR::LightCyan,
+				CBCGPColor::BCGP_COLOR::MediumOrchid,
+				CBCGPColor::BCGP_COLOR::MediumPurple,
+				CBCGPColor::BCGP_COLOR::MediumSeaGreen,
+				CBCGPColor::BCGP_COLOR::MediumSlateBlue,
+				CBCGPColor::BCGP_COLOR::MediumSpringGreen,
+				CBCGPColor::BCGP_COLOR::MediumTurquoise,
+				CBCGPColor::BCGP_COLOR::Tan,
+				CBCGPColor::BCGP_COLOR::Teal,
+				CBCGPColor::BCGP_COLOR::Thistle,
+				CBCGPColor::BCGP_COLOR::Tomato,
+				CBCGPColor::BCGP_COLOR::Turquoise,
+				CBCGPColor::BCGP_COLOR::DarkSlateGray,
+				CBCGPColor::BCGP_COLOR::DarkGoldenrod,
+				CBCGPColor::BCGP_COLOR::DeepSkyBlue,
+				CBCGPColor::BCGP_COLOR::DimGray,
+				CBCGPColor::BCGP_COLOR::Gainsboro,
+				CBCGPColor::BCGP_COLOR::Indigo,
+				CBCGPColor::BCGP_COLOR::LightCoral }
 {
 	//{{AFX_DATA_INIT(CChartLineView)
 	m_nZoomType = 0;
@@ -182,6 +209,7 @@ void CChartLineView::OnUpdateChart()
 				CString szName;
 				szName.Format("Dosierung : %d", k + 1);
 				pSeries->m_strSeriesName = szName;
+				pSeries->SetSeriesLineColor(CBCGPBrush(c_Colors[k]));
 			}
 		}
 	}
@@ -195,9 +223,8 @@ void CChartLineView::OnUpdateChart()
 			pSeries->m_strSeriesName = szName;
 		}
 	}
-	//SetSeriesLineColor(&m_LineColor, 1);
 
-	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
+	//pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
 	pChart->SetChartTitle(GetTitle());
 	pChart->ShowDataLabels(FALSE);

@@ -27,11 +27,7 @@ protected:
 	int					m_nZoomType;
 	CString				m_strInfo;
 	BOOL				m_bInScroll;
-#if 0
-	BCGPChartCategory	m_nChartCategory;
-	CBCGPColor			m_LineColor;
-	int32_t				m_LineWidth;
-#endif
+	std::array<CBCGPColor::BCGP_COLOR, GLOBALDOSEMAXCOUNT> c_Colors;
 
 protected:
 	virtual void OnInitialUpdate() override;

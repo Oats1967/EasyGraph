@@ -6,6 +6,41 @@
 CStatistics g_Statistics;
 
 
+
+int32_t			   m_LineWidth;
+BOOL			   m_Visible;
+BCGPChartCategory  m_Category;
+CBCGPColor		   m_Color;
+
+void CStatistics::Init()
+{
+	const CBCGPColor::BCGP_COLOR c_Color[base::cMassflowSelectMax] = {
+								CBCGPColor::BCGP_COLOR::Blue,
+								CBCGPColor::BCGP_COLOR::Brown,
+								CBCGPColor::BCGP_COLOR::Orange,
+								CBCGPColor::BCGP_COLOR::Green,
+								CBCGPColor::BCGP_COLOR::Cyan,
+								CBCGPColor::BCGP_COLOR::Magenta,
+								CBCGPColor::BCGP_COLOR::MediumPurple
+	};
+	// Durchsatz
+	for (int32_t k = 0; k < m_LineAttribues.size(); k++)
+	{
+		auto& rAttrib = m_LineAttribues[k];
+		rAttrib.m_Category = BCGPChartCategory::BCGPChartLine;
+		rAttrib.m_Visible = TRUE;
+		rAttrib.m_LineWidth = 1;
+		rAttrib.m_Color = CBCGPColor(c_Color[k]);
+	}
+	m_LineAttribues[_S32(base::eMassflowSelect::eVIEWTOTALIZER)].m_Visible = FALSE;
+	m_DateToShow.dateEnd = 0;
+	m_DateToShow.dateEnd = 0;
+	m_ActiveLine = 0;
+	m_ActiveFeeder = 0;
+	m_FeederCount = 0;
+	m_DoseSelect = base::eMassflowSelect::eVIEWMAX;
+}
+
 void CStatistics::CalcFeederCount() 
 {
 	const uint32_t count = m_RecDaysList.GetCount();

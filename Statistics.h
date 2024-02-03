@@ -47,6 +47,7 @@ private:
 	void CalcTotalizerFeeder(void);
 	void CalcTotalizerQMNUmber(void);
 	void CalcFeederCount(void);
+	void Init();
 
 
 public:
@@ -71,6 +72,11 @@ public:
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;
+
+	CStatistics()
+	{
+		Init();
+	}
 };
 
 

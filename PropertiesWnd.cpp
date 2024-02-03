@@ -259,22 +259,26 @@ void CPropertiesWnd::InitPropList()
 #else
 CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select)
 {
+	const auto& attrib = g_Statistics.GetLineAttribute(select);
 	CPropertyGrid* pGroupProp = new CPropertyGrid(select, 0, toCString(c_MassflowSelectMap.get(select).c_str()));
-	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, _T("Ansicht"), _T("Ja"), _T("Eine der folgenden Optionen: 'Ja', 'nein"));
+	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, _T("Ansicht"), _T("Ja"), _T("Eine der folgenden Optionen: 'Ja', 'Nein"));
 	pElProp->AddOption(_T("Ja"));
 	pElProp->AddOption(_T("Nein"));  
 	pElProp->AllowEdit(FALSE);
+	pElProp->SetValue(COleVariant((attrib.m_Visible) ? _T("Ja") : _T("Nein"), VT_BSTR));
 	pGroupProp->AddSubItem(pElProp);
 
 	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR,_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
 	pColorProp->EnableOtherButton(_T("Andere..."));
 	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
+	pColorProp->SetColor(attrib.m_Color);
 	pGroupProp->AddSubItem(pColorProp);
 
 	CPropertyGrid* pCategoryProp = new CPropertyGrid(select, ID_CATEGORY, _T("Kategorie"), _T("Linie"), _T("Eine der folgenden Optionen: 'Linie', 'Flaeche"));
 	pCategoryProp->AddOption(_T("Linie"));
 	pCategoryProp->AddOption(_T("Flaeche"));
 	pCategoryProp->AllowEdit(FALSE);
+	pCategoryProp->SetValue(COleVariant((attrib.m_Category == BCGPChartCategory::BCGPChartLine) ? _T("Linie") : _T("Flaeche"), VT_BSTR));
 	pGroupProp->AddSubItem(pCategoryProp);
 
 	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, _T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
@@ -282,6 +286,9 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	pLineWidthProp->AddOption(_T("2"));
 	pLineWidthProp->AddOption(_T("3"));
 	pLineWidthProp->AllowEdit(FALSE);
+	CString str;
+	str.Format("%d", RANGE(attrib.m_LineWidth, 1, 3));
+	pLineWidthProp->SetValue(COleVariant(str, VT_BSTR));
 	pGroupProp->AddSubItem(pLineWidthProp);
 
 	return pGroupProp;
