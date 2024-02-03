@@ -23,13 +23,15 @@ protected:
 	CString			m_szDate;
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
-	const std::array<const CString, base::cMassflowSelectMax> c_SelectString;
 
 	int					m_nZoomType;
 	CString				m_strInfo;
-	BCGPChartCategory	m_nChartCategory;
 	BOOL				m_bInScroll;
+#if 0
+	BCGPChartCategory	m_nChartCategory;
 	CBCGPColor			m_LineColor;
+	int32_t				m_LineWidth;
+#endif
 
 protected:
 	virtual void OnInitialUpdate() override;
@@ -37,9 +39,13 @@ protected:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX) override;    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
-	virtual void OnSetLineColor(const CBCGPColor& rColor) override;
-	virtual void OnSetCategory(const BCGPChartCategory&) override;
 	virtual CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
+
+	virtual void OnUpdateLineColor(const base::eMassflowSelect) override;
+	virtual void OnUpdateCategory(const base::eMassflowSelect) override;
+	virtual void OnUpdateLineWidth(const base::eMassflowSelect) override;
+	virtual void OnUpdateVisible(const base::eMassflowSelect) override;
+
 
 	virtual const base::eMassflowSelect GetSelection() const
 	{ return base::eMassflowSelect::eVIEWMAX;	}

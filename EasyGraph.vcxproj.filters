@@ -120,6 +120,9 @@
     <ClInclude Include="CheckBox.h">
       <Filter>Quelldateien</Filter>
     </ClInclude>
+    <ClInclude Include="MassflowSelectMap.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EasyGraph.cpp">

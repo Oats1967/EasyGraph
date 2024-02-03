@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <array>
 #include <algorithm>
 #include "QualityMap.h"
 #include "BASE/Utils/public/RecItemList.h"
@@ -15,8 +16,16 @@ struct DateToShow
 	DATE dateEnd;
 };
 
+struct LineAttribute
+{
+	int32_t			   m_LineWidth;
+	BOOL			   m_Visible;
+	BCGPChartCategory  m_Category;
+	CBCGPColor		   m_Color;
+};
+
+
 using CTotalizerMap	 = CQualityMap<uint64_t, float32_t>;
-//using CRecDaysList = std::map< COleDateTime, base::utils::CRecItemList>;
 
 class CStatistics
 {
@@ -25,6 +34,7 @@ class CStatistics
 	CTotalizerMap				  m_QMTotalizerMap;
 	base::CLineGraphConfig		  m_LineGraphConfig;
 	base::CProductDatabaseMap	  m_ProductDatabase;
+	std::array< LineAttribute, base::cMassflowSelectMax> m_LineAttribues;
 
 	DateToShow					  m_DateToShow;
 	int32_t						  m_ActiveLine;
@@ -52,6 +62,12 @@ public:
 	SETGET(const base::eMassflowSelect, DoseSelect)
 	SETGET(const base::utils::CRecItemList&, RecDaysList);
 	SETGET(const uint32_t, FeederCount);
+
+
+	const LineAttribute& GetLineAttribute(const base::eMassflowSelect select)
+	{	return m_LineAttribues[_S32(select)];	}
+	void SetLineAttribute(const base::eMassflowSelect select, const LineAttribute& lineAttribue)
+	{	m_LineAttribues[_S32(select)] = lineAttribue;	}
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;

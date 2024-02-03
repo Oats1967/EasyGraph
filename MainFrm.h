@@ -105,6 +105,8 @@ public:
 	LRESULT OnSetView(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetLineColor(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetCategory(WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetLineWidth(WPARAM wParam, LPARAM lParam);
+	LRESULT OnSetVisible(WPARAM wParam, LPARAM lParam);
 
 	CView* GetFeatureView(CDemoFeature* pFeature);
 

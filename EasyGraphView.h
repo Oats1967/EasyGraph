@@ -16,11 +16,13 @@
 #pragma once
 
 #include "pch.h"
+#include "BASE/include/MassflowSelect.h"
 #include "resource.h"
 
 #define HOURS_NUM 24
 #define ROTATE_BY_MOUSE_INFOTIP _T("Rotate by mouse\nWhen this option is checked, you may press and hold left mouse button and move the mouse to rotate the chart. Using mouse wheel you may change the perspective.")
 
+#if 0
 inline double Rand (double dblStart, double dblFinish)
 {
 	double minVal = __min(dblStart, dblFinish);
@@ -28,6 +30,7 @@ inline double Rand (double dblStart, double dblFinish)
 
 	return (maxVal - minVal) * (double)rand() / (RAND_MAX + 1) + minVal;
 }
+#endif
 
 class CChartSliderCtrl : public CBCGPSliderCtrl
 {
@@ -53,14 +56,14 @@ class CEasyGraphView : public CBCGPFormView
 protected:
 	CBCGPStatic	m_wndTitle;
 	CString	m_strTitle;
-	//CDemoFeature::Feature				m_Feature;
 	BOOL								m_bIsReady;
-	//CString								m_arHours[HOURS_NUM];
 	BOOL								m_bIsDarkBackground;
 	BOOL								m_bIsTexturedTheme;
 	BOOL								m_bIsFlatTheme;
 	UINT								m_nThumbnailFlags;
 	CBCGPCircularProgressIndicatorCtrl	m_wndProgress;
+	const std::array<const CString, base::cMassflowSelectMax> c_SelectString;
+
 
 protected: // create from serialization only
 	CEasyGraphView(UINT id = 0);
@@ -113,8 +116,13 @@ public:
 	virtual void UpdateChartColorTheme(int nTheme, BOOL bIsDarkTheme);
 	virtual void OnChangeBackgroundDarkness() {}
 
-	virtual void OnSetLineColor(const CBCGPColor&) {}
 	virtual void OnSetCategory(const BCGPChartCategory&) {}
+
+
+	virtual void OnUpdateLineColor(const base::eMassflowSelect) {}
+	virtual void OnUpdateCategory(const base::eMassflowSelect) {}
+	virtual void OnUpdateLineWidth(const base::eMassflowSelect) {}
+	virtual void OnUpdateVisible(const base::eMassflowSelect) {}
 
 	virtual BOOL IsFillGradientAvailable() const
 	{
@@ -122,7 +130,7 @@ public:
 	}
 
 	void RotateChart(CBCGPRotationObject::RotationElement hit, double xDelta = 10., double yDelta = 10., double persperctiveDelta = 0.1);
-	void SetDefaultLineWidth();
+	void SetLineWidth(int32_t m_LineWidth);
 	void SetSeriesFillColors(const CBCGPColor::BCGP_COLOR* pColors, int32_t count);
 	void SetSeriesLineColor(const CBCGPColor* pColors, int32_t count);
 
@@ -158,12 +166,6 @@ protected:
 	afx_msg void OnFilePrintPreview();
 	afx_msg LRESULT HandleInitDialog(WPARAM, LPARAM);
 
-#if 0
-	LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
-	afx_msg void OnAnimateChart();
-	afx_msg void OnUpdateAnimateChart(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateAnimationStyleCombo(CCmdUI* pCmdUI);
-#endif
 	DECLARE_MESSAGE_MAP()
 
 };

@@ -207,6 +207,7 @@
     <ClInclude Include="global.h" />
     <ClInclude Include="GroupView.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MassflowSelectMap.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />

@@ -31,15 +31,11 @@ IMPLEMENT_DYNCREATE(CChartLineView, CEasyGraphView)
 
 CChartLineView::CChartLineView()
 	: CEasyGraphView(CChartLineView::IDD)
+#if 0
 	, m_LineColor{ CBCGPColor::BCGP_COLOR::Blue }
 	, m_nChartCategory{ BCGPChartCategory::BCGPChartLine }
-	, c_SelectString{ _T("Durchsatz"),
-					   _T("Sollwert"),
-					   _T("Stellbefehl"),
-					   _T("Nettogewicht"),
-					   _T("Dosierperformanz"),
-					   _T("Verbrauch"),
-					   _T("Drehzahl") }
+	, m_LineWidth { 1 }
+#endif
 {
 	//{{AFX_DATA_INIT(CChartLineView)
 	m_nZoomType = 0;
@@ -141,7 +137,8 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 		CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 		ASSERT_VALID(pChart);
 
-		pSeries = pChart->CreateSeries(c_SelectString[_S32(select)], CBCGPColor(), BCGPChartType::BCGP_CT_SIMPLE, m_nChartCategory);
+		const auto& rLineAttrib = g_Statistics.GetLineAttribute(select);
+		pSeries = pChart->CreateSeries(c_SelectString[_S32(select)], rLineAttrib.m_Color, BCGPChartType::BCGP_CT_SIMPLE, rLineAttrib.m_Category);
 		if (pSeries)
 		{
 			const auto& cTimeSpan = g_Statistics.GetDateToShow();
@@ -155,6 +152,9 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 				auto szTime = dtTime.Format("%d.%m.%y %H:%M:%S");
 				pSeries->AddDataPoint(szTime, rItem.Get(select, index));
 			}
+			BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
+			style.SetSeriesLineWidth(rLineAttrib.m_LineWidth);
+			pSeries->SetSeriesFormat(style);
 		}
 	}
 	return pSeries;
@@ -195,8 +195,7 @@ void CChartLineView::OnUpdateChart()
 			pSeries->m_strSeriesName = szName;
 		}
 	}
-	SetDefaultLineWidth();
-	SetSeriesLineColor(&m_LineColor, 1);
+	//SetSeriesLineColor(&m_LineColor, 1);
 
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
@@ -239,7 +238,13 @@ void CChartLineView::OnUpdateChartCategory()
 	const double dblMinScrollValueY = pAxisY->GetMinScrollValue();
 	const double dblMaxScrollValueY = pAxisY->GetMaxScrollValue();
 
-	pChart->SetChartType(m_nChartCategory, BCGP_CT_SIMPLE, FALSE, FALSE);
+	BCGPChartCategory  category = BCGPChartCategory::BCGPChartLine;
+	auto select = GetSelection();
+	if (select != base::eMassflowSelect::eVIEWMAX)
+	{
+		category = g_Statistics.GetLineAttribute(select).m_Category;
+	}
+	pChart->SetChartType(category, BCGP_CT_SIMPLE, FALSE, FALSE);
 
 	if (bIsFixedIntervalWidth)
 	{
@@ -315,21 +320,40 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 }
 
 
-void CChartLineView::OnSetLineColor(const CBCGPColor& rColor)
+
+void CChartLineView::OnUpdateCategory(const base::eMassflowSelect select)
 {
-	m_LineColor = rColor;
-	SetSeriesLineColor(&m_LineColor, 1);
-	UpdateScrollBars();
-	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
-	ASSERT_VALID(pChart);
-	pChart->Redraw();
+	auto currentselect = GetSelection();
+	if (currentselect == select)
+	{
+		SendMessage(WM_NEWDATE);
+	}
 }
 
-void CChartLineView::OnSetCategory(const BCGPChartCategory& rCategory)
+
+void CChartLineView::OnUpdateLineColor(const base::eMassflowSelect select)
 {
-	m_nChartCategory = rCategory;
-	OnUpdateChart();
-	OnUpdateZoom();
-	UpdateData(FALSE);
+	auto currentselect = GetSelection();
+	if (currentselect == select)
+	{
+		SendMessage(WM_NEWDATE);
+	}
 }
+
+void CChartLineView::OnUpdateLineWidth(const base::eMassflowSelect select)
+{
+	auto currentselect = GetSelection();
+	if (currentselect == select)
+	{
+		SendMessage(WM_NEWDATE);
+	}
+}
+
+
+void CChartLineView::OnUpdateVisible(const base::eMassflowSelect select)
+{
+	SendMessage(WM_NEWDATE);
+}
+
+
 

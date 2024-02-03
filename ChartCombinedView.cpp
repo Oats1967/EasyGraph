@@ -120,93 +120,6 @@ void CChartCombinedView::OnColorThemeUpdated()
 void CChartCombinedView::OnInitialUpdate()
 {
 	CChartLineView::OnInitialUpdate();
-
-	CCustomChart* pChart = DYNAMIC_DOWNCAST(CCustomChart, m_wndChart.GetChart());
-	ASSERT_VALID(pChart);
-
-#if 0
-	CBCGPChartSeries* pSeries1 = pChart->CreateSeries(_T("Column"), CBCGPColor(), BCGP_CT_DEFAULT, BCGPChartColumn);
-	CBCGPChartSeries* pSeries2 = pChart->CreateSeries(_T("Line1"), CBCGPColor(), BCGP_CT_DEFAULT, BCGPChartLine);
-	CBCGPChartSeries* pSeries3 = pChart->CreateSeries(_T("Line2"), CBCGPColor(), BCGP_CT_DEFAULT, BCGPChartLine);
-
-	CBCGPChartAxis* pPrimaryXAxis = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
-	CBCGPChartAxis* pPrimaryYAxis = pChart->GetChartAxis(BCGP_CHART_Y_PRIMARY_AXIS);
-
-	// replace default Y axis to handle custom labels
-	CBCGPChartAxis* pSecondaryYAxis = pChart->ReplaceDefaultAxis(BCGP_CHART_Y_SECONDARY_AXIS, RUNTIME_CLASS(CCustomYAxisBase));
-
-	// create custom third Y axis
-	CBCGPChartAxis* pCustomAxis = pChart->AddCustomAxis();
-
-	pPrimaryXAxis->m_axisLineFormat.m_dblWidth = 2.;
-	pPrimaryYAxis->m_axisLineFormat.m_dblWidth = 2.;
-	pSecondaryYAxis->m_axisLineFormat.m_dblWidth = 2.;
-	pCustomAxis->m_axisLineFormat.m_dblWidth = 2.;
-
-	pSeries1->AddDataPoint(_T("Item 1"), 35.);
-	pSeries1->AddDataPoint(_T("Item 2"), 40.);
-	pSeries1->AddDataPoint(_T("Item 3"), 85.);
-	pSeries1->AddDataPoint(_T("Item 4"), 37);
-	pSeries1->AddDataPoint(_T("Item 5"), 55.);
-	pSeries1->AddDataPoint(_T("Item 6"), 48.);
-
-	pSeries2->AddDataPoint(2000.);
-	pSeries2->AddDataPoint(7500.);
-	pSeries2->AddDataPoint(9900.);
-	pSeries2->AddDataPoint(600.);
-	pSeries2->AddDataPoint(3000.);
-	pSeries2->AddDataPoint(12000.);
-
-	pSeries3->AddDataPoint(40000000.);
-	pSeries3->AddDataPoint(60000000.);
-	pSeries3->AddDataPoint(71000000.);
-	pSeries3->AddDataPoint(33000000.);
-	pSeries3->AddDataPoint(28000000.);
-	pSeries3->AddDataPoint(73000000.);
-
-	// display second series on the secondary Y axis
-	pSeries2->SetRelatedAxis(pSecondaryYAxis, CBCGPChartSeries::AI_Y);
-
-	// display third series on the custom third axis
-	pSeries3->SetRelatedAxis(pCustomAxis, CBCGPChartSeries::AI_Y);
-
-	// set fixed display ranges with fixed major unit, because automatic ranges 
-	// will look a bit different
-	pPrimaryYAxis->SetFixedDisplayRange(0., 150., 25.);
-	pSecondaryYAxis->SetFixedDisplayRange(0., 30000., 10000.);
-	pCustomAxis->SetFixedDisplayRange(0., 90000000, 10000000.);
-
-	// setup marker visibility
-	pSeries1->ShowMarker(FALSE);
-	pSeries2->ShowMarker(TRUE);
-	pSeries2->SetMarkerShape(BCGPChartMarkerOptions::MS_CIRCLE);
-	pSeries3->ShowMarker(TRUE);
-	pSeries3->SetMarkerShape(BCGPChartMarkerOptions::MS_RECTANGLE);
-
-	// set second series to be SPLINE with width 2.
-	BCGPChartFormatSeries style = pSeries2->GetSeriesFormat();
-
-	style.m_curveType = BCGPChartFormatSeries::CCT_SPLINE;
-	style.SetSeriesLineWidth(2.);
-	pSeries2->SetSeriesFormat(style);
-
-	// set width for the third series
-	pSeries3->SetSeriesLineWidth(2.);
-
-	// relocate the legend at the top
-	pChart->SetLegendPosition(BCGPChartLayout::LP_TOPRIGHT);
-
-	// set title font to be smaller
-	pChart->GetTitleLabelFormat().m_textFormat.SetFontSize(18.);
-
-	// do not display vertical interlaces
-	pChart->ShowAxisIntervalInterlacing(BCGP_CHART_X_PRIMARY_AXIS, FALSE);
-
-	// Sync series and axis colors
-	OnColorThemeUpdated();
-
-	SetDefaultLineWidth();
-#endif
 }
 
 
@@ -223,7 +136,8 @@ void CChartCombinedView::OnUpdateChart()
 		DECLARE_MASSFLOWSELECT(field);
 		for ( const auto& rItem : field)
 		{
-			if (rItem != base::eMassflowSelect::eVIEWTOTALIZER)
+			const auto& lineAttrib = g_Statistics.GetLineAttribute(rItem);
+			if (lineAttrib.m_Visible)
 			{
 				auto pSeries = CreateSeries(rItem, g_Statistics.GetActiveFeeder());
 				if (pSeries)
@@ -234,8 +148,6 @@ void CChartCombinedView::OnUpdateChart()
 		}
 	}
 	SetupAxis();
-
-	SetDefaultLineWidth();
 
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
@@ -262,4 +174,9 @@ void CChartCombinedView::OnUpdateChart()
 
 	m_wndChart.SetFocus();
 }
+
+
+
+
+
 

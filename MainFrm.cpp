@@ -39,6 +39,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_MESSAGE(WM_SETVIEW, &CMainFrame::OnSetView)
 	ON_MESSAGE(WM_LINECOLOR, &CMainFrame::OnSetLineColor)
 	ON_MESSAGE(WM_CATEGORY, &CMainFrame::OnSetCategory)
+	ON_MESSAGE(WM_VISIBLE, &CMainFrame::OnSetVisible)
+	ON_MESSAGE(WM_LINEWIDTH, &CMainFrame::OnSetLineWidth)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -671,7 +673,7 @@ LRESULT CMainFrame::OnSetLineColor(WPARAM wParam, LPARAM lParam)
 	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
 	if (pChartView != NULL)
 	{
-		pChartView->OnSetLineColor(CBCGPColor(COLORREF(wParam)));
+		pChartView->OnUpdateLineColor(base::eMassflowSelect(wParam));
 	}
 	return 0L;
 }
@@ -682,7 +684,27 @@ LRESULT CMainFrame::OnSetCategory(WPARAM wParam, LPARAM lParam)
 	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
 	if (pChartView != NULL)
 	{
-		pChartView->OnSetCategory(BCGPChartCategory(wParam));
+		pChartView->OnUpdateCategory(base::eMassflowSelect(wParam));
+	}
+	return 0L;
+}
+
+LRESULT CMainFrame::OnSetLineWidth(WPARAM wParam, LPARAM lParam)
+{
+	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
+	if (pChartView != NULL)
+	{
+		pChartView->OnUpdateLineWidth(base::eMassflowSelect(wParam));
+	}
+	return 0L;
+}
+
+LRESULT CMainFrame::OnSetVisible(WPARAM wParam, LPARAM lParam)
+{
+	CEasyGraphView* pChartView = DYNAMIC_DOWNCAST(CEasyGraphView, GetActiveView());
+	if (pChartView != NULL)
+	{
+		pChartView->OnUpdateVisible(base::eMassflowSelect(wParam));
 	}
 	return 0L;
 }

@@ -52,6 +52,14 @@ END_MESSAGE_MAP()
 
 CEasyGraphView::CEasyGraphView(UINT id)
 	: CBCGPFormView(id == 0 ? CEasyGraphView::IDD : id)
+	, c_SelectString{ _T("Durchsatz"),
+				   _T("Sollwert"),
+				   _T("Stellbefehl"),
+				   _T("Nettogewicht"),
+				   _T("Dosierperformanz"),
+				   _T("Verbrauch"),
+				   _T("Drehzahl") }
+
 {
 	//{{AFX_DATA_INIT(CEasyGraphView)
 	m_strTitle = _T("BCGSoft charts");
@@ -311,7 +319,7 @@ void CEasyGraphView::RotateChart(CBCGPRotationObject::RotationElement hit, doubl
 	pChart->Redraw();
 }
 
-void CEasyGraphView::SetDefaultLineWidth()
+void CEasyGraphView::SetLineWidth(int32_t lineWidth)
 {
 	CBCGPChartVisualObject* pChart = GetChart();
 	if (pChart == NULL)
@@ -327,7 +335,7 @@ void CEasyGraphView::SetDefaultLineWidth()
 		ASSERT_VALID(pSeries);
 
 		BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
-		style.SetSeriesLineWidth(theConfig.GetDefaultLineWidth());
+		style.SetSeriesLineWidth(lineWidth);
 		pSeries->SetSeriesFormat(style);
 	}
 }
@@ -577,46 +585,6 @@ void CEasyGraphView::UpdateChartColorTheme(int nTheme, BOOL bIsDarkTheme)
 #endif
 }
 
-#if 0
-void CEasyGraphView::OnChartAnimation()
-{
-	if (!IsWindowVisible())
-	{
-		return;
-	}
-
-	BOOL bIsReady = FALSE;
-
-	CBCGPChartVisualObject* pChart = GetChart();
-	if (pChart != NULL)
-	{
-		if (IsAnimationAvailable())
-		{
-			bIsReady = pChart->StartAnimation(theConfig.m_dblChartAnimationTime, theConfig.m_animationType, theConfig.m_animationStyle);
-		}
-
-		if (!bIsReady)
-		{
-			pChart->SetDirty(TRUE, TRUE);
-		}
-	}
-}
-void CEasyGraphView::OnAnimateChart()
-{
-	OnChartAnimation();
-}
-
-void CEasyGraphView::OnUpdateAnimateChart(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(!IsGroupView() && theApp.m_animationStyle != CBCGPChartSeries::BCGPChartAnimationStyle_None && IsAnimationAvailable());
-}
-
-void CEasyGraphView::OnUpdateAnimationStyleCombo(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(!IsGroupView() && IsAnimationAvailable());
-}
-#endif
-
 void CEasyGraphView::OnNcPaint()
 {
 	if (!CBCGPVisualManager::GetInstance()->OnDrawViewBorder(this))
@@ -634,36 +602,8 @@ void CEasyGraphView::OnUpdateFilePrintPreview(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!IsGroupView());
 }
-#if 0
-void CEasyGraphView::SetupShapeCombo(UINT nId, int nSel /*= -1*/)
-{
-	SetupShapeCombo(DYNAMIC_DOWNCAST(CComboBox, GetDlgItem(nId)), nSel);
-}
 
-void CEasyGraphView::SetupShapeCombo(CComboBox* pComboBox, int nSel /*= -1*/)
-{
-	ASSERT_VALID(pComboBox);
-	
-	pComboBox->ResetContent();
-	
-	pComboBox->AddString(_T("Circle"));
-	pComboBox->AddString(_T("Triangle"));
-	pComboBox->AddString(_T("Rectangle"));
-	pComboBox->AddString(_T("Diamond"));
-	pComboBox->AddString(_T("Triangle left"));
-	pComboBox->AddString(_T("Triangle down"));
-	pComboBox->AddString(_T("Triangle right"));
-	pComboBox->AddString(_T("Pentagon"));
-	pComboBox->AddString(_T("Hexagon"));
-	pComboBox->AddString(_T("Star"));
-	pComboBox->AddString(_T("Cross"));
-	
-	if (nSel >= 0)
-	{
-		pComboBox->SetCurSel(nSel);
-	}
-}
-#endif
+
 int CEasyGraphView::GetMarkerSize(int nSel)
 {
 	return globalUtils.ScaleByDPI(nSel == 0 ? 7 : 5 * (nSel + 1), this);

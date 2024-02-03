@@ -6,7 +6,8 @@
 #include "Resource.h"
 #include "MainFrm.h"
 #include "EasyGraph.h"
-#include "CheckBox.h"
+#include "StringConvert.h"
+
 
 #ifdef _DEBUG
 #undef THIS_FILE
@@ -14,10 +15,24 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+#define ID_LINEWIDTH 1
+#define ID_VISIBLE   2
+#define ID_CATEGORY  3
+#define ID_COLOR	 4
+
+struct ItemProperty
+{
+	int32_t c_linewidth;
+	int32_t c_color;
+	int32_t c_visible;
+	int32_t c_category;
+};
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
 
-CPropertiesWnd::CPropertiesWnd() noexcept
+CPropertiesWnd::CPropertiesWnd() noexcept 
 {
 	m_nComboHeight = 0;
 }
@@ -242,6 +257,36 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pGroup4);
 }
 #else
+CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select)
+{
+	CPropertyGrid* pGroupProp = new CPropertyGrid(select, 0, toCString(c_MassflowSelectMap.get(select).c_str()));
+	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, _T("Ansicht"), _T("Ja"), _T("Eine der folgenden Optionen: 'Ja', 'nein"));
+	pElProp->AddOption(_T("Ja"));
+	pElProp->AddOption(_T("Nein"));  
+	pElProp->AllowEdit(FALSE);
+	pGroupProp->AddSubItem(pElProp);
+
+	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR,_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
+	pColorProp->EnableOtherButton(_T("Andere..."));
+	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
+	pGroupProp->AddSubItem(pColorProp);
+
+	CPropertyGrid* pCategoryProp = new CPropertyGrid(select, ID_CATEGORY, _T("Kategorie"), _T("Linie"), _T("Eine der folgenden Optionen: 'Linie', 'Flaeche"));
+	pCategoryProp->AddOption(_T("Linie"));
+	pCategoryProp->AddOption(_T("Flaeche"));
+	pCategoryProp->AllowEdit(FALSE);
+	pGroupProp->AddSubItem(pCategoryProp);
+
+	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, _T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	pLineWidthProp->AddOption(_T("1"));
+	pLineWidthProp->AddOption(_T("2"));
+	pLineWidthProp->AddOption(_T("3"));
+	pLineWidthProp->AllowEdit(FALSE);
+	pGroupProp->AddSubItem(pLineWidthProp);
+
+	return pGroupProp;
+}
+
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
@@ -251,100 +296,99 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Darstellung"));
-	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
-	pColorProp->EnableOtherButton(_T("Andere..."));
-	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
-	pGroup1->AddSubItem(pColorProp);
-
-	CMFCPropertyGridProperty* pCategoryProp = new CMFCPropertyGridProperty(_T("Kategorie"), _T("Linientyp"), _T("Eine der folgenden Optionen: 'Linie', 'Fläche"));
-	pCategoryProp->AddOption(_T("Linie"));
-
-	pCategoryProp->AddOption(_T("Flaeche"));
-	pCategoryProp->AllowEdit(FALSE);
-	pGroup1->AddSubItem(pCategoryProp);
-
-	CMFCPropertyGridProperty* pLineWidthProp = new CMFCPropertyGridProperty(_T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
-	pLineWidthProp->AddOption(_T("1"));
-	pLineWidthProp->AddOption(_T("2"));
-	pLineWidthProp->AddOption(_T("3"));
-	pLineWidthProp->AllowEdit(TRUE);
-	pGroup1->AddSubItem(pLineWidthProp);
-
-	auto* pMassflowhProp = new CCheckBoxProp(_T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
-	pGroup1->AddSubItem(pMassflowhProp);
-
-	m_wndPropList.AddProperty(pGroup1);
-
-#if 0
-	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
-
-	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Rahmen"), _T("Dialogfeldrahmen"), _T("Eine der folgenden Optionen: 'Keiner', 'Dünn', 'Größe änderbar' oder 'Dialogfeldrahmen'"));
-	pProp->AddOption(_T("Keiner"));
-	pProp->AddOption(_T("Dünn"));
-	pProp->AddOption(_T("Größe änderbar"));
-	pProp->AddOption(_T("Dialogfeldrahmen"));
-	pProp->AllowEdit(FALSE);
-
-	pGroup1->AddSubItem(pProp);
-	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Beschriftung"), (_variant_t)_T("Info"), _T("Gibt den Text an, der in der Titelleiste des Fensters angezeigt wird.")));
-
-	m_wndPropList.AddProperty(pGroup1);
-
-	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Fenstergröße"), 0, TRUE);
-
-	pProp = new CMFCPropertyGridProperty(_T("Höhe"), (_variant_t)250l, _T("Gibt die Höhe des Fensters an."));
-	pProp->EnableSpinControl(TRUE, 50, 300);
-	pSize->AddSubItem(pProp);
-
-	pProp = new CMFCPropertyGridProperty(_T("Breite"), (_variant_t)150l, _T("Gibt die Breite des Fensters an."));
-	pProp->EnableSpinControl(TRUE, 50, 200);
-	pSize->AddSubItem(pProp);
-
-	m_wndPropList.AddProperty(pSize);
-
-	CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Schriftart"));
-
-	LOGFONT lf;
-	CFont* font = CFont::FromHandle((HFONT)GetStockObject(DEFAULT_GUI_FONT));
-	font->GetLogFont(&lf);
-
-	_tcscpy_s(lf.lfFaceName, _T("Arial"));
-
-	pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Schriftart"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Gibt die Standardschriftart für das Fenster an.")));
-	pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Systemschriftart verwenden"), (_variant_t)true, _T("Gibt an, dass im Fenster die Schriftart 'MS Shell Dlg' verwendet wird.")));
-
-	m_wndPropList.AddProperty(pGroup2);
-
-	CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Sonstiges"));
-	pProp = new CMFCPropertyGridProperty(_T("(Name)"), _T("Anwendung"));
-	pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-
-
-	static const TCHAR szFilter[] = _T("Symboldateien(*.ico)|*.ico|Alle Dateien(*.*)|*.*||");
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Symbol"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("Gibt das Fenstersymbol an.")));
-
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Ordner"), _T("c:\\")));
-
-	m_wndPropList.AddProperty(pGroup3);
-	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchie"));
-
-	CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("Erste Unterebene"));
-	pGroup4->AddSubItem(pGroup41);
-
-	CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("Zweite Unterebene"));
-	pGroup41->AddSubItem(pGroup411);
-
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 1"), (_variant_t)_T("Wert 1"), _T("Dies ist eine Beschreibung.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 2"), (_variant_t)_T("Wert 2"), _T("Dies ist eine Beschreibung.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 3"), (_variant_t)_T("Wert 3"), _T("Dies ist eine Beschreibung.")));
-
-	pGroup4->Expand(FALSE);
+	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty(_T("Linienauswahl"));
+	DECLARE_MASSFLOWSELECT(field);
+	for (const auto& rItem : field)
+	{
+		if (rItem != base::eMassflowSelect::eVIEWTOTALIZER)
+		{
+			auto prop = CreateProperty(rItem);
+			pGroup->AddSubItem(prop);
+		}
+	}
+	m_wndPropList.AddProperty(pGroup);
+	m_wndPropList.ExpandAll(FALSE);
+}
 #endif
+
+void CPropertiesWnd::OnSetColor(CPropertyColorGrid* pGrid)
+{
+	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
+	lineAttrib.m_Color = CBCGPColor(pGrid->GetColor());
+	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
+	AfxGetMainWnd()->SendMessage(WM_LINECOLOR, WPARAM(pGrid->GetSelect()));
 }
 
-#endif
+
+void CPropertiesWnd::OnSetLineWidth(CPropertyGrid* pGrid)
+{
+	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
+	COleVariant i = pGrid->GetValue();// get the change value.
+
+	//below is the code to change COleVariant to other variable type
+	LPVARIANT pVar = (LPVARIANT)i;
+	switch (pVar->vt)
+	{
+		case VT_I2:    // short
+			lineAttrib.m_LineWidth = pVar->iVal;
+			break;
+		case VT_I4:     // int
+			lineAttrib.m_LineWidth = pVar->lVal;
+			break;
+		case VT_R4:    // float
+			lineAttrib.m_LineWidth = _S32(pVar->fltVal);
+			break;
+		case VT_R8:    // double
+			lineAttrib.m_LineWidth = _S32(pVar->dblVal);
+			break;
+		case VT_INT:
+			lineAttrib.m_LineWidth = pVar->lVal;
+			break;
+		case VT_BOOL:
+			ASSERT(FALSE);
+			break;
+		case VT_BSTR:
+			{
+				CString str1{ pVar->bstrVal };
+				lineAttrib.m_LineWidth = _ttoi(str1);
+
+			}
+			break;
+		default:
+			ASSERT(FALSE);
+			break;
+			// etc.
+	}
+	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
+	AfxGetMainWnd()->SendMessage(WM_LINEWIDTH, WPARAM(pGrid->GetSelect()));
+}
+
+void CPropertiesWnd::OnSetCategory(CPropertyGrid* pGrid)
+{
+	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
+	COleVariant i = pGrid->GetValue();// get the change value.
+	auto val = pGrid->GetValue();
+	LPVARIANT pVar = (LPVARIANT)val;
+	ASSERT(pVar->vt == VT_BSTR);
+	CString str1{ pVar->bstrVal };
+	lineAttrib.m_Category = ( str1 == "Linie") ? BCGPChartCategory::BCGPChartLine : BCGPChartCategory::BCGPChartArea;
+	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
+	AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(pGrid->GetSelect()));
+}
+
+
+void CPropertiesWnd::OnSetVisible(CPropertyGrid* pGrid)
+{
+	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
+	COleVariant i = pGrid->GetValue();// get the change value.
+	auto val = pGrid->GetValue();
+	LPVARIANT pVar = (LPVARIANT)val;
+	ASSERT(pVar->vt == VT_BSTR);
+	CString str1{ pVar->bstrVal };
+	lineAttrib.m_Visible = (str1 == "Ja") ? TRUE : FALSE;
+	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
+	AfxGetMainWnd()->SendMessage(WM_VISIBLE, WPARAM(pGrid->GetSelect()));
+}
 
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {
@@ -384,81 +428,32 @@ void CPropertiesWnd::SetPropListFont()
 
 LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam)
 {
-
 	// pProp will have all the variables and info of the active or change property
-	CMFCPropertyGridProperty* pProp = (CMFCPropertyGridProperty*)lParam;
-	CString str = pProp->GetName(); // get the change property name.
-	if (str == "Linienfarbe")
+	CMFCPropertyGridProperty* pGrid = (CMFCPropertyGridProperty*)lParam;
+	auto pRuntime = pGrid->GetRuntimeClass();
+	if (pRuntime->IsDerivedFrom(RUNTIME_CLASS(CMFCPropertyGridColorProperty)))
 	{
-		CMFCPropertyGridColorProperty* pColorGrid = (CMFCPropertyGridColorProperty*)pProp;
-		auto color = pColorGrid->GetColor();
-		AfxGetMainWnd()->SendMessage(WM_LINECOLOR, WPARAM(color));
-
+		CPropertyColorGrid* pUnique = (CPropertyColorGrid*)pGrid;
+		OnSetColor(pUnique);
 	}
-	else if (str == "Kategorie")
+	else
 	{
-		auto val = pProp->GetValue();
-		LPVARIANT pVar = (LPVARIANT)val;
-		ASSERT(pVar->vt == VT_BSTR);
-
-		CString str1{ pVar->bstrVal };
-		if (str1 == "Linie")
+		CPropertyGrid* pUnique = (CPropertyGrid*)pGrid;
+		switch (pUnique->GetId())
 		{
-			AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(BCGPChartCategory::BCGPChartLine));
-		}
-		else if (str1 == "Flaeche")
-		{
-			AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(BCGPChartCategory::BCGPChartArea));
-		}
-	}
-	else if (str == "Linienstaerke")
-	{
-		auto val = pProp->GetValue();
-		LPVARIANT pVar = (LPVARIANT)val;
-		ASSERT(pVar->vt == VT_BSTR);
-		CString str1{ pVar->bstrVal };
-		int32_t iVal = _ttoi(str1);
-		AfxGetMainWnd()->SendMessage(WM_LINEWIDTH, WPARAM(iVal));
-	}
-	{
-		int pID = pProp->GetData();
-
-		COleVariant i = pProp->GetValue();// get the change value.
-
-		//below is the code to change COleVariant to other variable type
-		LPVARIANT pVar = (LPVARIANT)i;
-		int x;
-		short y;
-		double d;
-		float f;
-		bool status;
-		CString str1;
-		switch (pVar->vt)
-		{
-		case VT_I2:    // short
-			y = pVar->iVal;
+		case ID_LINEWIDTH:
+			OnSetLineWidth(pUnique);
 			break;
-		case VT_I4:     // int
-			x = pVar->lVal;
+		case ID_CATEGORY:
+			OnSetCategory(pUnique);
 			break;
-		case VT_R4:    // float
-			f = pVar->fltVal;
+		case ID_VISIBLE:
+			OnSetVisible(pUnique);
 			break;
-		case VT_R8:    // double
-			d = pVar->dblVal;
+		default:
+			ASSERT(FALSE);
 			break;
-		case VT_INT:
-			x = pVar->lVal;
-			break;
-		case VT_BOOL:
-			status = pVar->boolVal;
-			break;
-		case VT_BSTR:
-			str1 = pVar->bstrVal;
-			break;
-			// etc.
 		}
 	}
-
 	return 0;
 }
