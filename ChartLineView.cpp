@@ -189,11 +189,9 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 
 
 
-void CChartLineView::OnUpdateChart() 
+void CChartLineView::OnUpdateSeries()
 {
 	CWaitCursor wait;
-
-	//UpdateData();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -223,8 +221,14 @@ void CChartLineView::OnUpdateChart()
 			pSeries->m_strSeriesName = szName;
 		}
 	}
+}
 
-	//pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
+
+void CChartLineView::OnUpdateChart()
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
 	pChart->SetChartTitle(GetTitle());
 	pChart->ShowDataLabels(FALSE);
@@ -232,22 +236,38 @@ void CChartLineView::OnUpdateChart()
 	CBCGPChartAxis* pAxisX = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
 	pAxisX->m_axisLabelsFormat.m_textFormat.SetDrawingAngle(90);
 	pChart->SetThemeOpacity(100);
-	pChart->SetDirty(TRUE, FALSE);
 
-	//pChart->EnableLegendCustomPosition(FALSE); // clear custom state
 	pChart->SetLegendPosition(BCGPChartLayout::LegendPosition::LP_BOTTOM);
 	pChart->EnableDrawLegendShape(FALSE);
-
 	UpdateScrollBars();
-	pChart->Redraw();
-
+	pChart->SetDirty(TRUE, TRUE);
 	m_wndChart.SetFocus();
 }
 
+void CChartLineView::OnUpdateZoom()
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
+	switch (m_nZoomType)
+	{
+	case 0:
+		// Default - "Mouse wheel and pan" mode
+		m_strInfo = _T("Use mouse wheel to zoom chart. If the chart is zoomed, you can pan it using left mouse button.");
+		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_WHEEL_PAN);
+		break;
+
+	case 1:
+		m_strInfo = _T("Left mouse button - zoom-in; Right mouse button - zoom out. Mouse wheel - scroll horizontally.");
+		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_MAGNIFY);
+		break;
+	}
+	//m_wndChart.SetFocus();
+}
+
+
 void CChartLineView::OnUpdateChartCategory()
 {
-	//UpdateData();
-
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
@@ -283,38 +303,12 @@ void CChartLineView::OnUpdateChartCategory()
 	pAxisY->SetScrollRange(dblMinScrollValueY, dblMaxScrollValueY);
 	pAxisY->SetFixedDisplayRange(dblMinDisplayedValueY, dblMaxDisplayedValueY);
 
-	pChart->SetDirty(TRUE, FALSE);
-
 	UpdateScrollBars();
-
-	pChart->Redraw();
-
+	pChart->SetDirty(TRUE, TRUE);
 	m_wndChart.SetFocus();
 }
 
-void CChartLineView::OnUpdateZoom() 
-{
-	//UpdateData();
 
-	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
-	ASSERT_VALID(pChart);
-
-	switch (m_nZoomType)
-	{
-	case 0:
-		// Default - "Mouse wheel and pan" mode
-		m_strInfo = _T("Use mouse wheel to zoom chart. If the chart is zoomed, you can pan it using left mouse button.");
-		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_WHEEL_PAN);
-		break;
-
-	case 1:
-		m_strInfo = _T("Left mouse button - zoom-in; Right mouse button - zoom out. Mouse wheel - scroll horizontally.");
-		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_MAGNIFY);
-		break;
-	}
-
-	m_wndChart.SetFocus();
-}
 
 void CChartLineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) 
 {
@@ -325,7 +319,6 @@ void CChartLineView::OnActivateView(BOOL bActivate, CView* pActivateView, CView*
 		PostMessage(WM_NEWDATE);
 	}
 }
-
 
 
 void CChartLineView::UpdateScrollBars()
@@ -339,6 +332,7 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
 	m_szLine = g_Statistics.GetHeaderLine();
 	m_szDate = g_Statistics.GetHeaderDateTime();
+	OnUpdateSeries();
 	OnUpdateChart();
 	OnUpdateZoom();
 	OnUpdateChartCategory();
@@ -350,30 +344,18 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 void CChartLineView::OnUpdateCategory(const base::eMassflowSelect select)
 {
-	auto currentselect = GetSelection();
-	if (currentselect == select)
-	{
-		SendMessage(WM_NEWDATE);
-	}
+	SendMessage(WM_NEWDATE);
 }
 
 
 void CChartLineView::OnUpdateLineColor(const base::eMassflowSelect select)
 {
-	auto currentselect = GetSelection();
-	if (currentselect == select)
-	{
-		SendMessage(WM_NEWDATE);
-	}
+	SendMessage(WM_NEWDATE);
 }
 
 void CChartLineView::OnUpdateLineWidth(const base::eMassflowSelect select)
 {
-	auto currentselect = GetSelection();
-	if (currentselect == select)
-	{
-		SendMessage(WM_NEWDATE);
-	}
+	SendMessage(WM_NEWDATE);
 }
 
 

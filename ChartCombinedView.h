@@ -14,12 +14,13 @@ protected:
 	DECLARE_DYNCREATE(CChartCombinedView)
 
 protected:
-	virtual void OnUpdateChart();
+	void OnUpdateSeries() override;
+	void OnUpdateChart() override;
+	void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
+
+
 	void OnColorThemeUpdated();
 	void SetupAxis();
-
-public:
-	virtual void OnInitialUpdate();
 
 	// Implementation
 protected:

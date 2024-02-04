@@ -6,6 +6,7 @@
 #include <algorithm>
 #include "QualityMap.h"
 #include "BASE/Utils/public/RecItemList.h"
+#include "BASE/Utils/public/LogItemList.h"
 #include "BASE/include//ProductDatabaseMap.h"
 #include "BASE/include/LineGraphConfig.h"
 
@@ -30,6 +31,7 @@ using CTotalizerMap	 = CQualityMap<uint64_t, float32_t>;
 class CStatistics
 {
 	base::utils::CRecItemList	  m_RecDaysList;
+	base::utils::CLogItemList	  m_LogDaysList;
 	CTotalizerMap				  m_FeederTotalizerMap;
 	CTotalizerMap				  m_QMTotalizerMap;
 	base::CLineGraphConfig		  m_LineGraphConfig;
@@ -48,6 +50,7 @@ private:
 	void CalcTotalizerQMNUmber(void);
 	void CalcFeederCount(void);
 	void Init();
+	BOOL LoadLogItemList();
 
 
 public:

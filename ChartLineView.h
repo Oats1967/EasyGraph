@@ -49,9 +49,11 @@ protected:
 	virtual const CString GetTitle() const
 	{	return CString("EasyGraph");	}
 
+	virtual void OnUpdateSeries();
 	virtual void OnUpdateChart();
 	virtual void OnUpdateChartCategory();
 	virtual void OnUpdateZoom();
+	//virtual void OnRedraw();
 	void UpdateScrollBars();
 
 protected:

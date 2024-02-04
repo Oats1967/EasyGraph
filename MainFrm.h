@@ -77,6 +77,7 @@ protected:
 	BOOL CreateDockingWindows();
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 	virtual void OnSelectView(int nView);
+	void UpdateNewData();
 
 
 public:

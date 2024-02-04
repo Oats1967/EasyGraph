@@ -117,37 +117,39 @@ void CChartCombinedView::OnColorThemeUpdated()
 }
 
 
-void CChartCombinedView::OnInitialUpdate()
-{
-	CChartLineView::OnInitialUpdate();
-}
-
-
-void CChartCombinedView::OnUpdateChart()
+void CChartCombinedView::OnUpdateSeries()
 {
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
-	if (g_Statistics.GetActiveFeeder() >= 0)
+	if (g_Statistics.GetActiveFeeder() < 0)
 	{
-		pChart->CleanUpChartData(-1, TRUE);
-		m_pSeries.clear();
-		int32_t iCount = 0;
-		DECLARE_MASSFLOWSELECT(field);
-		for ( const auto& rItem : field)
+		g_Statistics.SetActiveFeeder(0);
+	}
+	pChart->CleanUpChartData(-1, TRUE);
+	m_pSeries.clear();
+	int32_t iCount = 0;
+	DECLARE_MASSFLOWSELECT(field);
+	for (const auto& rItem : field)
+	{
+		const auto& lineAttrib = g_Statistics.GetLineAttribute(rItem);
+		if (lineAttrib.m_Visible)
 		{
-			const auto& lineAttrib = g_Statistics.GetLineAttribute(rItem);
-			if (lineAttrib.m_Visible)
+			auto pSeries = CreateSeries(rItem, g_Statistics.GetActiveFeeder());
+			if (pSeries)
 			{
-				auto pSeries = CreateSeries(rItem, g_Statistics.GetActiveFeeder());
-				if (pSeries)
-				{
-					m_pSeries.insert({ rItem, pSeries });
-				}
+				m_pSeries.insert({ rItem, pSeries });
 			}
 		}
 	}
+}
+
+void CChartCombinedView::OnUpdateChart()
+{
 	SetupAxis();
+
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
 
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
@@ -168,13 +170,23 @@ void CChartCombinedView::OnUpdateChart()
 
 	// Sync series and axis colors
 	OnColorThemeUpdated();
-
 	UpdateScrollBars();
 	pChart->Redraw();
-
 	m_wndChart.SetFocus();
 }
 
+
+void CChartCombinedView::OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView)
+{
+	if (bActivate)
+	{
+		if (g_Statistics.GetActiveFeeder() < 0)
+		{
+			g_Statistics.SetActiveFeeder(0);
+		}
+	}
+	CChartLineView::OnActivateView(bActivate, pActivateView, pDeactiveView);
+}
 
 
 

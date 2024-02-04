@@ -479,12 +479,7 @@ void CMainFrame::OnLineCombo()
 	ASSERT_VALID(pCombobox);
 	m_nActiveLine = pCombobox->GetCurSel();
 	g_Statistics.SetActiveLine(m_nActiveLine);
-	g_Statistics.LoadRectItemList();
-	auto pView = GetActiveView();
-	if (pView)
-	{
-		pView->SendMessage(WM_NEWDATE);
-	}
+	UpdateNewData();
 }
 
 void CMainFrame::OnDoseSelectCombo()
@@ -630,6 +625,30 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 	return TRUE;
 }
 
+void CMainFrame::UpdateNewData()
+{
+	g_Statistics.LoadRectItemList();
+	auto count = g_Statistics.GetFeederCount();
+
+	// Find button index for command ID
+	int index = m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO);
+
+	// Retrieve button
+	auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+	pButton->ClearData();
+	for (uint32_t k = 0; k < count; k++)
+	{
+		CString szTemp;
+		szTemp.Format("Dosierung: %u", k + 1);
+		pButton->AddItem(szTemp);
+	}
+	auto pView = GetActiveView();
+	if (pView)
+	{
+		pView->SendMessage(WM_NEWDATE);
+	}
+}
+
 
 
 LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
@@ -638,26 +657,7 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 	if (pDate != nullptr)
 	{
 		g_Statistics.SetDateToShow(*pDate);
-		g_Statistics.LoadRectItemList();
-		auto count = g_Statistics.GetFeederCount();
-
-		// Find button index for command ID
-		int index = m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO);
-
-		// Retrieve button
-		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
-		pButton->ClearData();
-		for (uint32_t k = 0; k < count; k++)
-		{
-			CString szTemp;
-			szTemp.Format("Dosierung: %u", k+1);
-			pButton->AddItem(szTemp);
-		}
-		auto pView = GetActiveView();
-		if (pView)
-		{
-			pView->SendMessage(WM_NEWDATE, wParam);
-		}
+		UpdateNewData();
 	}
 	return 0L;
 }
@@ -722,7 +722,6 @@ void CMainFrame::OnSelectView(int nView)
 		if (pChartView != NULL)
 		{
 			ASSERT_VALID(pChartView);
-			//pChartView->OnChartAnimation();
 		}
 	}
 

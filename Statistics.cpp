@@ -43,19 +43,45 @@ void CStatistics::Init()
 
 void CStatistics::CalcFeederCount() 
 {
-	const uint32_t count = m_RecDaysList.GetCount();
-	uint32_t maxItems = 0;
-	for (uint32_t index = 0; index < count; index++)
-	{
-		const auto& rItem = m_RecDaysList.GetItem(index);
-		const auto rMax = rItem.GetMaxItems();
-		if (rMax > maxItems)
-		{
-			maxItems = rMax;
-		}
-	}
-	m_FeederCount = maxItems;
+	m_FeederCount = m_RecDaysList.GetMaxItems();
 }
+
+BOOL CStatistics::LoadLogItemList()
+{
+	BOOL result = FALSE;
+	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
+	{
+		m_LogDaysList.Clear();
+		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
+		COleDateTime dSO(m_DateToShow.dateStart);
+		COleDateTime dEO(m_DateToShow.dateEnd);
+
+		COleDateTimeSpan difftime = dEO - dSO;
+		int32_t days = difftime.GetDays();
+		COleDateTimeSpan dayskip(1, 0, 0, 0);
+
+		for (int32_t k = 0; k <= days; k++)
+		{
+			tm date_tm;
+			memset(&date_tm, 0, sizeof(date_tm));
+			date_tm.tm_year = dSO.GetYear() - 1900;
+			date_tm.tm_mon = dSO.GetMonth() - 1;
+			date_tm.tm_mday = dSO.GetDay();
+			date_tm.tm_isdst = 0;
+			time_t aTime = std::mktime(&date_tm);
+
+			base::utils::CLogItemList tempList;
+			tempList.SetPath(rLineItem.m_szLogPath);
+			tempList.SetFilename(aTime);
+			tempList.Load();
+			m_LogDaysList += tempList;;
+			dSO += dayskip;
+		}
+		result = TRUE;
+	}
+	return result;
+}
+
 
 BOOL CStatistics::LoadRectItemList()
 {
@@ -82,7 +108,7 @@ BOOL CStatistics::LoadRectItemList()
 			time_t aTime = std::mktime(&date_tm);
 
 			base::utils::CRecItemList tempList;
-			tempList.SetPath(rLineItem.m_szPath);
+			tempList.SetPath(rLineItem.m_szRecPath);
 			tempList.SetFilename(aTime);
 			tempList.Load();
 			m_RecDaysList += tempList;;
@@ -91,6 +117,7 @@ BOOL CStatistics::LoadRectItemList()
 		CalcTotalizerQMNUmber();
 		CalcTotalizerFeeder();
 		CalcFeederCount();
+		LoadLogItemList();
 		result = TRUE;
 	}
 	return result;
