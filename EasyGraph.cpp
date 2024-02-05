@@ -277,7 +277,7 @@ BOOL CEasyGraphApp::InitInstance()
 		return FALSE;
 
 	// Das Hauptfenster ist initialisiert und kann jetzt angezeigt und aktualisiert werden.
-	m_pMainWnd->ShowWindow(SW_SHOW);
+	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
 
 	CSplashWindow::HideSplashScreen();
