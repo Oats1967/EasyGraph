@@ -30,6 +30,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_CBN_SELENDOK(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
 	ON_COMMAND(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
 	ON_CBN_SELENDOK(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
+	ON_COMMAND(ID_LOGMESSAGE_BUTTON, &CMainFrame::OnLogMessages)
+	ON_UPDATE_COMMAND_UI(ID_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
+
 
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
@@ -139,6 +142,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_DOSESELECT_COMBO, comboTheme);
 	}
+	m_wndToolBar.ReplaceButton(ID_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_LOGMESSAGE_BUTTON, _T("Logmeldungen:")));
+	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
 
 	//m_wndToolBar.ReplaceButton(ID_ANIMATION_LABEL, CBCGPToolbarLabel(ID_ANIMATION_LABEL, _T("Animation:")));
 
@@ -361,6 +366,25 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 #endif
+
+void CMainFrame::OnLogMessages()
+{
+	UINT nID;
+	UINT nStyle;
+	int iImage;
+
+	m_wndToolBar.GetButtonInfo(m_wndToolBar.CommandToIndex(ID_LOGMESSAGE_BUTTON), nID, nStyle, iImage);
+	BOOL bPressed = (nStyle & TBBS_CHECKED) == 0;
+	g_Statistics.SetLogMessages(bPressed);
+	UpdateNewData();
+}
+
+void CMainFrame::OnUpdateLogMessages(CCmdUI* pCmdUI)
+{
+	uint32_t bEnable = (g_Statistics.GetFeederCount() * g_Statistics.GetLogDaysList().GetCount()) > 0;
+	pCmdUI->Enable(bEnable);
+}
+
 
 BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {

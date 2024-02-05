@@ -155,46 +155,46 @@ void CChartLineView::OnInitialUpdate()
 
 void CChartLineView::AddLogItems()
 {
-	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
-	ASSERT_VALID(pChart);
-
-	//CBCGPBrush m_brFill3 = CBCGPBrush(CBCGPColor::LightSkyBlue, CBCGPColor::White, CBCGPBrush::BCGP_GRADIENT_DIAGONAL_LEFT, bIsDarkTheme ? .9 : .4);
 	CBCGPBrush m_brFill4 = CBCGPBrush(CBCGPColor::LightYellow);
-	CBCGPBrush m_brLine1 = CBCGPBrush(CBCGPColor::DarkRed);
-	CBCGPBrush m_brLine2 = CBCGPBrush(CBCGPColor::DeepSkyBlue);
-	CBCGPBrush m_brText1 = CBCGPBrush(CBCGPColor::SteelBlue);
+	//CBCGPBrush m_brLine1 = CBCGPBrush(CBCGPColor::DarkRed);
+	//CBCGPBrush m_brLine2 = CBCGPBrush(CBCGPColor::DeepSkyBlue);
+	//CBCGPBrush m_brText1 = CBCGPBrush(CBCGPColor::SteelBlue);
 	CBCGPBrush m_brText2 = CBCGPBrush(CBCGPColor::Brown);
 
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
 	pChart->RemoveAllChartObjects();
-
-	const auto& rLogDayList = g_Statistics.GetLogDaysList();
-	uint32_t nDataPointCount = rLogDayList.GetCount();
-	if (nDataPointCount > 0)
+	if (g_Statistics.GetLogMessages())
 	{
-		const auto& rLogRecMapping  = g_Statistics.GetLogRecMapping();
-		ASSERT(_U32(rLogRecMapping.size()) == nDataPointCount);
-		const auto& rRecDayList		= g_Statistics.GetRecDaysList();
-		auto rSelect				= GetSelection();
-		if (rSelect == base::eMassflowSelect::eVIEWMAX)
+		const auto& rLogDayList = g_Statistics.GetLogDaysList();
+		uint32_t nDataPointCount = rLogDayList.GetCount();
+		if (nDataPointCount > 0)
 		{
-			rSelect = base::eMassflowSelect::eVIEWMASSFLOW;
-		}
-		auto selectfeeder = g_Statistics.GetActiveFeeder();
-		for (uint32_t k = 0; k < nDataPointCount; k++)
-		{
-			const int32_t index = rLogRecMapping[k];
-			if (index >= 0)
+			const auto& rLogRecMapping = g_Statistics.GetLogRecMapping();
+			ASSERT(_U32(rLogRecMapping.size()) == nDataPointCount);
+			const auto& rRecDayList = g_Statistics.GetRecDaysList();
+			auto rSelect = GetSelection();
+			if (rSelect == base::eMassflowSelect::eVIEWMAX)
 			{
-				const auto& rLogItem = rLogDayList.GetItem(k);
-				BOOL bInsert = (selectfeeder < 0) || (rLogItem.GetItem() == selectfeeder);
-				if (bInsert)
+				rSelect = base::eMassflowSelect::eVIEWMASSFLOW;
+			}
+			auto selectfeeder = g_Statistics.GetActiveFeeder();
+			for (uint32_t k = 0; k < nDataPointCount; k++)
+			{
+				const int32_t index = rLogRecMapping[k];
+				if (index >= 0)
 				{
-					const int32_t pos = index + 1;
-					const auto& rRectItem = rRecDayList.GetItem(index);
-					auto value = rRectItem.Get(rSelect, rLogItem.GetItem());
-					CBCGPChartTextObject* pTextObject2 = new CBCGPChartTextObject
-					(pChart, toCString(rLogItem.GetMessageTime()), pos, value, m_brText2, m_brFill4, m_brText2, 50, 135 /* Angle */, TRUE);
-					pChart->AddChartObject(pTextObject2);
+					const auto& rLogItem = rLogDayList.GetItem(k);
+					BOOL bInsert = (selectfeeder < 0) || (rLogItem.GetItem() == selectfeeder);
+					if (bInsert)
+					{
+						const int32_t pos = index + 1;
+						const auto& rRectItem = rRecDayList.GetItem(index);
+						auto value = rRectItem.Get(rSelect, rLogItem.GetItem());
+						CBCGPChartTextObject* pTextObject2 = new CBCGPChartTextObject
+						(pChart, toCString(rLogItem.GetMessageTime()), pos, value, m_brText2, m_brFill4, m_brText2, 50, 135 /* Angle */, TRUE);
+						pChart->AddChartObject(pTextObject2);
+					}
 				}
 			}
 		}

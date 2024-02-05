@@ -19,9 +19,9 @@ struct DateToShow
 
 struct LineAttribute
 {
-	int32_t			   m_LineWidth;
-	BOOL			   m_Visible;
-	BCGPChartCategory  m_Category;
+	int32_t			   m_LineWidth = 1;
+	BOOL			   m_Visible = TRUE;
+	BCGPChartCategory  m_Category = BCGPChartCategory::BCGPChartLine;
 	CBCGPColor		   m_Color;
 };
 
@@ -44,6 +44,7 @@ class CStatistics
 	int32_t						  m_ActiveFeeder;
 	uint32_t				      m_FeederCount;
 	base::eMassflowSelect		  m_DoseSelect;
+	BOOL						  m_LogMessages;
 
 private:
 	void GetQMNUmbers(void);
@@ -70,6 +71,7 @@ public:
 	SETGET(const base::utils::CLogItemList&, LogDaysList);
 	SETGET(const uint32_t, FeederCount);
 	SETGET(const std::vector<int32_t>&, LogRecMapping);
+	SETGET(const BOOL, LogMessages);
 
 
 	const LineAttribute& GetLineAttribute(const base::eMassflowSelect select)

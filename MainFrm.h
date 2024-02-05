@@ -68,6 +68,8 @@ protected:
 	afx_msg void OnViewCustomize();
 	afx_msg void OnLineCombo();
 	afx_msg void OnDoseSelectCombo();
+	afx_msg void OnLogMessages();
+	afx_msg void OnUpdateLogMessages(CCmdUI* pCmdUI);
 
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 	afx_msg void OnApplicationLook(UINT id);

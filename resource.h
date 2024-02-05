@@ -30,7 +30,6 @@
 #define IDC_TOTALIZER_KEYSELECT         115
 #define IDC_TOTALIZER_LINE              116
 #define IDC_TOTALIZER_TITLE             117
-#define IDC_SCROLLBAR1                  118
 #define IDD_ABOUTBOX                    200
 #define IDD_CHART                       201
 #define IDD_FORM                        202
@@ -123,13 +122,14 @@
 #define ID_VIEW_PROPERTIESWND           547
 #define ID_VIEW_UP                      548
 #define ID_WINDOW_MANAGER               549
+#define ID_LOGMESSAGE_BUTTON            32832
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        13
-#define _APS_NEXT_COMMAND_VALUE         32832
+#define _APS_NEXT_COMMAND_VALUE         32833
 #define _APS_NEXT_CONTROL_VALUE         119
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

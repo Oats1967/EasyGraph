@@ -7,11 +7,6 @@ CStatistics g_Statistics;
 
 
 
-int32_t			   m_LineWidth;
-BOOL			   m_Visible;
-BCGPChartCategory  m_Category;
-CBCGPColor		   m_Color;
-
 void CStatistics::Init()
 {
 	const CBCGPColor::BCGP_COLOR c_Color[base::cMassflowSelectMax] = {
@@ -39,6 +34,7 @@ void CStatistics::Init()
 	m_ActiveFeeder = 0;
 	m_FeederCount = 0;
 	m_DoseSelect = base::eMassflowSelect::eVIEWMAX;
+	m_LogMessages = FALSE;
 }
 
 void CStatistics::CalcFeederCount() 
