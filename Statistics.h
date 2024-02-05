@@ -37,6 +37,7 @@ class CStatistics
 	base::CLineGraphConfig		  m_LineGraphConfig;
 	base::CProductDatabaseMap	  m_ProductDatabase;
 	std::array< LineAttribute, base::cMassflowSelectMax> m_LineAttribues;
+	std::vector<int32_t>		  m_LogRecMapping;
 
 	DateToShow					  m_DateToShow;
 	int32_t						  m_ActiveLine;
@@ -49,6 +50,7 @@ private:
 	void CalcTotalizerFeeder(void);
 	void CalcTotalizerQMNUmber(void);
 	void CalcFeederCount(void);
+	void CalcLogRecMapping(void);
 	void Init();
 	BOOL LoadLogItemList();
 
@@ -65,7 +67,9 @@ public:
 	SETGET(const int32_t, ActiveFeeder)
 	SETGET(const base::eMassflowSelect, DoseSelect)
 	SETGET(const base::utils::CRecItemList&, RecDaysList);
+	SETGET(const base::utils::CLogItemList&, LogDaysList);
 	SETGET(const uint32_t, FeederCount);
+	SETGET(const std::vector<int32_t>&, LogRecMapping);
 
 
 	const LineAttribute& GetLineAttribute(const base::eMassflowSelect select)

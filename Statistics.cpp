@@ -46,6 +46,21 @@ void CStatistics::CalcFeederCount()
 	m_FeederCount = m_RecDaysList.GetMaxItems();
 }
 
+void CStatistics::CalcLogRecMapping(void)
+{
+	m_LogRecMapping.clear();
+	const auto count = m_LogDaysList.GetCount();
+	if ( count > 0 )
+	{
+		m_LogRecMapping.resize(count);
+		for (uint32_t k = 0; k < count; k++)
+		{
+			m_LogRecMapping[k] = m_RecDaysList.FindRecItemTime(m_LogDaysList.GetItem(k).GetTime());
+		}
+	}
+}
+
+
 BOOL CStatistics::LoadLogItemList()
 {
 	BOOL result = FALSE;
@@ -118,6 +133,7 @@ BOOL CStatistics::LoadRectItemList()
 		CalcTotalizerFeeder();
 		CalcFeederCount();
 		LoadLogItemList();
+		CalcLogRecMapping();
 		result = TRUE;
 	}
 	return result;

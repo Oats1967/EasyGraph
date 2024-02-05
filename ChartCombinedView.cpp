@@ -147,6 +147,7 @@ void CChartCombinedView::OnUpdateSeries()
 void CChartCombinedView::OnUpdateChart()
 {
 	SetupAxis();
+	AddLogItems();
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
@@ -162,7 +163,6 @@ void CChartCombinedView::OnUpdateChart()
 	pAxisX->m_axisLabelsFormat.m_textFormat.SetDrawingAngle(90);
 
 	pChart->SetThemeOpacity(100);
-	pChart->SetDirty(TRUE, FALSE);
 
 	//pChart->EnableLegendCustomPosition(FALSE); // clear custom state
 	pChart->SetLegendPosition(BCGPChartLayout::LegendPosition::LP_TOP);
@@ -171,7 +171,7 @@ void CChartCombinedView::OnUpdateChart()
 	// Sync series and axis colors
 	OnColorThemeUpdated();
 	UpdateScrollBars();
-	pChart->Redraw();
+	pChart->SetDirty(TRUE, FALSE);
 	m_wndChart.SetFocus();
 }
 

@@ -36,6 +36,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX) override;    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
 	virtual CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
+	virtual void AddLogItems();
 
 	virtual void OnUpdateLineColor(const base::eMassflowSelect) override;
 	virtual void OnUpdateCategory(const base::eMassflowSelect) override;
