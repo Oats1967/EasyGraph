@@ -9,20 +9,13 @@
 #include "BASE/Utils/public/LogItemList.h"
 #include "BASE/include//ProductDatabaseMap.h"
 #include "BASE/include/LineGraphConfig.h"
+#include "BASE/include/EasyGraphSettings.h"
 
 
 struct DateToShow
 {
 	DATE dateStart;
 	DATE dateEnd;
-};
-
-struct LineAttribute
-{
-	int32_t			   m_LineWidth = 1;
-	BOOL			   m_Visible = TRUE;
-	BCGPChartCategory  m_Category = BCGPChartCategory::BCGPChartLine;
-	CBCGPColor		   m_Color;
 };
 
 
@@ -36,12 +29,8 @@ class CStatistics
 	CTotalizerMap				  m_QMTotalizerMap;
 	base::CLineGraphConfig		  m_LineGraphConfig;
 	base::CProductDatabaseMap	  m_ProductDatabase;
-	std::array< LineAttribute, base::cMassflowSelectMax> m_LineAttribues;
+	base::CEasyGraphSettings	  m_Settings;
 	std::vector<int32_t>		  m_LogRecMapping;
-
-	DateToShow					  m_DateToShow;
-	int32_t						  m_ActiveLine;
-	int32_t						  m_ActiveFeeder;
 	uint32_t				      m_FeederCount;
 	base::eMassflowSelect		  m_DoseSelect;
 	BOOL						  m_LogMessages;
@@ -55,29 +44,66 @@ private:
 	void Init();
 	BOOL LoadLogItemList();
 
+	static time_t ConvertTime(const DATE& rD)
+	{
+		COleDateTime rT(rD);
+		SYSTEMTIME st;
+		rT.GetAsSystemTime(st);
+		CTime tme(st);
+		return tme.GetTime();
+	}
+
+	static DATE ConvertTime(const time_t& rD)
+	{
+		COleDateTime rT(rD);
+		return rT.m_dt;
+	}
 
 public:
     BOOL LoadRectItemList();
 
-	SETGET(const DateToShow&, DateToShow);
 	SETGET(const base::CLineGraphConfig&, LineGraphConfig);
 	SETGET(const base::CProductDatabaseMap&, ProductDatabase);
 	SETGET(const CTotalizerMap&, QMTotalizerMap);
 	SETGET(const CTotalizerMap&, FeederTotalizerMap);
-	SETGET(const int32_t, ActiveLine)
-	SETGET(const int32_t, ActiveFeeder)
 	SETGET(const base::eMassflowSelect, DoseSelect)
 	SETGET(const base::utils::CRecItemList&, RecDaysList);
 	SETGET(const base::utils::CLogItemList&, LogDaysList);
 	SETGET(const uint32_t, FeederCount);
 	SETGET(const std::vector<int32_t>&, LogRecMapping);
 	SETGET(const BOOL, LogMessages);
+	SETGET(const base::CEasyGraphSettings&, Settings);
 
+	int32_t GetActiveFeeder(void) const
+	{	return m_Settings.m_ActiveFeeder;	}
+	void SetActiveFeeder(const int32_t activefeeder)
+	{	m_Settings.m_ActiveFeeder = activefeeder;	}
 
-	const LineAttribute& GetLineAttribute(const base::eMassflowSelect select)
-	{	return m_LineAttribues[_S32(select)];	}
-	void SetLineAttribute(const base::eMassflowSelect select, const LineAttribute& lineAttribue)
-	{	m_LineAttribues[_S32(select)] = lineAttribue;	}
+	int32_t GetActiveLine(void) const
+	{ return m_Settings.m_ActiveLine;	}
+
+	void SetActiveLine(const int32_t activefeeder)
+	{	m_Settings.m_ActiveLine = activefeeder;	}
+
+	const base::LineAttribute& GetLineAttribute(const base::eMassflowSelect select)
+	{	return m_Settings.m_Attribues[_S32(select)];	}
+
+	void SetLineAttribute(const base::eMassflowSelect select, const base::LineAttribute& lineAttribue)
+	{	m_Settings.m_Attribues[_S32(select)] = lineAttribue;	}
+
+	void SetDateToShow(const DateToShow& rDate)
+	{	
+		m_Settings.m_StartTime = ConvertTime(rDate.dateStart);
+		m_Settings.m_EndTime = ConvertTime(rDate.dateEnd);
+	}
+
+	const DateToShow GetDateToShow(void) const
+	{
+		DateToShow rDate;
+		rDate.dateStart = ConvertTime(m_Settings.m_StartTime);
+		rDate.dateEnd   = ConvertTime(m_Settings.m_EndTime);
+		return rDate;
+	}
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;

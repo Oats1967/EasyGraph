@@ -213,7 +213,7 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 		ASSERT_VALID(pChart);
 
 		const auto& rLineAttrib = g_Statistics.GetLineAttribute(select);
-		pSeries = pChart->CreateSeries(c_SelectString[_S32(select)], rLineAttrib.m_Color, BCGPChartType::BCGP_CT_SIMPLE, rLineAttrib.m_Category);
+		pSeries = pChart->CreateSeries(c_SelectString[_S32(select)], rLineAttrib.m_Color, BCGPChartType::BCGP_CT_SIMPLE, BCGPChartCategory(rLineAttrib.m_Category));
 		if (pSeries)
 		{
 			const auto& cTimeSpan = g_Statistics.GetDateToShow();
@@ -339,7 +339,7 @@ void CChartLineView::OnUpdateChartCategory()
 	auto select = GetSelection();
 	if (select != base::eMassflowSelect::eVIEWMAX)
 	{
-		category = g_Statistics.GetLineAttribute(select).m_Category;
+		category = BCGPChartCategory(g_Statistics.GetLineAttribute(select).m_Category);
 	}
 	pChart->SetChartType(category, BCGP_CT_SIMPLE, FALSE, FALSE);
 

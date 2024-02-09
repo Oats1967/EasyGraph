@@ -185,6 +185,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\EasyControl\BASE\include\EasyGraphSettings.h" />
     <ClInclude Include="CalendarBar.h" />
     <ClInclude Include="ChartCombinedView.h" />
     <ClInclude Include="ChartDoseperformance.h" />

@@ -123,6 +123,9 @@
     <ClInclude Include="MassflowSelectMap.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\EasyControl\BASE\include\EasyGraphSettings.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EasyGraph.cpp">

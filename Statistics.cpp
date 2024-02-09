@@ -5,8 +5,8 @@
 
 CStatistics g_Statistics;
 
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 void CStatistics::Init()
 {
 	const CBCGPColor::BCGP_COLOR c_Color[base::cMassflowSelectMax] = {
@@ -19,29 +19,32 @@ void CStatistics::Init()
 								CBCGPColor::BCGP_COLOR::MediumPurple
 	};
 	// Durchsatz
-	for (int32_t k = 0; k < m_LineAttribues.size(); k++)
+	auto& rAttribut = m_Settings.m_Attribues;
+	for (int32_t k = 0; k < _S32(rAttribut.size()); k++)
 	{
-		auto& rAttrib = m_LineAttribues[k];
-		rAttrib.m_Category = BCGPChartCategory::BCGPChartLine;
-		rAttrib.m_Visible = TRUE;
-		rAttrib.m_LineWidth = 1;
-		rAttrib.m_Color = CBCGPColor(c_Color[k]);
+		auto& rA = rAttribut[k];
+		rA.m_Category = BCGPChartCategory::BCGPChartLine;
+		rA.m_Visible = TRUE;
+		rA.m_LineWidth = 1;
+		rA.m_Color = CBCGPColor(c_Color[k]);
 	}
-	m_LineAttribues[_S32(base::eMassflowSelect::eVIEWTOTALIZER)].m_Visible = FALSE;
-	m_DateToShow.dateEnd = 0;
-	m_DateToShow.dateEnd = 0;
-	m_ActiveLine = 0;
-	m_ActiveFeeder = 0;
+	rAttribut[_S32(base::eMassflowSelect::eVIEWTOTALIZER)].m_Visible = FALSE;
+	time(&m_Settings.m_StartTime);
+	m_Settings.m_EndTime = m_Settings.m_StartTime;
+	m_Settings.m_ActiveLine = 0;
+	m_Settings.m_ActiveFeeder = 0;
 	m_FeederCount = 0;
 	m_DoseSelect = base::eMassflowSelect::eVIEWMAX;
 	m_LogMessages = FALSE;
 }
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 void CStatistics::CalcFeederCount() 
 {
 	m_FeederCount = m_RecDaysList.GetMaxItems();
 }
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 void CStatistics::CalcLogRecMapping(void)
 {
 	m_LogRecMapping.clear();
@@ -55,17 +58,18 @@ void CStatistics::CalcLogRecMapping(void)
 		}
 	}
 }
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 BOOL CStatistics::LoadLogItemList()
 {
 	BOOL result = FALSE;
-	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
+	const auto& ActiveLine = m_Settings.m_ActiveLine;
+	if (ActiveLine >= 0 && ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
 		m_LogDaysList.Clear();
-		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
-		COleDateTime dSO(m_DateToShow.dateStart);
-		COleDateTime dEO(m_DateToShow.dateEnd);
+		const auto& rLineItem = m_LineGraphConfig.m_field[ActiveLine];
+		COleDateTime dSO(m_Settings.m_StartTime);
+		COleDateTime dEO(m_Settings.m_EndTime);
 
 		COleDateTimeSpan difftime = dEO - dSO;
 		int32_t days = difftime.GetDays();
@@ -92,17 +96,18 @@ BOOL CStatistics::LoadLogItemList()
 	}
 	return result;
 }
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 BOOL CStatistics::LoadRectItemList()
 {
 	BOOL result = FALSE;
-	if (m_ActiveLine >= 0 && m_ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
+	const auto& ActiveLine = m_Settings.m_ActiveLine;
+	if (ActiveLine >= 0 && ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
 		m_RecDaysList.Clear();
-		const auto& rLineItem = m_LineGraphConfig.m_field[m_ActiveLine];
-		COleDateTime dSO(m_DateToShow.dateStart);
-		COleDateTime dEO(m_DateToShow.dateEnd);
+		const auto& rLineItem = m_LineGraphConfig.m_field[ActiveLine];
+		COleDateTime dSO(m_Settings.m_StartTime);
+		COleDateTime dEO(m_Settings.m_EndTime);
 
 		COleDateTimeSpan difftime = dEO - dSO;
 		int32_t days = difftime.GetDays();
@@ -134,7 +139,8 @@ BOOL CStatistics::LoadRectItemList()
 	}
 	return result;
 }
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 void CStatistics::CalcTotalizerQMNUmber(void)
 {
 	std::map < uint64_t, std::pair<COleDateTime, float64_t >> history;
@@ -174,9 +180,8 @@ void CStatistics::CalcTotalizerQMNUmber(void)
 		m_QMTotalizerMap.insert({ rItem.first, _F32(std::get<1>(rItem.second) / 3600.0F) });
 	}
 }
-
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 void CStatistics::CalcTotalizerFeeder(void)
 {
 	std::map< uint32_t, std::pair<COleDateTime, float64_t >> history;
@@ -211,31 +216,30 @@ void CStatistics::CalcTotalizerFeeder(void)
 		m_FeederTotalizerMap.insert({ rItem.first, _F32(std::get<1>(rItem.second) / 3600.0F) });
 	}
 }
-
-
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 CString CStatistics::GetHeaderLine() const
 {
 	const base::CLineGraphConfig::VectorConfig& rIt = m_LineGraphConfig.m_field;
-	return (m_ActiveLine < rIt.size()) ? CString("Linie : ") + toCString(rIt[m_ActiveLine].m_szName) : "";
+	const auto& ActiveLine = m_Settings.m_ActiveLine;
+	return (ActiveLine < rIt.size()) ? CString("Linie : ") + toCString(rIt[ActiveLine].m_szName) : "";
 }
-
-
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 CString CStatistics::GetHeaderDateTime() const
 {
 	CString szDate("Vom ");
 
-	if (m_DateToShow.dateStart == m_DateToShow.dateEnd)
+	if (m_Settings.m_StartTime == m_Settings.m_EndTime)
 	{
-		COleDateTime aDate(m_DateToShow.dateStart);
+		COleDateTime aDate(m_Settings.m_StartTime);
 		auto szTemp = aDate.Format("%d.%m.%y");
 		szDate += szTemp;
 	}
 	else
 	{
-		COleDateTime start(m_DateToShow.dateStart);
-		COleDateTime end(m_DateToShow.dateEnd);
+		COleDateTime start(m_Settings.m_StartTime);
+		COleDateTime end(m_Settings.m_EndTime);
 		auto szStart = start.Format("%d.%m.%y");
 		auto szEnd = end.Format("%d.%m.%y");
 		szDate += szStart + CString(" bis ") + szEnd;

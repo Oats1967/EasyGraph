@@ -141,6 +141,22 @@ BOOL CEasyGraphApp::LoadProductDatabase(void)
 	}
 	return result;
 }
+//************************************************************************************************************************
+BOOL CEasyGraphApp::LoadSettings(void)
+{
+	LOGDEBUG("Reading settings, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	base::xml::CProductDatabaseXml config;
+	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	if (!result)
+	{
+		LOGERROR("Error reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	}
+	else
+	{
+		g_Statistics.SetProductDatabase(config.Get());
+	}
+	return result;
+}
 
 
 BOOL CEasyGraphApp::InitInstance()
@@ -176,6 +192,12 @@ BOOL CEasyGraphApp::InitInstance()
 	}
 
 	result = LoadProductDatabase();
+	if (!result)
+	{
+		AfxMessageBox("Error loading ProductDatabase!", MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+	result = LoadSettings();
 	if (!result)
 	{
 		AfxMessageBox("Error loading ProductDatabase!", MB_ICONSTOP | MB_ICONSTOP);
