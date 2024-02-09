@@ -28,6 +28,9 @@ private:
 	BOOL LoadLineGraphConfig(void);
 	BOOL LoadProductDatabase(void);
 	BOOL LoadSettings(void);
+	BOOL SaveSettings(void);
+	void ShutDown();
+
 
 
 public:

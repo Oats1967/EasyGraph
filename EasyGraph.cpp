@@ -22,6 +22,7 @@
 #include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
 #include "BASE/Utils/public/xml/LineGraphConfigXml.h"
 #include "BASE/Utils/public/xml/ProductDatabaseXml.h"
+#include "BASE/Utils/public/xml/EasyGraphSettingsXml.h"
 
 
 #ifdef _DEBUG
@@ -144,16 +145,29 @@ BOOL CEasyGraphApp::LoadProductDatabase(void)
 //************************************************************************************************************************
 BOOL CEasyGraphApp::LoadSettings(void)
 {
-	LOGDEBUG("Reading settings, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
-	base::xml::CProductDatabaseXml config;
-	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+	LOGDEBUG("Reading settings, " << EASYCGRAPHCONFIGFILE.m_SettingsFile);
+	base::xml::CEasyGraphSettingsXml config;
+	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_SettingsFile);
 	if (!result)
 	{
-		LOGERROR("Error reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+		LOGERROR("Error reading Settings, " << EASYCGRAPHCONFIGFILE.m_SettingsFile);
 	}
 	else
 	{
-		g_Statistics.SetProductDatabase(config.Get());
+		g_Statistics.SetSettings(config.Get());
+	}
+	return result;
+}
+//************************************************************************************************************************
+BOOL CEasyGraphApp::SaveSettings(void)
+{
+	LOGDEBUG("Saving settings, " << EASYCGRAPHCONFIGFILE.m_SettingsFile);
+	base::xml::CEasyGraphSettingsXml config(g_Statistics.GetSettings());
+
+	auto result = config.Save(EASYCGRAPHCONFIGFILE.m_SettingsFile);
+	if (!result)
+	{
+		LOGERROR("Error saving Settings, " << EASYCGRAPHCONFIGFILE.m_SettingsFile);
 	}
 	return result;
 }
@@ -309,11 +323,25 @@ BOOL CEasyGraphApp::InitInstance()
 	return TRUE;
 }
 
+//**************************************************************************************************************
+//**************************************************************************************************************
+void CEasyGraphApp::ShutDown()
+{
+	static BOOL bShutdown = FALSE;
+
+	if (bShutdown)
+	{
+		return;
+	}
+	SaveSettings();
+	bShutdown = TRUE;
+}
+
 int CEasyGraphApp::ExitInstance()
 {
-	//TODO: Zusätzliche Ressourcen behandeln, die Sie möglicherweise hinzugefügt haben
+	ShutDown();
+	BCGCBProCleanUp();
 	AfxOleTerm(FALSE);
-
 	return CWinAppEx::ExitInstance();
 }
 
