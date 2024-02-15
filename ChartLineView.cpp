@@ -66,7 +66,7 @@ CChartLineView::CChartLineView()
 				CBCGPColor::BCGP_COLOR::LightCoral }
 {
 	//{{AFX_DATA_INIT(CChartLineView)
-	m_nZoomType = 0;
+	m_nZoomType = 1;
 	m_strInfo = _T("");
 	
 	//}}AFX_DATA_INIT

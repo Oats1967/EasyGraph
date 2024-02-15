@@ -278,7 +278,7 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	pCategoryProp->AddOption(_T("Linie"));
 	pCategoryProp->AddOption(_T("Flaeche"));
 	pCategoryProp->AllowEdit(FALSE);
-	pCategoryProp->SetValue(COleVariant((attrib.m_Category == BCGPChartCategory::BCGPChartLine) ? _T("Linie") : _T("Flaeche"), VT_BSTR));
+	pCategoryProp->SetValue(COleVariant((attrib.m_Category == base::LineCategory::eLine) ? _T("Linie") : _T("Flaeche"), VT_BSTR));
 	pGroupProp->AddSubItem(pCategoryProp);
 
 	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, _T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
@@ -378,7 +378,7 @@ void CPropertiesWnd::OnSetCategory(CPropertyGrid* pGrid)
 	LPVARIANT pVar = (LPVARIANT)val;
 	ASSERT(pVar->vt == VT_BSTR);
 	CString str1{ pVar->bstrVal };
-	lineAttrib.m_Category = ( str1 == "Linie") ? BCGPChartCategory::BCGPChartLine : BCGPChartCategory::BCGPChartArea;
+	lineAttrib.m_Category = ( str1 == "Linie") ? base::LineCategory::eLine : base::LineCategory::eArea;
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(pGrid->GetSelect()));
 }

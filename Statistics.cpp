@@ -23,7 +23,7 @@ void CStatistics::Init()
 	for (int32_t k = 0; k < _S32(rAttribut.size()); k++)
 	{
 		auto& rA = rAttribut[k];
-		rA.m_Category = BCGPChartCategory::BCGPChartLine;
+		rA.m_Category = base::LineCategory::eLine;
 		rA.m_Visible = TRUE;
 		rA.m_LineWidth = 1;
 		rA.m_Color = CBCGPColor(c_Color[k]);

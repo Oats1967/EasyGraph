@@ -132,13 +132,16 @@ void CChartCombinedView::OnUpdateSeries()
 	DECLARE_MASSFLOWSELECT(field);
 	for (const auto& rItem : field)
 	{
-		const auto& lineAttrib = g_Statistics.GetLineAttribute(rItem);
-		if (lineAttrib.m_Visible)
+		if (rItem != base::eMassflowSelect::eVIEWTOTALIZER)
 		{
-			auto pSeries = CreateSeries(rItem, g_Statistics.GetActiveFeeder());
-			if (pSeries)
+			const auto& lineAttrib = g_Statistics.GetLineAttribute(rItem);
+			if (lineAttrib.m_Visible)
 			{
-				m_pSeries.insert({ rItem, pSeries });
+				auto pSeries = CreateSeries(rItem, g_Statistics.GetActiveFeeder());
+				if (pSeries)
+				{
+					m_pSeries.insert({ rItem, pSeries });
+				}
 			}
 		}
 	}
