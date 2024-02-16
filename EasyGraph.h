@@ -31,18 +31,15 @@ private:
 	BOOL SaveSettings(void);
 	void ShutDown();
 
-
-
 public:
 	CEasyGraphApp() noexcept;
-
-
-
 
 // Überschreibungen
 public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
+
+	BOOL CheckLicence(void);
 
 // Implementierung
 	UINT  m_nAppLook;

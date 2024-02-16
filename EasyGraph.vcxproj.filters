@@ -19,6 +19,9 @@
     <Filter Include="Headerdateien\Charts">
       <UniqueIdentifier>{39e0e4fd-b886-48f5-9985-005d9eb51335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\License">
+      <UniqueIdentifier>{3c70c5ed-7b5f-47ae-a63b-72c0e33cb223}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EasyGraph.h">
@@ -196,6 +199,15 @@
     </ClCompile>
     <ClCompile Include="CustomYAxis.cpp">
       <Filter>Quelldateien\Charts</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\hostid.cpp">
+      <Filter>Quelldateien\License</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\IdentifyB.cpp">
+      <Filter>Quelldateien\License</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\license.cpp">
+      <Filter>Quelldateien\License</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

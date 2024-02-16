@@ -18,6 +18,8 @@
 #include "wmuser.h"
 #include "global.h"
 #include "StringConvert.h"
+#include "Xlicense/LicenseLib/License.h"
+#include "Xlicense/LicenseLib/hostid.h"
 
 #include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
 #include "BASE/Utils/public/xml/LineGraphConfigXml.h"
@@ -70,6 +72,73 @@ static BOOL ReadCMDPath(CString& sz)
 	return !sz.IsEmpty();
 }
 
+
+//------------------------------------------------------------------------------------
+///  @brief   ReadSystemPath
+///
+///            This method ....
+///
+///  @author  Detlef Hafer
+///
+///
+///  @param[in] pszHelpFilePathof type
+///  @param[in] iLicence       of type
+///  @return BOOL
+///
+//------------------------------------------------------------------------------------
+static BOOL ReadSystemPath(LPCSTR pszHelpFilePath, const LICENCETYPE iLicence)
+{
+	time_t aTime = time(NULL);
+	auto iErg = license::CheckLicenceFile(std::string(pszHelpFilePath), iLicence, aTime);
+	if (iErg != L_OK)
+	{
+		return FALSE;
+	}
+	return TRUE;
+}
+
+//------------------------------------------------------------------------------------
+///  @brief   ReadLicence
+///
+///           This method ....
+///
+///  @author  Detlef Hafer
+///
+///
+///  @param[in] none
+///  @return BOOL
+///
+//------------------------------------------------------------------------------------
+BOOL ReadLicence(void)
+{
+	CEasyGraphApp* pApp = (CEasyGraphApp*)AfxGetApp();
+	return pApp->CheckLicence();
+}
+
+
+
+//------------------------------------------------------------------------------------
+///  @brief   CheckLicence
+///
+///           This method ....
+///
+///  @author  Detlef Hafer
+///
+///  @class        CEasyControlApp
+///
+///  @param[in] none
+///  @return BOOL
+///
+//------------------------------------------------------------------------------------
+BOOL CEasyGraphApp::CheckLicence(void)
+{
+	if (!ReadSystemPath(m_szCMDPath, E_EASYGRAPH))
+	{
+		PostQuitMessage(-1);
+		return FALSE;
+	}
+	return TRUE;
+}
 
 CEasyGraphApp::CEasyGraphApp() noexcept
 {
@@ -233,7 +302,7 @@ BOOL CEasyGraphApp::InitInstance()
 	//CSplashWindow::ShowSplashScreen(NULL, "http://applehome.com/", 3000);
 
 	EnableTaskbarInteraction();
-#if 0
+#if 1
 	CSplashWindow::ShowSplashScreen(NULL, "Starting application...");
 	Sleep(1000);
 
@@ -262,6 +331,14 @@ BOOL CEasyGraphApp::InitInstance()
 	InitKeyboardManager();
 
 	InitTooltipManager();
+
+#ifndef _DEBUG
+	if (!ReadLicence())
+	{
+		AfxMessageBox("Invalid license!", MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+#endif
 
 	CMFCToolTipInfo params;
 	params.m_bVislManagerTheme = TRUE;

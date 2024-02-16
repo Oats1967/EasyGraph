@@ -222,6 +222,18 @@
     <ClInclude Include="WorkspaceBar.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\hostid.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\IdentifyB.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\EasyControl\XLicense\LicenseLib\license.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="CalendarBar.cpp" />
     <ClCompile Include="ChartCombinedView.cpp" />
     <ClCompile Include="ChartDoseperformance.cpp" />

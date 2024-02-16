@@ -50,12 +50,12 @@ const int CSplashWindow::m_productNameLeftMargin = 20;			// distance from left s
 const int CSplashWindow::m_productNameRightMargin = 20;			// distance from right side to place name, company, copyright and version
 const CString CSplashWindow::m_productNameFontName = "Arial";	// name of font for application name
 CSize CSplashWindow::m_productNamePointSize = CSize(-1,-1);		// point size used for the application name, (-1,-1) ==> Calculate point size
-COLORREF CSplashWindow::m_productNameTextColor = RGB(109,140,44);// color used for text
+COLORREF CSplashWindow::m_productNameTextColor = RGB(20,40,200);// color used for text
 
-const BOOL CSplashWindow::m_displayCompanyName = TRUE;			// true if displaying companyName
-const BOOL CSplashWindow::m_displayVersion = TRUE;				// true if displaying version
-const BOOL CSplashWindow::m_displayCopyright = TRUE;			// true if displaying copyright
-const BOOL CSplashWindow::m_displayComments = TRUE;				// true if displaying comments
+const BOOL CSplashWindow::m_displayCompanyName = FALSE;			// true if displaying companyName
+const BOOL CSplashWindow::m_displayVersion = FALSE;				// true if displaying version
+const BOOL CSplashWindow::m_displayCopyright = FALSE;			// true if displaying copyright
+const BOOL CSplashWindow::m_displayComments = FALSE;			// true if displaying comments
 
 // create rectangle that strings in body have to fit in
 const int CSplashWindow::m_bodyVerticalOffset = 270;			// empty space between top border and top of body
@@ -231,16 +231,20 @@ int CSplashWindow::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 CSize CSplashWindow::FindFontPointSize( CPaintDC &dc, LPCTSTR fontName, const CStringArray &stringsToCheck, CSize maximumSize )
 {
-
-	CFont font;
-	int pointSize = 8;
-	CSize previousLargest = CSize(0,0);
 	CSize largest = CSize(0,0);
 
 	int numberOfStringsToCheck = stringsToCheck.GetSize();
-	maximumSize.cy /= numberOfStringsToCheck;
+	if (numberOfStringsToCheck == 0)
+	{
+		return largest;
+	}
 
-	while ( 1 ) {
+	CFont font;
+	int pointSize = 8;
+	CSize previousLargest = CSize(0, 0);
+	maximumSize.cy /= numberOfStringsToCheck;
+	while ( 1 ) 
+	{
 		CFont* originalFont = dc.SelectObject(&font);
 		font.CreatePointFont( pointSize*10, fontName, &dc);
 		dc.SelectObject(&font);
@@ -300,7 +304,8 @@ void CSplashWindow::OnPaint()
 	sectionSize.cx = productNameRightMargin - productNameLeftMargin;
 	sectionSize.cy = m_productNameVerticalHeight;
 
-	if ( m_productNamePointSize == CSize(-1,-1) ) {
+	if ( m_productNamePointSize == CSize(-1,-1) ) 
+	{
 		stringsToCheck.RemoveAll();
 		stringsToCheck.Add(m_productNameString);
 		m_productNamePointSize = CSplashWindow::FindFontPointSize( dc, m_productNameFontName, stringsToCheck, sectionSize );
@@ -322,7 +327,8 @@ void CSplashWindow::OnPaint()
 	int bodyRightMargin = windowWidth - m_bodyRightMargin;
 	sectionSize.cx = bodyRightMargin - bodyLeftMargin;
 	sectionSize.cy = m_bodyVerticalHeight;
-	if ( m_bodyPointSize == CSize(-1,-1) ) {
+	if ( m_bodyPointSize == CSize(-1,-1) ) 
+	{
 		stringsToCheck.RemoveAll();
 		if ( m_displayCompanyName ) 
 			stringsToCheck.Add(m_companyNameString);
@@ -334,44 +340,49 @@ void CSplashWindow::OnPaint()
 			stringsToCheck.Add(m_commentsString);
 		m_bodyPointSize = CSplashWindow::FindFontPointSize( dc, m_bodyFontName, stringsToCheck, sectionSize );
 	}
+	if (m_bodyPointSize.cx > 0)
+	{
+		CFont bodyFont;
+		bodyFont.CreatePointFont(m_bodyPointSize.cx * 10, m_bodyFontName, &dc);
 
-	CFont bodyFont;
-	bodyFont.CreatePointFont(m_bodyPointSize.cx*10, m_bodyFontName, &dc);
+		dc.SetTextColor((m_bodyTextColor == -1) ? m_productNameTextColor : m_bodyTextColor);
+		dc.SetBkMode(TRANSPARENT);
+		auto oldfont = dc.SelectObject(&bodyFont);
 
-	dc.SetTextColor( (m_bodyTextColor == -1) ? m_productNameTextColor : m_bodyTextColor );
-	dc.SetBkMode(TRANSPARENT);
-	dc.SelectObject(&bodyFont);
-
-	int singleStringOfBodyHeight = m_bodyPointSize.cy;
-	topOfText = m_bodyVerticalOffset; 
-	bottomOfText = topOfText + singleStringOfBodyHeight; 
-	if ( m_displayCompanyName ) {
-		CRect companyNameRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText );
-		dc.DrawText(m_companyNameString, companyNameRect, DT_VCENTER|DT_CENTER|DT_SINGLELINE );
-		topOfText += singleStringOfBodyHeight; 
-		bottomOfText += singleStringOfBodyHeight; 
-	}
-	if ( m_displayVersion ) {
-		CRect versionRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText );
-		dc.DrawText(m_versionString, versionRect, DT_VCENTER|DT_CENTER|DT_SINGLELINE );
-		topOfText += singleStringOfBodyHeight; 
-		bottomOfText += singleStringOfBodyHeight; 
-	}
-	if ( m_displayCopyright ) {
-		CRect copyrightRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText );
-		dc.DrawText(m_copyrightString, copyrightRect, DT_VCENTER|DT_CENTER|DT_SINGLELINE );
-		topOfText += singleStringOfBodyHeight; 
-		bottomOfText += singleStringOfBodyHeight; 
-	}
-	if ( m_displayComments ) {
-		CRect commentsRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText );
-		dc.DrawText(m_commentsString, commentsRect, DT_VCENTER|DT_CENTER|DT_SINGLELINE );
-		topOfText += singleStringOfBodyHeight; 
-		bottomOfText += singleStringOfBodyHeight; 
+		int singleStringOfBodyHeight = m_bodyPointSize.cy;
+		topOfText = m_bodyVerticalOffset;
+		bottomOfText = topOfText + singleStringOfBodyHeight;
+		if (m_displayCompanyName) {
+			CRect companyNameRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText);
+			dc.DrawText(m_companyNameString, companyNameRect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+			topOfText += singleStringOfBodyHeight;
+			bottomOfText += singleStringOfBodyHeight;
+		}
+		if (m_displayVersion) {
+			CRect versionRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText);
+			dc.DrawText(m_versionString, versionRect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+			topOfText += singleStringOfBodyHeight;
+			bottomOfText += singleStringOfBodyHeight;
+		}
+		if (m_displayCopyright) {
+			CRect copyrightRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText);
+			dc.DrawText(m_copyrightString, copyrightRect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+			topOfText += singleStringOfBodyHeight;
+			bottomOfText += singleStringOfBodyHeight;
+		}
+		if (m_displayComments) {
+			CRect commentsRect = CRect(bodyLeftMargin, topOfText, bodyRightMargin, bottomOfText);
+			dc.DrawText(m_commentsString, commentsRect, DT_VCENTER | DT_CENTER | DT_SINGLELINE);
+			topOfText += singleStringOfBodyHeight;
+			bottomOfText += singleStringOfBodyHeight;
+		}
+		dc.SelectObject(oldfont);
+		bodyFont.DeleteObject();
 	}
 
 	// draw status
-	if ( !m_statusMessage.IsEmpty() ) {
+	if ( !m_statusMessage.IsEmpty() ) 
+	{
 		int statusLeftMargin = m_statusLeftMargin;
 		int statusRightMargin = windowWidth - m_statusRightMargin;
 		sectionSize.cx = statusRightMargin - statusLeftMargin;
@@ -382,7 +393,6 @@ void CSplashWindow::OnPaint()
 			stringsToCheck.Add(m_statusMessage);
 			m_statusMessagePointSize = CSplashWindow::FindFontPointSize( dc, m_statusMessageFontName, stringsToCheck, sectionSize );
 		}
-
 		topOfText = m_statusVerticalOffset; 
 		bottomOfText = topOfText + m_statusVerticalHeight; 
 		CRect statusRect = CRect(statusLeftMargin,topOfText, statusRightMargin, bottomOfText );
@@ -395,11 +405,8 @@ void CSplashWindow::OnPaint()
 		dc.SelectObject(&statusFont);
 		dc.DrawText(m_statusMessage, statusRect, DT_VCENTER|DT_CENTER|DT_SINGLELINE );
 	}
-
-
 	dc.SelectObject(&originalFont);
 	productNameFont.DeleteObject();
-	bodyFont.DeleteObject();
 }
 
 void CSplashWindow::OnTimer(UINT_PTR nIDEvent)
