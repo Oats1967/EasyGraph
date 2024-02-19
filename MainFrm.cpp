@@ -26,12 +26,12 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_WINDOW_MANAGER, &CMainFrame::OnWindowManager)
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
-	ON_COMMAND(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
-	ON_CBN_SELENDOK(ID_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
-	ON_COMMAND(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
-	ON_CBN_SELENDOK(ID_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
-	ON_COMMAND(ID_LOGMESSAGE_BUTTON, &CMainFrame::OnLogMessages)
-	ON_UPDATE_COMMAND_UI(ID_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
+	ON_COMMAND(ID_TB_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
+	ON_CBN_SELENDOK(ID_TB_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
+	ON_COMMAND(ID_TB_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
+	ON_CBN_SELENDOK(ID_TB_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
+	ON_COMMAND(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnLogMessages)
+	ON_UPDATE_COMMAND_UI(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
 
 
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
@@ -104,17 +104,22 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CMenu menuView;
 	menuView.LoadMenu(IDR_MENU_VIEW);
 
-	m_wndToolBar.ReplaceButton(ID_TOOLBAR_VIEW,
+	m_wndToolBar.ReplaceButton(ID_TB_VIEW,
 		CBCGPToolbarMenuButton((UINT)-1, menuView.Detach(), -1, _T("&View")));
 
-	m_wndToolBar.ReplaceButton(ID_COLOR_LABEL, CBCGPToolbarLabel(ID_COLOR_LABEL, _T("Linie:")));
+	menuView.LoadMenu(IDR_MENU_MAGNIFY);
+	m_wndToolBar.ReplaceButton(ID_TB_MAGNIFY,
+		CBCGPToolbarMenuButton((UINT)-1, menuView.GetSubMenu(0)->GetSafeHmenu(), -1, _T("&Zoom")));
+	
+
+	m_wndToolBar.ReplaceButton(ID_TB_LABEL_LINE, CBCGPToolbarLabel(ID_TB_LABEL_LINE, _T("Linie:")));
 
 	{
-		CBCGPToolbarComboBoxButton comboTheme(ID_COLOR_THEME_COMBO,
+		CBCGPToolbarComboBoxButton comboTheme(ID_TB_COLOR_THEME_COMBO,
 #ifdef _BCGSUITE_INC_
-			GetCmdMgr()->GetCmdImage(ID_COLOR_THEME_COMBO, FALSE),
+			GetCmdMgr()->GetCmdImage(ID_TB_COLOR_THEME_COMBO, FALSE),
 #else
-			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
+			CImageHash::GetImageOfCommand(ID_TB_COLOR_THEME_COMBO, FALSE),
 #endif
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
@@ -125,14 +130,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		}
 		comboTheme.SelectItem(0);
 
-		m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
+		m_wndToolBar.ReplaceButton(ID_TB_COLOR_THEME_COMBO, comboTheme);
 	}
 	{
-		CBCGPToolbarComboBoxButton comboTheme(ID_DOSESELECT_COMBO,
+		CBCGPToolbarComboBoxButton comboTheme(ID_TB_DOSESELECT_COMBO,
 #ifdef _BCGSUITE_INC_
-			GetCmdMgr()->GetCmdImage(ID_DOSESELECT_COMBO, FALSE),
+			GetCmdMgr()->GetCmdImage(ID_TB_DOSESELECT_COMBO, FALSE),
 #else
-			CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
+			CImageHash::GetImageOfCommand(ID_TB_COLOR_THEME_COMBO, FALSE),
 #endif
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
@@ -140,18 +145,18 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		szTemp.Format("Dosierung: all");
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
-		m_wndToolBar.ReplaceButton(ID_DOSESELECT_COMBO, comboTheme);
+		m_wndToolBar.ReplaceButton(ID_TB_DOSESELECT_COMBO, comboTheme);
 	}
-	m_wndToolBar.ReplaceButton(ID_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_LOGMESSAGE_BUTTON, _T("Logmeldungen:")));
-	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
+	m_wndToolBar.ReplaceButton(ID_TB_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_TB_LOGMESSAGE_BUTTON, _T("Logmeldungen:")));
+	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
 
 	//m_wndToolBar.ReplaceButton(ID_ANIMATION_LABEL, CBCGPToolbarLabel(ID_ANIMATION_LABEL, _T("Animation:")));
 
 	//m_wndToolBar.ReplaceButton(ID_ANIMATION_COMBO, CToolbarAnimationCombo(ID_ANIMATION_COMBO));
 
-	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_DARK_THEME), NULL, TRUE, FALSE);
-	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_CHART_EXPORT), NULL, TRUE, TRUE);
-	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_CHART_COPY), NULL, TRUE, TRUE);
+	//m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_DARK_THEME), NULL, TRUE, FALSE);
+	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_TB_CHART_EXPORT), NULL, TRUE, TRUE);
+	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_TB_CHART_COPY), NULL, TRUE, TRUE);
 
 	m_wndToolBar.EnableCustomizeButton(TRUE, (UINT)-1, _T("More Items"));
 
@@ -250,11 +255,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
 
-	CBCGPToolbarComboBoxButton comboTheme(ID_COLOR_THEME_COMBO,
+	CBCGPToolbarComboBoxButton comboTheme(ID_TB_COLOR_THEME_COMBO,
 #ifdef _BCGSUITE_INC_
-		GetCmdMgr()->GetCmdImage(ID_COLOR_THEME_COMBO, FALSE),
+		GetCmdMgr()->GetCmdImage(ID_TB_COLOR_THEME_COMBO, FALSE),
 #else
-		CImageHash::GetImageOfCommand(ID_COLOR_THEME_COMBO, FALSE),
+		CImageHash::GetImageOfCommand(ID_TB_COLOR_THEME_COMBO, FALSE),
 #endif
 		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150));
 
@@ -264,7 +269,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	comboTheme.AddItem(_T("Blue Theme"));
 
 	comboTheme.SelectItem(m_nActiveLine);
-	m_wndToolBar.ReplaceButton(ID_COLOR_THEME_COMBO, comboTheme);
+	m_wndToolBar.ReplaceButton(ID_TB_COLOR_THEME_COMBO, comboTheme);
 
 	// Benutzerdefinierte Symbolleistenvorgänge zulassen:
 	InitUserToolbars(nullptr, uiFirstUserToolBarId, uiLastUserToolBarId);
@@ -373,7 +378,7 @@ void CMainFrame::OnLogMessages()
 	UINT nStyle;
 	int iImage;
 
-	m_wndToolBar.GetButtonInfo(m_wndToolBar.CommandToIndex(ID_LOGMESSAGE_BUTTON), nID, nStyle, iImage);
+	m_wndToolBar.GetButtonInfo(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), nID, nStyle, iImage);
 	BOOL bPressed = (nStyle & TBBS_CHECKED) == 0;
 	g_Statistics.SetLogMessages(bPressed);
 	UpdateNewData();
@@ -499,7 +504,7 @@ void CMainFrame::OnWindowManager()
 
 void CMainFrame::OnLineCombo()
 {
-	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_COLOR_THEME_COMBO)));
+	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_TB_COLOR_THEME_COMBO)));
 	ASSERT_VALID(pCombobox);
 	m_nActiveLine = pCombobox->GetCurSel();
 	g_Statistics.SetActiveLine(m_nActiveLine);
@@ -508,7 +513,7 @@ void CMainFrame::OnLineCombo()
 
 void CMainFrame::OnDoseSelectCombo()
 {
-	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO)));
+	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO)));
 	ASSERT_VALID(pCombobox);
 	m_nActiveFeeder = pCombobox->GetCurSel();
 	g_Statistics.SetActiveFeeder(m_nActiveFeeder - 1);
@@ -655,7 +660,7 @@ void CMainFrame::UpdateNewData()
 	auto count = g_Statistics.GetFeederCount();
 
 	// Find button index for command ID
-	int index = m_wndToolBar.CommandToIndex(ID_DOSESELECT_COMBO);
+	int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
 
 	// Retrieve button
 	auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));

@@ -41,7 +41,7 @@ static base::CEasyGraphConfig g_EasyGraphCfg;
 
 BEGIN_MESSAGE_MAP(CEasyGraphApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CEasyGraphApp::OnAppAbout)
-	ON_COMMAND(ID_COLOR_THEME_COMBO, &CEasyGraphApp::OnAppAbout)
+	ON_COMMAND(ID_TB_COLOR_THEME_COMBO, &CEasyGraphApp::OnAppAbout)
 	// Dateibasierte Standarddokumentbefehle
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
@@ -143,7 +143,7 @@ BOOL CEasyGraphApp::CheckLicence(void)
 CEasyGraphApp::CEasyGraphApp() noexcept
 {
 	m_bHiColorIcons = TRUE;
-
+	m_bSaveState = FALSE;
 
 	m_nAppLook = 0;
 	// Neustart-Manager unterstützen
@@ -259,6 +259,8 @@ BOOL CEasyGraphApp::InitInstance()
 	InitCommonControlsEx(&InitCtrls);
 
 	CWinAppEx::InitInstance();
+
+	m_bSaveState = FALSE;
 
 	auto result = LoadInitFile();
 	if (!result)

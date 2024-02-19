@@ -6,3 +6,4 @@ IMPLEMENT_DYNCREATE(CChartDoseperformance, CChartLineView)
 
 
 
+

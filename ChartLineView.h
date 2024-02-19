@@ -24,7 +24,7 @@ protected:
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
 
-	int					m_nZoomType;
+	BCGPChartMouseConfig::ZoomScrollOptions	m_nZoomType;
 	CString				m_strInfo;
 	BOOL				m_bInScroll;
 	std::array<CBCGPColor::BCGP_COLOR, GLOBALDOSEMAXCOUNT> c_Colors;

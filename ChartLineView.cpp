@@ -64,9 +64,9 @@ CChartLineView::CChartLineView()
 				CBCGPColor::BCGP_COLOR::Gainsboro,
 				CBCGPColor::BCGP_COLOR::Indigo,
 				CBCGPColor::BCGP_COLOR::LightCoral }
+	, m_nZoomType{ BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE }
 {
 	//{{AFX_DATA_INIT(CChartLineView)
-	m_nZoomType = 1;
 	m_strInfo = _T("");
 	
 	//}}AFX_DATA_INIT
@@ -301,18 +301,25 @@ void CChartLineView::OnUpdateZoom()
 
 	switch (m_nZoomType)
 	{
-	case 0:
+	case BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN:
 		// Default - "Mouse wheel and pan" mode
 		m_strInfo = _T("Use mouse wheel to zoom chart. If the chart is zoomed, you can pan it using left mouse button.");
-		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_WHEEL_PAN);
 		break;
 
-	case 1:
+	case BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY:
 		m_strInfo = _T("Left mouse button - zoom-in; Right mouse button - zoom out. Mouse wheel - scroll horizontally.");
-		pChart->SetZoomScrollConfig(BCGPChartMouseConfig::ZSO_MAGNIFY);
 		break;
+
+	case BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT:
+		m_strInfo = _T("Left mouse button - zoom-in; Right mouse button - zoom out. Mouse wheel - scroll horizontally.");
+		break;
+
+	case BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE:
+		m_strInfo = _T("Left mouse button - zoom-in; Right mouse button - zoom out. Mouse wheel - scroll horizontally.");
+		break;
+
 	}
-	//m_wndChart.SetFocus();
+	pChart->SetZoomScrollConfig(m_nZoomType);
 }
 
 

@@ -25,5 +25,14 @@ protected:
 	// Implementation
 protected:
 	virtual ~CChartCombinedView();
+
+public:
+	afx_msg void OnMenuSelect(UINT id);
+	afx_msg void OnUpdateMenuSelect(CCmdUI* pCmdUI);
+
+
+public:
+	DECLARE_MESSAGE_MAP()
+
 };
 
