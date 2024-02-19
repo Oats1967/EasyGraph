@@ -368,18 +368,6 @@ BOOL CEasyGraphApp::InitInstance()
 
 	AddDocTemplate(pDocTemplate);
 	 
-#if 0
-	// Haupt-MDI-Rahmenfenster erstellen
-	CMainFrame* pMainFrame = new CMainFrame;
-	if (!pMainFrame || !pMainFrame->LoadFrame(IDR_MAINFRAME))
-	{
-		delete pMainFrame;
-		return FALSE;
-	}
-	m_pMainWnd = pMainFrame;
-#endif
-
-
 	// Befehlszeile auf Standardumgebungsbefehle überprüfen, DDE, Datei öffnen
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
