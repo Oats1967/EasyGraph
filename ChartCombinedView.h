@@ -17,6 +17,10 @@ protected:
 	void OnUpdateSeries() override;
 	void OnUpdateChart() override;
 	void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
+	LRESULT OnChartMouseUp(WPARAM /*wp*/, LPARAM lp);
+	LRESULT OnChartMouseDown(WPARAM /*wp*/, LPARAM lp);
+	LRESULT OnAfterDraw(WPARAM /*wp*/, LPARAM lp);
+
 
 
 	void OnColorThemeUpdated();

@@ -7,6 +7,16 @@
 #include "resource.h"
 
 
+struct MarkerInfo
+{
+	BOOL	m_ShowDataLabel = FALSE;
+	int32_t m_DataLabelAngle = 0;
+	BOOL	m_ShowMarker = FALSE;
+	int32_t m_MarkerSize = 4;
+	BOOL	m_DataLabelDropLineToMarker = FALSE;
+};
+
+
 class CChartLineView : public CEasyGraphView
 {
 protected:
@@ -35,7 +45,7 @@ protected:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX) override;    // DDX/DDV support
 	virtual void OnActivateView(BOOL bActivate, CView* pActivateView, CView* pDeactiveView) override;
-	virtual CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index);
+	virtual CBCGPChartSeries* CreateSeries(const base::eMassflowSelect select, const int32_t index, const MarkerInfo* pMarkerInfo = nullptr);
 	virtual void AddLogItems();
 
 	virtual void OnUpdateLineColor(const base::eMassflowSelect) override;

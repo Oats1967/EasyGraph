@@ -12,6 +12,9 @@ BEGIN_MESSAGE_MAP(CChartCombinedView, CChartLineView)
 	//}}AFX_MSG_MAP
 	ON_COMMAND_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL,  OnMenuSelect)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnUpdateMenuSelect)
+	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_MOUSE_UP, OnChartMouseUp)
+	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_MOUSE_DOWN, OnChartMouseDown)
+	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_AFTER_DRAW, OnAfterDraw)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -243,6 +246,60 @@ void CChartCombinedView::OnActivateView(BOOL bActivate, CView* pActivateView, CV
 }
 
 
+static BOOL bZoomStart = FALSE;
+static BOOL bMarkerSet = FALSE;
 
 
+LRESULT CChartCombinedView::OnChartMouseUp(WPARAM /*wp*/, LPARAM lp)
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
+#if 0
+	BCGPChartHitInfo* pHitInfo = (BCGPChartHitInfo*)lp;
+	if (pHitInfo->m_nMouseButton != 0 ||
+		(pHitInfo->m_hitInfo != BCGPChartHitInfo::HIT_DATA_POINT && pHitInfo->m_hitInfo != BCGPChartHitInfo::HIT_DATA_TABLE))
+	{
+		return 0;
+	}
+#endif
+	auto nZoomType = pChart->GetZoomScrollConfig();
+	if (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT)
+	{
+		if (bZoomStart)
+		{
+			bZoomStart = FALSE;
+			bMarkerSet = TRUE;
+		}
+	}
+	return 0L;
+}
+
+LRESULT CChartCombinedView::OnChartMouseDown(WPARAM /*wp*/, LPARAM lp)
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
+	auto nZoomType = pChart->GetZoomScrollConfig();
+	if (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT)
+	{
+		bZoomStart = TRUE;
+	}
+	return 0L;
+}
+
+
+LRESULT CChartCombinedView::OnAfterDraw(WPARAM /*wp*/, LPARAM lp)
+{
+	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
+	ASSERT_VALID(pChart);
+
+	auto nZoomType = pChart->GetZoomScrollConfig();
+
+	if (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT)
+	{
+		int k = 0;
+	}
+	return 0L;
+}
 

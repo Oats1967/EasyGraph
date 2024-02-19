@@ -201,7 +201,7 @@ void CChartLineView::AddLogItems()
 	}
 }
 
-CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect select, const int32_t index)
+CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect select, const int32_t index, const MarkerInfo* pMarkerInfo)
 {
 	CBCGPChartSeries* pSeries = nullptr;
 
@@ -226,7 +226,15 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 				COleDateTime dtTime{ rItem.GetTime() };
 				auto szTime = dtTime.Format("%d.%m.%y %H:%M:%S");
 				int k = pSeries->AddDataPoint(szTime, rItem.Get(select, index));
-				printf("%d", k);
+
+				if (pMarkerInfo)
+				{
+					pSeries->ShowDataLabel(pMarkerInfo->m_ShowDataLabel, k);
+					pSeries->SetDataLabelAngle(pMarkerInfo->m_DataLabelAngle, k);
+					pSeries->ShowMarker(pMarkerInfo->m_ShowMarker, k);
+					pSeries->SetMarkerSize(pMarkerInfo->m_MarkerSize, k);
+					pSeries->SetDataLabelDropLineToMarker(pMarkerInfo->m_DataLabelDropLineToMarker, k);
+				}
 			}
 			BCGPChartFormatSeries style = pSeries->GetSeriesFormat();
 			style.SetSeriesLineWidth(rLineAttrib.m_LineWidth);
