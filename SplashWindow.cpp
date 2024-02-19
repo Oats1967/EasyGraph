@@ -53,18 +53,18 @@ CSize CSplashWindow::m_productNamePointSize = CSize(-1,-1);		// point size used 
 COLORREF CSplashWindow::m_productNameTextColor = RGB(20,40,200);// color used for text
 
 const BOOL CSplashWindow::m_displayCompanyName = FALSE;			// true if displaying companyName
-const BOOL CSplashWindow::m_displayVersion = FALSE;				// true if displaying version
+const BOOL CSplashWindow::m_displayVersion = TRUE;				// true if displaying version
 const BOOL CSplashWindow::m_displayCopyright = FALSE;			// true if displaying copyright
 const BOOL CSplashWindow::m_displayComments = FALSE;			// true if displaying comments
 
 // create rectangle that strings in body have to fit in
-const int CSplashWindow::m_bodyVerticalOffset = 270;			// empty space between top border and top of body
-const int CSplashWindow::m_bodyVerticalHeight = 120;			// maximum height of body
-const int CSplashWindow::m_bodyLeftMargin = 200;				// distance from left side to place company name, copyright, version and comment
+const int CSplashWindow::m_bodyVerticalOffset = 350;			// empty space between top border and top of body
+const int CSplashWindow::m_bodyVerticalHeight = 30;			    // maximum height of body
+const int CSplashWindow::m_bodyLeftMargin = 440;				// distance from left side to place company name, copyright, version and comment
 const int CSplashWindow::m_bodyRightMargin = 20;				// distance from right side to place company name, copyright, version and comment
 const CString CSplashWindow::m_bodyFontName = "Arial";			// name of font for company name, copyright and version	
 CSize CSplashWindow::m_bodyPointSize = CSize(-1,-1);			// point size used for company name, copyright and version, (-1,-1) ==> Calculate point size	
-COLORREF CSplashWindow::m_bodyTextColor = RGB(109,140,44);		// color used for company name, copyright and version (-1 ==> use application name color)
+COLORREF CSplashWindow::m_bodyTextColor = RGB(250,250,250);		// color used for company name, copyright and version (-1 ==> use application name color)
 
 // create rectangle for status line string
 const int CSplashWindow::m_statusVerticalOffset = 390;			// empty space between top border and top of status string
@@ -493,6 +493,6 @@ void CSplashWindow::GetVersionStrings()
 	m_companyNameString = _T("SmaDoTec GmbH");
 	m_copyrightString = _T("All rights reserved");
 	m_commentsString = _T("");
-	m_versionString = "Version 1234";
+	m_versionString = "Version 1.0";
 }
 
