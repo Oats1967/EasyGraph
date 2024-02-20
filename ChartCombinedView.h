@@ -31,8 +31,6 @@ protected:
 	virtual ~CChartCombinedView();
 
 public:
-	afx_msg void OnMenuSelect(UINT id);
-	afx_msg void OnUpdateMenuSelect(CCmdUI* pCmdUI);
 
 
 public:

@@ -10,8 +10,6 @@
 BEGIN_MESSAGE_MAP(CChartCombinedView, CChartLineView)
 	//{{AFX_MSG_MAP(CChartLineView)
 	//}}AFX_MSG_MAP
-	ON_COMMAND_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL,  OnMenuSelect)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnUpdateMenuSelect)
 	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_MOUSE_UP, OnChartMouseUp)
 	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_MOUSE_DOWN, OnChartMouseDown)
 	ON_REGISTERED_MESSAGE(BCGM_ON_CHART_AFTER_DRAW, OnAfterDraw)
@@ -32,49 +30,6 @@ CChartCombinedView::~CChartCombinedView()
 {
 }
 
-
-void CChartCombinedView::OnMenuSelect(UINT id)
-{
-	switch (id)
-	{
-	case ID_MN_SELECT_LUPE:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY;
-		break;
-	case ID_MN_SELECT_WHEEL:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN;
-		break;
-	case ID_MN_SELECT_DISTANCE:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT;
-		break;
-	default:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE;
-		break;
-	}
-	SendMessage(WM_NEWDATE);
-}
-
-
-void CChartCombinedView::OnUpdateMenuSelect(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(TRUE);
-	BOOL bCheck = FALSE;
-	switch (pCmdUI->m_nID)
-	{
-		case ID_MN_SELECT_LUPE:
-			bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY);
-			break;
-		case ID_MN_SELECT_WHEEL:
-			bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN);
-			break;
-		case ID_MN_SELECT_DISTANCE:
-			bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT);
-			break;
-		default:
-			bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE);
-			break;
-	}
-	pCmdUI->SetCheck(bCheck);
-}
 /////////////////////////////////////////////////////////////////////////////
 // CChartCombinedView diagnostics
 

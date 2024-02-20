@@ -39,6 +39,8 @@ struct ConfigItem theConfig;
 static base::CEasyGraphConfig g_EasyGraphCfg;
 
 
+static BOOL g_bSaveState = FALSE;
+
 BEGIN_MESSAGE_MAP(CEasyGraphApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CEasyGraphApp::OnAppAbout)
 	ON_COMMAND(ID_TB_COLOR_THEME_COMBO, &CEasyGraphApp::OnAppAbout)
@@ -71,7 +73,6 @@ static BOOL ReadCMDPath(CString& sz)
 	sz = CString(path_buffer);
 	return !sz.IsEmpty();
 }
-
 
 //------------------------------------------------------------------------------------
 ///  @brief   ReadSystemPath
@@ -143,7 +144,7 @@ BOOL CEasyGraphApp::CheckLicence(void)
 CEasyGraphApp::CEasyGraphApp() noexcept
 {
 	m_bHiColorIcons = TRUE;
-	m_bSaveState = FALSE;
+	m_bSaveState = g_bSaveState;
 
 	m_nAppLook = 0;
 	// Neustart-Manager unterstützen
@@ -260,7 +261,7 @@ BOOL CEasyGraphApp::InitInstance()
 
 	CWinAppEx::InitInstance();
 
-	m_bSaveState = FALSE;
+	m_bSaveState = g_bSaveState;
 
 	auto result = LoadInitFile();
 	if (!result)

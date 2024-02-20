@@ -110,6 +110,7 @@ public:
 	LRESULT OnSetCategory(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetLineWidth(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetVisible(WPARAM wParam, LPARAM lParam);
+	LRESULT OnClosePane(WPARAM, LPARAM lp);
 
 	CView* GetFeatureView(CDemoFeature* pFeature);
 

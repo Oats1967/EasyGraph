@@ -81,6 +81,10 @@ public:
 	{	return FALSE;	}
 
 	afx_msg LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
+
+	afx_msg void OnMenuSelect(UINT id);
+	afx_msg void OnUpdateMenuSelect(CCmdUI* pCmdUI);
+
 	DECLARE_MESSAGE_MAP()
 };
 

@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_MESSAGE(WM_CATEGORY, &CMainFrame::OnSetCategory)
 	ON_MESSAGE(WM_VISIBLE, &CMainFrame::OnSetVisible)
 	ON_MESSAGE(WM_LINEWIDTH, &CMainFrame::OnSetLineWidth)
+	ON_REGISTERED_MESSAGE(AFX_WM_ON_PRESS_CLOSE_BUTTON, OnClosePane)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -65,6 +66,21 @@ CMainFrame::CMainFrame() noexcept : m_ActiveLine (0)
 CMainFrame::~CMainFrame()
 {
 }
+
+LRESULT CMainFrame::OnClosePane(WPARAM, LPARAM lp)
+{
+#if 0
+	CBasePane* pane = (CBasePane*)lp;
+	int id = pane->GetDlgCtrlID();
+	pane->ShowPane(FALSE, FALSE, FALSE);
+	RemovePaneFromDockManager(pane, TRUE, TRUE, TRUE, NULL);
+	AdjustDockingLayout();
+	pane->PostMessage(WM_CLOSE);
+	PostMessage(WM_RESETMEMBER, id, 0);
+#endif
+	return (LRESULT)TRUE;//prevent close , we already close it
+}
+
 #if 1
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
