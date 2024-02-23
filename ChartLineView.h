@@ -29,8 +29,10 @@ protected:
 
 	CBCGPStatic		m_LineWnd;
 	CBCGPStatic		m_DateWnd;
+	CBCGPStatic		m_ANWnd;
 	CString			m_szLine;
 	CString			m_szDate;
+	CString			m_szANNumber;
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
 

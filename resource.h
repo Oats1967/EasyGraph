@@ -16,6 +16,7 @@
 #define IDC_CHART_DATE                  101
 #define IDC_CHART_LINE                  102
 #define IDC_CHART_TITLE                 103
+#define IDC_CHART_ANNUMBER              103
 #define IDC_FORM                        104
 #define IDC_FORM_TITLE                  105
 #define IDC_GROUP                       106
@@ -130,13 +131,14 @@
 #define ID_VIEW_PROPERTIESWND           555
 #define ID_VIEW_UP                      556
 #define ID_WINDOW_MANAGER               557
+#define ID_TB_ANNUMBER_COMBO            32832
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        11
-#define _APS_NEXT_COMMAND_VALUE         32832
+#define _APS_NEXT_COMMAND_VALUE         32833
 #define _APS_NEXT_CONTROL_VALUE         118
 #define _APS_NEXT_SYMED_VALUE           105
 #endif

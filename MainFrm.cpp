@@ -30,6 +30,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_CBN_SELENDOK(ID_TB_COLOR_THEME_COMBO, &CMainFrame::OnLineCombo)
 	ON_COMMAND(ID_TB_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
 	ON_CBN_SELENDOK(ID_TB_DOSESELECT_COMBO, &CMainFrame::OnDoseSelectCombo)
+	ON_COMMAND(ID_TB_ANNUMBER_COMBO, &CMainFrame::OnANNumberCombo)
+	ON_CBN_SELENDOK(ID_TB_ANNUMBER_COMBO, &CMainFrame::OnANNumberCombo)
 	ON_COMMAND(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnLogMessages)
 	ON_UPDATE_COMMAND_UI(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
 
@@ -162,6 +164,21 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_TB_DOSESELECT_COMBO, comboTheme);
+	}
+	{
+		CBCGPToolbarComboBoxButton comboTheme(ID_TB_ANNUMBER_COMBO,
+#ifdef _BCGSUITE_INC_
+			GetCmdMgr()->GetCmdImage(ID_TB_ANNUMBER_COMBO, FALSE),
+#else
+			CImageHash::GetImageOfCommand(ID_TB_COLOR_THEME_COMBO, FALSE),
+#endif
+			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(140, this));
+
+		CString szTemp;
+		szTemp.Format("Auftragsnummer: all");
+		comboTheme.AddItem(szTemp);
+		comboTheme.SelectItem(0);
+		m_wndToolBar.ReplaceButton(ID_TB_ANNUMBER_COMBO, comboTheme);
 	}
 	m_wndToolBar.ReplaceButton(ID_TB_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_TB_LOGMESSAGE_BUTTON, _T("Logmeldungen:")));
 	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
@@ -540,6 +557,24 @@ void CMainFrame::OnDoseSelectCombo()
 	}
 }
 
+void CMainFrame::OnANNumberCombo()
+{
+	CBCGPToolbarComboBoxButton* pCombobox = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(m_wndToolBar.CommandToIndex(ID_TB_ANNUMBER_COMBO)));
+	ASSERT_VALID(pCombobox);
+	auto sel = pCombobox->GetCurSel();
+	if (sel >= 0)
+	{
+		std::string sz;
+		if (sel > 0)
+		{
+			sz = pCombobox->GetItem(sel);
+		}
+		g_Statistics.SetANNumber(sz);
+		UpdateNewData();
+	}
+}
+
+
 
 void CMainFrame::OnViewCustomize()
 {
@@ -673,20 +708,37 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 void CMainFrame::UpdateNewData()
 {
 	g_Statistics.LoadRectItemList();
-	auto count = g_Statistics.GetFeederCount();
 
 	// Find button index for command ID
-	int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
-
-	// Retrieve button
-	auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
-	pButton->ClearData();
-	for (uint32_t k = 0; k < count; k++)
 	{
-		CString szTemp;
-		szTemp.Format("Dosierung: %u", k + 1);
-		pButton->AddItem(szTemp);
+		int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
+		// Retrieve button
+		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+		pButton->ClearData();
+		auto count = g_Statistics.GetFeederCount();
+		for (uint32_t k = 0; k < count; k++)
+		{
+			CString szTemp;
+			szTemp.Format("Dosierung: %u", k + 1);
+			pButton->AddItem(szTemp);
+		}
 	}
+	// Retrieve button
+	// Find button index for command ID
+	{
+		const auto& rANNumberList = g_Statistics.GetANNumberList();
+
+		int index = m_wndToolBar.CommandToIndex(ID_TB_ANNUMBER_COMBO);
+		auto *pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+		pButton->ClearData();
+		pButton->AddItem("Auftragsnummer: all");
+		auto count = _U32(rANNumberList.size());
+		for (uint32_t k = 0; k < count; k++)
+		{
+			pButton->AddItem(toCString(rANNumberList[k]));
+		}
+	}
+
 	auto pView = GetActiveView();
 	if (pView)
 	{

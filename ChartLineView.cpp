@@ -65,13 +65,10 @@ CChartLineView::CChartLineView()
 				CBCGPColor::BCGP_COLOR::Indigo,
 				CBCGPColor::BCGP_COLOR::LightCoral }
 	, m_nZoomType{ BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE }
+	, m_strInfo{ _T("") }
+	, m_szANNumber{ _T("") }
+	, m_bInScroll{ FALSE }
 {
-	//{{AFX_DATA_INIT(CChartLineView)
-	m_strInfo = _T("");
-	
-	//}}AFX_DATA_INIT
-
-	m_bInScroll = FALSE;
 }
 
 CChartLineView::~CChartLineView()
@@ -85,10 +82,10 @@ void CChartLineView::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_CHART, m_wndChart);
 	DDX_Control(pDX, IDC_CHART_LINE, m_LineWnd);
 	DDX_Control(pDX, IDC_CHART_DATE, m_DateWnd);
-	CBCGPComboBox	m_KeySelectWnd;
-
+	DDX_Control(pDX, IDC_CHART_ANNUMBER, m_ANWnd);
 	DDX_Text(pDX, IDC_CHART_LINE, m_szLine);
 	DDX_Text(pDX, IDC_CHART_DATE, m_szDate);
+	DDX_Text(pDX, IDC_CHART_ANNUMBER, m_szANNumber);
 	//}}AFX_DATA_MAP
 }
 
@@ -183,6 +180,9 @@ void CChartLineView::OnInitialUpdate()
 	m_DateWnd.m_clrText = COLORREF(RGB(0, 0, 0));
 	m_LineWnd.SetFont(&m_Font);
 	m_LineWnd.m_clrText = COLORREF(RGB(0, 0, 0));
+	m_ANWnd.SetFont(&m_Font);
+	m_ANWnd.m_clrText = COLORREF(RGB(0, 0, 0));
+
 
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
@@ -442,6 +442,7 @@ LRESULT CChartLineView::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
 	m_szLine = g_Statistics.GetHeaderLine();
 	m_szDate = g_Statistics.GetHeaderDateTime();
+	m_szANNumber = toCString(g_Statistics.GetANNumber());
 	OnUpdateSeries();
 	OnUpdateChart();
 	OnUpdateZoom();

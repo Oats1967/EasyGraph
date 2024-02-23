@@ -60,6 +60,13 @@ void CStatistics::CalcLogRecMapping(void)
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
+void CStatistics::GetANNumbers(void)
+{
+	m_ANNumberList.clear();
+	m_RecDaysList.GetANNumbers(m_ANNumberList);
+}
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 BOOL CStatistics::LoadLogItemList()
 {
 	BOOL result = FALSE;
@@ -129,6 +136,11 @@ BOOL CStatistics::LoadRectItemList()
 			tempList.Load();
 			m_RecDaysList += tempList;;
 			dSO += dayskip;
+		}
+		GetANNumbers();
+		if (!m_ANNumber.empty())
+		{
+			m_RecDaysList = m_RecDaysList.Extract(m_ANNumber);
 		}
 		CalcTotalizerQMNUmber();
 		CalcTotalizerFeeder();

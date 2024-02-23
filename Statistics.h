@@ -31,12 +31,15 @@ class CStatistics
 	base::CProductDatabaseMap	  m_ProductDatabase;
 	base::CEasyGraphSettings	  m_Settings;
 	std::vector<int32_t>		  m_LogRecMapping;
+	std::vector<std::string>	  m_ANNumberList;
 	uint32_t				      m_FeederCount;
 	base::eMassflowSelect		  m_DoseSelect;
+	std::string					  m_ANNumber;
 	BOOL						  m_LogMessages;
 
 private:
-	void GetQMNUmbers(void);
+	//void GetQMNUmbers(void);
+	void GetANNumbers(void);
 	void CalcTotalizerFeeder(void);
 	void CalcTotalizerQMNUmber(void);
 	void CalcFeederCount(void);
@@ -73,11 +76,19 @@ public:
 	SETGET(const std::vector<int32_t>&, LogRecMapping);
 	SETGET(const BOOL, LogMessages);
 	SETGET(const base::CEasyGraphSettings&, Settings);
+	SETGET(const std::string&, ANNumber);
 
 	int32_t GetActiveFeeder(void) const
 	{	return m_Settings.m_ActiveFeeder;	}
 	void SetActiveFeeder(const int32_t activefeeder)
 	{	m_Settings.m_ActiveFeeder = activefeeder;	}
+
+	std::vector<std::string>& GetANNumberList(void)
+	{	return m_ANNumberList;	}
+
+	const std::vector<std::string>& GetANNumberList(void) const
+	{	return m_ANNumberList;	}
+
 
 	int32_t GetActiveLine(void) const
 	{ return m_Settings.m_ActiveLine;	}
