@@ -541,6 +541,8 @@ void CMainFrame::OnLineCombo()
 	ASSERT_VALID(pCombobox);
 	m_nActiveLine = pCombobox->GetCurSel();
 	g_Statistics.SetActiveLine(m_nActiveLine);
+	g_Statistics.SetANNumber("");
+	g_Statistics.SetActiveFeeder(-1);
 	UpdateNewData();
 }
 
@@ -570,6 +572,7 @@ void CMainFrame::OnANNumberCombo()
 			sz = pCombobox->GetItem(sel);
 		}
 		g_Statistics.SetANNumber(sz);
+		g_Statistics.SetActiveFeeder(-1);
 		UpdateNewData();
 	}
 }
@@ -715,6 +718,11 @@ void CMainFrame::UpdateNewData()
 		// Retrieve button
 		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
 		pButton->ClearData();
+		{
+			CString szTemp;
+			szTemp.Format("Dosierung: all");
+			pButton->AddItem(szTemp);
+		}
 		auto count = g_Statistics.GetFeederCount();
 		for (uint32_t k = 0; k < count; k++)
 		{
@@ -722,12 +730,15 @@ void CMainFrame::UpdateNewData()
 			szTemp.Format("Dosierung: %u", k + 1);
 			pButton->AddItem(szTemp);
 		}
+		auto activeFeeder = g_Statistics.GetActiveFeeder();
+		pButton->SelectItem((activeFeeder < 0) ? 0 : activeFeeder + 1);
 	}
 	// Retrieve button
 	// Find button index for command ID
 	{
 		const auto& rANNumberList = g_Statistics.GetANNumberList();
 
+		int sel = 0;
 		int index = m_wndToolBar.CommandToIndex(ID_TB_ANNUMBER_COMBO);
 		auto *pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
 		pButton->ClearData();
@@ -735,8 +746,13 @@ void CMainFrame::UpdateNewData()
 		auto count = _U32(rANNumberList.size());
 		for (uint32_t k = 0; k < count; k++)
 		{
+			if (rANNumberList[k] == g_Statistics.GetANNumber())
+			{
+				sel = k + 1;
+			}
 			pButton->AddItem(toCString(rANNumberList[k]));
 		}
+		pButton->SelectItem(sel);
 	}
 
 	auto pView = GetActiveView();
@@ -753,6 +769,8 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 	auto pDate = (DateToShow*)wParam;
 	if (pDate != nullptr)
 	{
+		g_Statistics.SetActiveFeeder(-1);
+		g_Statistics.SetANNumber("");
 		g_Statistics.SetDateToShow(*pDate);
 		UpdateNewData();
 	}
