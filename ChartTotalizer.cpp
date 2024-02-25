@@ -52,8 +52,10 @@ void CChartTotalizer::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_TOTALIZER, m_wndChart);
 	DDX_Control(pDX, IDC_TOTALIZER_LINE, m_LineWnd);
 	DDX_Control(pDX, IDC_TOTALIZER_DATE, m_DateWnd);
+	DDX_Control(pDX, IDC_TOTALIZER_ANNUMBER, m_ANWnd);
 	DDX_Text(pDX, IDC_TOTALIZER_LINE, m_szLine);
 	DDX_Text(pDX, IDC_TOTALIZER_DATE, m_szDate);
+	DDX_Text(pDX, IDC_TOTALIZER_ANNUMBER, m_szANNumber);
 	DDX_Control(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelectWnd);
 	DDX_CBIndex(pDX, IDC_TOTALIZER_KEYSELECT, m_KeySelected);
 
@@ -130,6 +132,8 @@ void CChartTotalizer::OnInitialUpdate()
 	m_DateWnd.m_clrText = COLORREF(RGB(0, 0, 0));
 	m_LineWnd.SetFont(&m_Font);
 	m_LineWnd.m_clrText = COLORREF(RGB(0, 0, 0));
+	m_ANWnd.SetFont(&m_Font);
+	m_ANWnd.m_clrText = COLORREF(RGB(0, 0, 0));
 
 	m_bIsReady = TRUE;
 	SetupSelectCombo(&m_KeySelectWnd, m_KeySelected);
@@ -236,6 +240,7 @@ LRESULT CChartTotalizer::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 	m_szLine = g_Statistics.GetHeaderLine();
 	m_szDate = g_Statistics.GetHeaderDateTime();
+	m_szANNumber = toCString(g_Statistics.GetANNumber());
 
 	OnUpdateChart();
 	UpdateData(FALSE);

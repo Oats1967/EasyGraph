@@ -57,8 +57,10 @@ public:
 	CBCGPComboBox	m_KeySelectWnd;
 	CBCGPStatic m_LineWnd;
 	CBCGPStatic m_DateWnd;
+	CBCGPStatic m_ANWnd;
 	CString m_szLine;
 	CString m_szDate;
+	CString m_szANNumber;
 	int32_t m_KeySelected;
 	//}}AFX_DATA
 
