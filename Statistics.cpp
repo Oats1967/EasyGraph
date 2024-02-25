@@ -112,6 +112,7 @@ BOOL CStatistics::LoadRectItemList()
 	if (ActiveLine >= 0 && ActiveLine < _S32(m_LineGraphConfig.m_field.size()))
 	{
 		m_RecDaysList.Clear();
+		m_RecDaysList.SetMaxItems(0);
 		const auto& rLineItem = m_LineGraphConfig.m_field[ActiveLine];
 		COleDateTime dSO(m_Settings.m_StartTime);
 		COleDateTime dEO(m_Settings.m_EndTime);

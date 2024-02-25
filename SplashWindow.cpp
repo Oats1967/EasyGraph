@@ -233,7 +233,7 @@ CSize CSplashWindow::FindFontPointSize( CPaintDC &dc, LPCTSTR fontName, const CS
 {
 	CSize largest = CSize(0,0);
 
-	int numberOfStringsToCheck = stringsToCheck.GetSize();
+	auto numberOfStringsToCheck = static_cast<int>(stringsToCheck.GetSize());
 	if (numberOfStringsToCheck == 0)
 	{
 		return largest;

@@ -541,8 +541,10 @@ void CMainFrame::OnLineCombo()
 	ASSERT_VALID(pCombobox);
 	m_nActiveLine = pCombobox->GetCurSel();
 	g_Statistics.SetActiveLine(m_nActiveLine);
-	g_Statistics.SetANNumber("");
 	g_Statistics.SetActiveFeeder(-1);
+	g_Statistics.SetFeederCount(0);
+	g_Statistics.SetANNumber("");
+	g_Statistics.GetANNumberList().clear();
 	UpdateNewData();
 }
 
@@ -573,6 +575,7 @@ void CMainFrame::OnANNumberCombo()
 		}
 		g_Statistics.SetANNumber(sz);
 		g_Statistics.SetActiveFeeder(-1);
+		g_Statistics.SetFeederCount(0);
 		UpdateNewData();
 	}
 }
@@ -717,6 +720,11 @@ void CMainFrame::UpdateNewData()
 		int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
 		// Retrieve button
 		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+		while (pButton->GetCount())
+		{
+			pButton->DeleteItem(0);
+		}
+
 		pButton->ClearData();
 		{
 			CString szTemp;
@@ -741,6 +749,10 @@ void CMainFrame::UpdateNewData()
 		int sel = 0;
 		int index = m_wndToolBar.CommandToIndex(ID_TB_ANNUMBER_COMBO);
 		auto *pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
+		while (pButton->GetCount())
+		{
+			pButton->DeleteItem(0);
+		}
 		pButton->ClearData();
 		pButton->AddItem("Auftragsnummer: all");
 		auto count = _U32(rANNumberList.size());
@@ -770,7 +782,9 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 	if (pDate != nullptr)
 	{
 		g_Statistics.SetActiveFeeder(-1);
+		g_Statistics.SetFeederCount(0);
 		g_Statistics.SetANNumber("");
+		g_Statistics.GetANNumberList().clear();
 		g_Statistics.SetDateToShow(*pDate);
 		UpdateNewData();
 	}
@@ -779,7 +793,7 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 LRESULT CMainFrame::OnSetView(WPARAM wParam, LPARAM lParam)
 {
-	SelectView(wParam);
+	SelectView(_S32(wParam));
 	return 0L;
 }
 
