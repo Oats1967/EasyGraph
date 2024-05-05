@@ -48,7 +48,7 @@ const int CSplashWindow::m_productNameVerticalOffset = 160;		// empty space betw
 const int CSplashWindow::m_productNameVerticalHeight = 70;		// maximum height of Product Name
 const int CSplashWindow::m_productNameLeftMargin = 20;			// distance from left side to place name, company, copyright and version
 const int CSplashWindow::m_productNameRightMargin = 20;			// distance from right side to place name, company, copyright and version
-const CString CSplashWindow::m_productNameFontName = "Arial";	// name of font for application name
+const CString CSplashWindow::m_productNameFontName = _T("Arial");	// name of font for application name
 CSize CSplashWindow::m_productNamePointSize = CSize(-1,-1);		// point size used for the application name, (-1,-1) ==> Calculate point size
 COLORREF CSplashWindow::m_productNameTextColor = RGB(20,40,200);// color used for text
 
@@ -62,7 +62,7 @@ const int CSplashWindow::m_bodyVerticalOffset = 350;			// empty space between to
 const int CSplashWindow::m_bodyVerticalHeight = 30;			    // maximum height of body
 const int CSplashWindow::m_bodyLeftMargin = 440;				// distance from left side to place company name, copyright, version and comment
 const int CSplashWindow::m_bodyRightMargin = 20;				// distance from right side to place company name, copyright, version and comment
-const CString CSplashWindow::m_bodyFontName = "Arial";			// name of font for company name, copyright and version	
+const CString CSplashWindow::m_bodyFontName = _T("Arial");			// name of font for company name, copyright and version	
 CSize CSplashWindow::m_bodyPointSize = CSize(-1,-1);			// point size used for company name, copyright and version, (-1,-1) ==> Calculate point size	
 COLORREF CSplashWindow::m_bodyTextColor = RGB(250,250,250);		// color used for company name, copyright and version (-1 ==> use application name color)
 
@@ -71,7 +71,7 @@ const int CSplashWindow::m_statusVerticalOffset = 390;			// empty space between 
 const int CSplashWindow::m_statusVerticalHeight = 50;			// maximum height of status string
 const int CSplashWindow::m_statusLeftMargin = 10;				// distance from left side to place status string
 const int CSplashWindow::m_statusRightMargin = 10;				// distance from right side to place status string
-const CString CSplashWindow::m_statusMessageFontName = "Arial";	// name of font for status message while starting	
+const CString CSplashWindow::m_statusMessageFontName = _T("Arial");	// name of font for status message while starting	
 CSize CSplashWindow::m_statusMessagePointSize = CSize(-1,-1);	// point size used for status message while starting, (-1,-1) ==> Calculate point size	
 COLORREF CSplashWindow::m_statusMessageTextColor = RGB(0,0,255);// color used for status message while starting (-1 ==> use application name color)
 

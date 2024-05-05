@@ -174,7 +174,7 @@ void CChartLineView::OnInitialUpdate()
 		CLIP_DEFAULT_PRECIS,       // nClipPrecision
 		DEFAULT_QUALITY,           // nQuality
 		DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
-		"Arial"));                 // lpszFacename
+		_T("Arial")));                 // lpszFacename
 
 	m_DateWnd.SetFont(&m_Font);
 	m_DateWnd.m_clrText = COLORREF(RGB(0, 0, 0));
@@ -269,7 +269,7 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 				const auto& rItem = rRecDayList.GetItem(i);
 
 				COleDateTime dtTime{ rItem.GetTime() };
-				auto szTime = dtTime.Format("%d.%m.%y %H:%M:%S");
+				auto szTime = dtTime.Format(_T("%d.%m.%y %H:%M:%S"));
 				int k = pSeries->AddDataPoint(szTime, rItem.Get(select, index));
 
 				if (pMarkerInfo)
@@ -307,7 +307,7 @@ void CChartLineView::OnUpdateSeries()
 			if (pSeries)
 			{
 				CString szName;
-				szName.Format("Dosierung : %d", k + 1);
+				szName.Format(_T("Dosierung : %d"), k + 1);
 				pSeries->m_strSeriesName = szName;
 				pSeries->SetSeriesLineColor(CBCGPBrush(c_Colors[k]));
 			}
@@ -319,7 +319,7 @@ void CChartLineView::OnUpdateSeries()
 		if (pSeries)
 		{
 			CString szName;
-			szName.Format("Dosierung : %d", g_Statistics.GetActiveFeeder() + 1);
+			szName.Format(_T("Dosierung : %d"), g_Statistics.GetActiveFeeder() + 1);
 			pSeries->m_strSeriesName = szName;
 		}
 	}

@@ -126,7 +126,7 @@ void CChartTotalizer::OnInitialUpdate()
 		CLIP_DEFAULT_PRECIS,       // nClipPrecision
 		DEFAULT_QUALITY,           // nQuality
 		DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
-		"Arial"));                 // lpszFacename
+		_T("Arial")));                 // lpszFacename
 
 	m_DateWnd.SetFont(&m_Font);
 	m_DateWnd.m_clrText = COLORREF(RGB(0, 0, 0));

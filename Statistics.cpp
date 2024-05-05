@@ -235,7 +235,7 @@ CString CStatistics::GetHeaderLine() const
 {
 	const base::CLineGraphConfig::VectorConfig& rIt = m_LineGraphConfig.m_field;
 	const auto& ActiveLine = m_Settings.m_ActiveLine;
-	return (ActiveLine < rIt.size()) ? CString("Linie : ") + toCString(rIt[ActiveLine].m_szName) : "";
+	return (ActiveLine < rIt.size()) ? CString(_T("Linie : ")) + toCString(rIt[ActiveLine].m_szName) : _T("");
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
@@ -246,15 +246,15 @@ CString CStatistics::GetHeaderDateTime() const
 	if (m_Settings.m_StartTime == m_Settings.m_EndTime)
 	{
 		COleDateTime aDate(m_Settings.m_StartTime);
-		auto szTemp = aDate.Format("%d.%m.%y");
+		auto szTemp = aDate.Format(_T("%d.%m.%y"));
 		szDate += szTemp;
 	}
 	else
 	{
 		COleDateTime start(m_Settings.m_StartTime);
 		COleDateTime end(m_Settings.m_EndTime);
-		auto szStart = start.Format("%d.%m.%y");
-		auto szEnd = end.Format("%d.%m.%y");
+		auto szStart = start.Format(_T("%d.%m.%y"));
+		auto szEnd = end.Format(_T("%d.%m.%y"));
 		szDate += szStart + CString(" bis ") + szEnd;
 	}
 	return szDate;

@@ -287,7 +287,7 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	pLineWidthProp->AddOption(_T("3"));
 	pLineWidthProp->AllowEdit(FALSE);
 	CString str;
-	str.Format("%d", RANGE(attrib.m_LineWidth, 1, 3));
+	str.Format(_T("%d"), RANGE(attrib.m_LineWidth, 1, 3));
 	pLineWidthProp->SetValue(COleVariant(str, VT_BSTR));
 	pGroupProp->AddSubItem(pLineWidthProp);
 

@@ -61,7 +61,8 @@ static BOOL ReadCMDPath(CString& sz)
 	char fname[_MAX_FNAME];
 	char ext[_MAX_EXT];
 
-	_splitpath_s(LPCSTR(sz), drive, dir, fname, ext);
+	auto szStd = toStdString(sz);
+	_splitpath_s(szStd.c_str(), drive, dir, fname, ext);
 	_makepath_s(path_buffer, drive, dir, "", "");
 	int sLen = (int)strlen(path_buffer) - 1;
 
@@ -87,10 +88,10 @@ static BOOL ReadCMDPath(CString& sz)
 ///  @return BOOL
 ///
 //------------------------------------------------------------------------------------
-static BOOL ReadSystemPath(LPCSTR pszHelpFilePath, const LICENCETYPE iLicence)
+static BOOL ReadSystemPath(const CString& szHelpFilePath, const LICENCETYPE iLicence)
 {
 	time_t aTime = time(NULL);
-	auto iErg = license::CheckLicenceFile(std::string(pszHelpFilePath), iLicence, aTime);
+	auto iErg = license::CheckLicenceFile(toStdString(szHelpFilePath), iLicence, aTime);
 	if (iErg != L_OK)
 	{
 		return FALSE;
@@ -266,27 +267,27 @@ BOOL CEasyGraphApp::InitInstance()
 	auto result = LoadInitFile();
 	if (!result)
 	{
-		AfxMessageBox("Error loading ini-file!", MB_ICONSTOP | MB_ICONSTOP);
+		AfxMessageBox(_T("Error loading ini-file!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 
 	result = LoadLineGraphConfig();
 	if (!result)
 	{
-		AfxMessageBox("Error loading LineConfig!", MB_ICONSTOP | MB_ICONSTOP);
+		AfxMessageBox(_T("Error loading LineConfig!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 
 	result = LoadProductDatabase();
 	if (!result)
 	{
-		AfxMessageBox("Error loading ProductDatabase!", MB_ICONSTOP | MB_ICONSTOP);
+		AfxMessageBox(_T("Error loading ProductDatabase!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 	result = LoadSettings();
 	if (!result)
 	{
-		AfxMessageBox("Error loading ProductDatabase!", MB_ICONSTOP | MB_ICONSTOP);
+		AfxMessageBox(_T("Error loading ProductDatabase!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 
@@ -306,13 +307,13 @@ BOOL CEasyGraphApp::InitInstance()
 
 	EnableTaskbarInteraction();
 #if 1
-	CSplashWindow::ShowSplashScreen(NULL, "Starting application...");
+	CSplashWindow::ShowSplashScreen(NULL, _T("Starting application..."));
 	Sleep(1000);
 
-	CSplashWindow::ShowSplashScreen(NULL, "Initializing hardware...");
+	CSplashWindow::ShowSplashScreen(NULL, _T("Initializing hardware..."));
 	Sleep(1000);
 
-	CSplashWindow::ShowSplashScreen(NULL, "Initializing database...");
+	CSplashWindow::ShowSplashScreen(NULL, _T("Initializing database..."));
 	Sleep(1000);
 #endif
 	// AfxInitRichEdit2() ist für die Verwendung des RichEdit-Steuerelements erforderlich.
@@ -338,7 +339,7 @@ BOOL CEasyGraphApp::InitInstance()
 #ifndef _DEBUG
 	if (!ReadLicence())
 	{
-		AfxMessageBox("Invalid license!", MB_ICONSTOP | MB_ICONSTOP);
+		AfxMessageBox(_T("Invalid license!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 #endif
@@ -451,7 +452,7 @@ END_MESSAGE_MAP()
 // Anwendungsbefehl zum Ausführen des Dialogfelds
 void CEasyGraphApp::OnAppAbout()
 {
-	CSplashWindow::ShowSplashScreen(GetMainWnd(), "http://applehome.com/", 10000);
+	CSplashWindow::ShowSplashScreen(GetMainWnd(), _T("http://applehome.com/"), 10000);
 #if 0
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();

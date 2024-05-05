@@ -160,7 +160,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
 		CString szTemp;
-		szTemp.Format("Dosierung: all");
+		szTemp.Format(_T("Dosierung: all"));
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_TB_DOSESELECT_COMBO, comboTheme);
@@ -175,7 +175,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(140, this));
 
 		CString szTemp;
-		szTemp.Format("Auftragsnummer: all");
+		szTemp.Format(_T("Auftragsnummer: all"));
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_TB_ANNUMBER_COMBO, comboTheme);
@@ -568,12 +568,12 @@ void CMainFrame::OnANNumberCombo()
 	auto sel = pCombobox->GetCurSel();
 	if (sel >= 0)
 	{
-		std::string sz;
+		CString sz;
 		if (sel > 0)
 		{
 			sz = pCombobox->GetItem(sel);
 		}
-		g_Statistics.SetANNumber(sz);
+		g_Statistics.SetANNumber(toStdString(sz));
 		g_Statistics.SetActiveFeeder(-1);
 		g_Statistics.SetFeederCount(0);
 		UpdateNewData();
@@ -728,14 +728,14 @@ void CMainFrame::UpdateNewData()
 		pButton->ClearData();
 		{
 			CString szTemp;
-			szTemp.Format("Dosierung: all");
+			szTemp.Format(_T("Dosierung: all"));
 			pButton->AddItem(szTemp);
 		}
 		auto count = g_Statistics.GetFeederCount();
 		for (uint32_t k = 0; k < count; k++)
 		{
 			CString szTemp;
-			szTemp.Format("Dosierung: %u", k + 1);
+			szTemp.Format(_T("Dosierung: %u"), k + 1);
 			pButton->AddItem(szTemp);
 		}
 		auto activeFeeder = g_Statistics.GetActiveFeeder();
@@ -754,7 +754,7 @@ void CMainFrame::UpdateNewData()
 			pButton->DeleteItem(0);
 		}
 		pButton->ClearData();
-		pButton->AddItem("Auftragsnummer: all");
+		pButton->AddItem(_T("Auftragsnummer: all"));
 		auto count = _U32(rANNumberList.size());
 		for (uint32_t k = 0; k < count; k++)
 		{

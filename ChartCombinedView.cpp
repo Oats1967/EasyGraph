@@ -167,7 +167,7 @@ void CChartCombinedView::OnUpdateChart()
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
 	CString szTemp;
-	szTemp.Format("Dosierung : %d", g_Statistics.GetActiveFeeder() + 1);
+	szTemp.Format(_T("Dosierung : %d"), g_Statistics.GetActiveFeeder() + 1);
 	pChart->SetChartTitle(szTemp);
 	pChart->ShowDataLabels(FALSE);
 
