@@ -7,7 +7,7 @@
 #include "QualityMap.h"
 #include "BASE/Utils/public/RecItemList.h"
 #include "BASE/Utils/public/LogItemList.h"
-#include "BASE/include//ProductDatabaseMap.h"
+#include "BASE/Utils/public/ProductItemList.h"
 #include "BASE/include/LineGraphConfig.h"
 #include "BASE/include/EasyGraphSettings.h"
 
@@ -25,10 +25,10 @@ class CStatistics
 {
 	base::utils::CRecItemList	  m_RecDaysList;
 	base::utils::CLogItemList	  m_LogDaysList;
+	base::utils::CProductItemList m_ProductDatabase;
 	CTotalizerMap				  m_FeederTotalizerMap;
 	CTotalizerMap				  m_QMTotalizerMap;
 	base::CLineGraphConfig		  m_LineGraphConfig;
-	base::CProductDatabaseMap	  m_ProductDatabase;
 	base::CEasyGraphSettings	  m_Settings;
 	std::vector<int32_t>		  m_LogRecMapping;
 	std::vector<std::string>	  m_ANNumberList;
@@ -66,7 +66,7 @@ public:
     BOOL LoadRectItemList();
 
 	SETGET(const base::CLineGraphConfig&, LineGraphConfig);
-	SETGET(const base::CProductDatabaseMap&, ProductDatabase);
+	SETGET(const base::utils::CProductItemList&, ProductDatabase);
 	SETGET(const CTotalizerMap&, QMTotalizerMap);
 	SETGET(const CTotalizerMap&, FeederTotalizerMap);
 	SETGET(const base::eMassflowSelect, DoseSelect)

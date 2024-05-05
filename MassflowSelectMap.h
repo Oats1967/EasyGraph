@@ -21,13 +21,15 @@
 
 #include <string>
 #include "BASE/types.h"
-#include "BASE/include/StringEnumMap.h"
+#include "BASE/include/XMLStringEnumMap.h"
 #include "BASE/include/MassflowSelect.h"
 
-class CMassflowSelectMap : public base:: CStringEnumMap< base::eMassflowSelect >
+
+using TMassflowSelectMap = base::CXMLStringEnumMap< base::eMassflowSelect >;
+class CMassflowSelectMap : public TMassflowSelectMap
 {
     public:
-        CMassflowSelectMap() :CStringEnumMap(
+        CMassflowSelectMap() :TMassflowSelectMap(
             {
                 { base::eMassflowSelect::eVIEWMASSFLOW, "Durchsatz" },
                 { base::eMassflowSelect::eVIEWSETPOINT, "Sollwert" },
@@ -41,6 +43,6 @@ class CMassflowSelectMap : public base:: CStringEnumMap< base::eMassflowSelect >
             assert(m_Map.size() == _S32(base::eMassflowSelect::eVIEWMAX));
         }
 
-        CMassflowSelectMap(const CMassflowSelectMap& rM) : CStringEnumMap(rM)
+        CMassflowSelectMap(const CMassflowSelectMap& rM) : TMassflowSelectMap(rM)
         {}
 };

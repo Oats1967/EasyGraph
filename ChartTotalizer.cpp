@@ -197,7 +197,6 @@ LRESULT CChartTotalizer::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 	const auto& rMap = g_Statistics.GetQMTotalizerMap();
 	const auto& rBase = g_Statistics.GetProductDatabase();
-	const auto& rBaseMap = rBase.getMap();
 	for (const auto& rItem : rMap)
 	{
 		CString szTemp;
@@ -207,10 +206,10 @@ LRESULT CChartTotalizer::OnNewDate(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			auto it = rBaseMap.find(rItem.first);
-			if (it != rBaseMap.cend())
+			const auto pI = rBase.FindItem(rItem.first);
+			if (pI != nullptr)
 			{
-				szTemp = toCString(it->second.c_str());
+				szTemp = toCString(pI->GetProductName());
 			}
 			else
 			{
@@ -252,7 +251,7 @@ LRESULT CChartTotalizer::OnNewDate(WPARAM wParam, LPARAM lParam)
 
 void CChartTotalizer::OnKeySelect()
 {
-	auto m_KeySelect = m_KeySelectWnd.GetCurSel();
+	m_KeySelected = m_KeySelectWnd.GetCurSel();
 	SendMessage(WM_NEWDATE);
 }
 

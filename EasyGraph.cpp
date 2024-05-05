@@ -21,9 +21,9 @@
 #include "Xlicense/LicenseLib/License.h"
 #include "Xlicense/LicenseLib/hostid.h"
 
+#include "BASE/Utils/public/ProductItemList.h"
 #include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
 #include "BASE/Utils/public/xml/LineGraphConfigXml.h"
-#include "BASE/Utils/public/xml/ProductDatabaseXml.h"
 #include "BASE/Utils/public/xml/EasyGraphSettingsXml.h"
 
 
@@ -200,7 +200,7 @@ BOOL CEasyGraphApp::LoadLineGraphConfig()
 BOOL CEasyGraphApp::LoadProductDatabase(void)
 {
 	LOGDEBUG("Reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
-	base::xml::CProductDatabaseXml config;
+	base::utils::CProductItemList config;
 	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
 	if (!result)
 	{
@@ -208,7 +208,7 @@ BOOL CEasyGraphApp::LoadProductDatabase(void)
 	}
 	else
 	{
-		g_Statistics.SetProductDatabase(config.Get());
+		g_Statistics.SetProductDatabase(config);
 	}
 	return result;
 }
