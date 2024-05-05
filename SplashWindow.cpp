@@ -493,6 +493,6 @@ void CSplashWindow::GetVersionStrings()
 	m_companyNameString = _T("SmaDoTec GmbH");
 	m_copyrightString = _T("All rights reserved");
 	m_commentsString = _T("");
-	m_versionString = "Version 1.03";
+	m_versionString = _T("Version 1.04");
 }
 
