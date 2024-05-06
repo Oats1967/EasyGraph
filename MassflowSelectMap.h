@@ -42,7 +42,4 @@ class CMassflowSelectMap : public TMassflowSelectMap
         {
             assert(m_Map.size() == _S32(base::eMassflowSelect::eVIEWMAX));
         }
-
-        CMassflowSelectMap(const CMassflowSelectMap& rM) : TMassflowSelectMap(rM)
-        {}
 };
