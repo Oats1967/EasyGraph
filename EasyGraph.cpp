@@ -25,6 +25,8 @@
 #include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
 #include "BASE/Utils/public/xml/LineGraphConfigXml.h"
 #include "BASE/Utils/public/xml/EasyGraphSettingsXml.h"
+#include "BASE/Utils/public/xml/RecorderDescriptionXml.h"
+
 
 
 #ifdef _DEBUG
@@ -37,6 +39,7 @@
 // CEasyGraphApp
 struct ConfigItem theConfig;
 static base::CEasyGraphConfig g_EasyGraphCfg;
+
 
 
 static BOOL g_bSaveState = FALSE;
@@ -213,6 +216,35 @@ BOOL CEasyGraphApp::LoadProductDatabase(void)
 	}
 	return result;
 }
+//**************************************************************************************************************
+//**************************************************************************************************************
+BOOL CEasyGraphApp::LoadRecorderDescription(void)
+{
+	BOOL  result = FALSE;
+	const auto& rFile = EASYCGRAPHCONFIGFILE.m_RecorderDescriptionFile;
+
+	ASSERT(!rFile.empty());
+	if (rFile.empty())
+	{
+		LOGERROR("xml-file empty " << rFile);
+	}
+	else
+	{
+		// Loading recorder xml
+		LOGDEBUG("Reading recorder description, " << rFile);
+		base::xml::CRecorderDescriptionXml config;
+		result = config.Load(rFile);
+		if (!result)
+		{
+			LOGERROR("Error reading RecorderDescription, " << rFile);
+		}
+		else
+		{
+			base::utils::CRecItem::SetDescriptor(config.Get());
+		}
+	}
+	return result;
+}
 //************************************************************************************************************************
 BOOL CEasyGraphApp::LoadSettings(void)
 {
@@ -288,6 +320,12 @@ BOOL CEasyGraphApp::InitInstance()
 	if (!result)
 	{
 		AfxMessageBox(_T("Error loading ProductDatabase!"), MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+	result = LoadRecorderDescription();
+	if (!result)
+	{
+		AfxMessageBox(_T("Error loading RecorderDescription!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 

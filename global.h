@@ -6,3 +6,5 @@
 extern base::CEasyGraphConfig    g_EasyGraphCfg;
 #define EASYCGRAPHCONFIGFILE     g_EasyGraphCfg
 
+
+
