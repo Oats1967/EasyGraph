@@ -26,6 +26,8 @@
 #include "BASE/Utils/public/xml/LineGraphConfigXml.h"
 #include "BASE/Utils/public/xml/EasyGraphSettingsXml.h"
 #include "BASE/Utils/public/xml/RecorderDescriptionXml.h"
+#include "BASE/Utils/public/xml/ProductDatabaseXml.h"
+
 
 
 
@@ -35,6 +37,9 @@
 
 
 #define EASYGRAPHCONFIGFILE "EasyGraph.xml"
+#define XMLEXT ".XML"
+#define DBEXT  ".DB"
+
 
 // CEasyGraphApp
 struct ConfigItem theConfig;
@@ -43,6 +48,8 @@ static base::CEasyGraphConfig g_EasyGraphCfg;
 
 
 static BOOL g_bSaveState = FALSE;
+time_t CEasyGraphApp::m_ProductDatabaseLastModifiedFileTime = 0;
+
 
 BEGIN_MESSAGE_MAP(CEasyGraphApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CEasyGraphApp::OnAppAbout)
@@ -100,6 +107,28 @@ static BOOL ReadSystemPath(const CString& szHelpFilePath, const LICENCETYPE iLic
 		return FALSE;
 	}
 	return TRUE;
+}
+
+//*******************************************************************************************************************
+//*******************************************************************************************************************
+BOOL CEasyGraphApp::IsFileExtension(const std::string& sz, const std::string& rExt)
+{
+	BOOL result = FALSE;
+	if (!sz.empty())
+	{
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		char fname[_MAX_FNAME];
+		char ext[_MAX_EXT];
+
+		_splitpath_s(sz.c_str(), drive, dir, fname, ext);
+		CString szExt1 = toCString(ext);
+		szExt1.MakeUpper();
+		CString szExt2 = toCString(rExt);
+		szExt2.MakeUpper();
+		result = szExt1 == szExt2;
+	}
+	return result;
 }
 
 //------------------------------------------------------------------------------------
@@ -203,16 +232,78 @@ BOOL CEasyGraphApp::LoadLineGraphConfig()
 //************************************************************************************************************************
 BOOL CEasyGraphApp::LoadProductDatabase(void)
 {
-	LOGDEBUG("Reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
-	base::utils::CProductItemList config;
-	auto result = config.Load(EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
-	if (!result)
+	BOOL  result = FALSE;
+
+	const auto& rFile = EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile;
+	ASSERT(!rFile.empty());
+	if (rFile.empty())
 	{
-		LOGERROR("Error reading ProductDatabase, " << EASYCGRAPHCONFIGFILE.m_ProductDatabaseFile);
+		LOGERROR("Productdatabase-file empty " << rFile);
 	}
 	else
 	{
-		g_Statistics.SetProductDatabase(config);
+		struct stat buffer;
+		BOOL fileexists = stat(rFile.c_str(), &buffer) == 0;
+		if (!fileexists)
+		{
+			LOGERROR("Productdatabase-file does not exist ... overwriting " << rFile);
+		}
+		else
+		{
+			if (buffer.st_mtime != m_ProductDatabaseLastModifiedFileTime)
+			{
+				base::utils::CProductItemList list;
+
+				m_ProductDatabaseLastModifiedFileTime = buffer.st_mtime;
+				LOGDEBUG("Reading ProductDatabase, " << rFile);
+				auto bXMLFile = IsFileExtension(rFile, XMLEXT);
+				if (bXMLFile)
+				{
+					LOGDEBUG("Reading ProductDatabase-XML-File, " << rFile);
+					base::xml::CProductDatabaseXml config;
+					result = config.Load(rFile);
+					if ( ! result)
+					{
+						LOGERROR("Error reading ProductDatabase-XML-File, " << rFile);
+					}
+					else
+					{
+						auto& rData = config.Get().getMap();
+						if (rData.empty())
+						{
+							LOGERROR("Error ProductDatabase is empty, " << rFile);
+							result = FALSE;
+						}
+						else
+						{
+							for (const auto& rItem : rData)
+							{
+								list.AddItem(base::utils::CProductItem{ -1, rItem.second, rItem.first });
+							}
+							ASSERT(result);
+						}
+					}
+				}
+				else
+				{
+					auto bDBFile = IsFileExtension(rFile, DBEXT);
+					if (bDBFile)
+					{
+						result = list.Load(rFile);
+						if ( ! result)
+						{
+							LOGERROR("Error reading ProductDatabase-DB, " << rFile);
+						}
+					}
+				}
+				if (result)
+				{
+					ASSERT(list.GetCount() > 0);
+					g_Statistics.SetProductDatabase(list);
+					m_ProductDatabaseLastModifiedFileTime = buffer.st_mtime;
+				}
+			}
+		}
 	}
 	return result;
 }

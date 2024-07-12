@@ -22,6 +22,7 @@ private:
 	CString m_szCMDPath;
 	base::CEasyGraphConfig m_SaveCfg;
 
+	static time_t m_ProductDatabaseLastModifiedFileTime;
 
 private:
 	BOOL LoadInitFile(void);
@@ -31,6 +32,7 @@ private:
 	BOOL LoadRecorderDescription(void);
 	BOOL SaveSettings(void);
 	void ShutDown();
+	static BOOL IsFileExtension(const std::string& sz, const std::string& rExt);
 
 public:
 	CEasyGraphApp() noexcept;
