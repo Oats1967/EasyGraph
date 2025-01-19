@@ -95,7 +95,7 @@ BOOL CStatistics::LoadLogItemList()
 			base::utils::CLogItemList tempList;
 			tempList.SetPath(rLineItem.m_szLogPath);
 			tempList.SetFilename(aTime);
-			tempList.Load();
+			tempList.LoadAll();
 			m_LogDaysList += tempList;;
 			dSO += dayskip;
 		}
@@ -134,7 +134,7 @@ BOOL CStatistics::LoadRectItemList()
 			base::utils::CRecItemList tempList;
 			tempList.SetPath(rLineItem.m_szRecPath);
 			tempList.SetFilename(aTime);
-			tempList.Load();
+			tempList.LoadAll();
 			m_RecDaysList += tempList;;
 			dSO += dayskip;
 		}
