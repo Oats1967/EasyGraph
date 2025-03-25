@@ -15,9 +15,8 @@
 /////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "pch.h"
+#include "EasyGraph.h"
 #include "BASE/include/MassflowSelect.h"
-#include "resource.h"
 
 #define HOURS_NUM 24
 #define ROTATE_BY_MOUSE_INFOTIP _T("Rotate by mouse\nWhen this option is checked, you may press and hold left mouse button and move the mouse to rotate the chart. Using mouse wheel you may change the perspective.")

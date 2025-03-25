@@ -1,10 +1,9 @@
 #pragma once
 
-//#include "pch.h"
+#include "EasyGraph.h"
 #include "EasyGraphDoc.h"
 #include "EasyGraphView.h"
 #include "Statistics.h"
-#include "resource.h"
 
 
 struct MarkerInfo

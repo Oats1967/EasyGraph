@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logger", "..\EasyControl\Lo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASE", "..\EasyControl\BASE\BASE.vcxproj", "{AB592A6E-7B7F-4F77-9D9D-618F24D8C87D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EasyGraph_DEU", "EasyGraph_DEU\EasyGraph_DEU.vcxproj", "{18009D89-0FF0-4329-9786-36CFDA4DBBE9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ressource", "ressource", "{BC7B2B4B-1225-4DA8-B4D4-FA4ACCACEC39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,9 +45,20 @@ Global
 		{AB592A6E-7B7F-4F77-9D9D-618F24D8C87D}.Release|x64.Build.0 = Release|x64
 		{AB592A6E-7B7F-4F77-9D9D-618F24D8C87D}.Release|x86.ActiveCfg = Release|Win32
 		{AB592A6E-7B7F-4F77-9D9D-618F24D8C87D}.Release|x86.Build.0 = Release|Win32
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Debug|x64.ActiveCfg = Debug|x64
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Debug|x64.Build.0 = Debug|x64
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Debug|x86.ActiveCfg = Debug|Win32
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Debug|x86.Build.0 = Debug|Win32
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Release|x64.ActiveCfg = Release|x64
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Release|x64.Build.0 = Release|x64
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Release|x86.ActiveCfg = Release|Win32
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{18009D89-0FF0-4329-9786-36CFDA4DBBE9} = {BC7B2B4B-1225-4DA8-B4D4-FA4ACCACEC39}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F051647-6861-4757-8041-5F18278CF7AB}

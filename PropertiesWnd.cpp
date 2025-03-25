@@ -1,11 +1,9 @@
 
 #include "pch.h"
-#include "framework.h"
-
-#include "PropertiesWnd.h"
-#include "Resource.h"
-#include "MainFrm.h"
 #include "EasyGraph.h"
+#include "framework.h"
+#include "PropertiesWnd.h"
+#include "MainFrm.h"
 #include "StringConvert.h"
 
 

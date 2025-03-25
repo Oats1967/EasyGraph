@@ -7,7 +7,8 @@
 	#error "'pch.h' vor dieser Datei für PCH einschließen"
 #endif
 
-#include "resource.h"       // Hauptsymbole
+#include "EasyGraph_DEU/resource.h"
+#include "EasyGraphCountry.h"
 #include "global.h"
 
 
@@ -33,6 +34,7 @@ private:
 	BOOL SaveSettings(void);
 	void ShutDown();
 	static BOOL IsFileExtension(const std::string& sz, const std::string& rExt);
+	BOOL LoadModule(void);
 
 public:
 	CEasyGraphApp() noexcept;

@@ -23,9 +23,9 @@
 #include <afxext.h>
 #endif
 
+#include "EasyGraph.h"
 #include "EasyGraphDoc.h"
 #include "EasyGraphView.h"
-#include "resource.h"
 
 
 class CChartTotalizer : public CEasyGraphView

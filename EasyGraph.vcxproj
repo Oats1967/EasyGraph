@@ -207,6 +207,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="GroupView.h" />
+    <ClInclude Include="LoadResource.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MassflowSelectMap.h" />
     <ClInclude Include="OutputWnd.h" />
@@ -250,6 +251,9 @@
     <ClCompile Include="EasyGraphDoc.cpp" />
     <ClCompile Include="EasyGraphView.cpp" />
     <ClCompile Include="GroupView.cpp" />
+    <ClCompile Include="LoadResource.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -262,41 +266,6 @@
     <ClCompile Include="Statistics.cpp" />
     <ClCompile Include="ViewTree.cpp" />
     <ClCompile Include="WorkspaceBar.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EasyGraph.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="resource\easyControlSplash.bmp" />
-    <Image Include="res\classview.bmp" />
-    <Image Include="res\classview_hc.bmp" />
-    <Image Include="res\class_view.ico" />
-    <Image Include="res\class_view_hc.ico" />
-    <Image Include="res\EasyGraph.ico" />
-    <Image Include="res\EasyGraphDoc.ico" />
-    <Image Include="res\explorer.bmp" />
-    <Image Include="res\explorer_hc.bmp" />
-    <Image Include="res\fileview.bmp" />
-    <Image Include="res\fileview_hc.bmp" />
-    <Image Include="res\file_view.ico" />
-    <Image Include="res\file_view_hc.ico" />
-    <Image Include="res\menuimages.bmp" />
-    <Image Include="res\menuimages_hc.bmp" />
-    <Image Include="res\output_wnd.ico" />
-    <Image Include="res\output_wnd_hc.ico" />
-    <Image Include="res\properties.bmp" />
-    <Image Include="res\properties_hc.bmp" />
-    <Image Include="res\properties_wnd.ico" />
-    <Image Include="res\properties_wnd_hc.ico" />
-    <Image Include="res\sort.bmp" />
-    <Image Include="res\sort_hc.bmp" />
-    <Image Include="res\Toolbar.bmp" />
-    <Image Include="res\Toolbar256.bmp" />
-    <Image Include="res\Toolbar_hc.png" />
-    <Image Include="res\userimages.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\EasyGraph.rc2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyControl\BASE\BASE.vcxproj">

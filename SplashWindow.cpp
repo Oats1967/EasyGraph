@@ -20,8 +20,8 @@
  */
 
 #include "pch.h"
+#include "EasyGraph.h"
 #include "SplashWindow.h"
-#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

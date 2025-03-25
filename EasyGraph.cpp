@@ -20,6 +20,7 @@
 #include "StringConvert.h"
 #include "Xlicense/LicenseLib/License.h"
 #include "Xlicense/LicenseLib/hostid.h"
+#include "LoadResource.h"
 
 #include "BASE/Utils/public/ProductItemList.h"
 #include "BASE/Utils/public/xml/EasyGraphConfigXml.h"
@@ -149,8 +150,38 @@ BOOL ReadLicence(void)
 	return pApp->CheckLicence();
 }
 
+//************************************************************************************************************************
+BOOL CEasyGraphApp::LoadModule(void)
+{
+	const std::map< base::eLanguage, int32_t> clangmap = { { base::eLanguage::eGERMAN, LANGUAGE_GERMAN },
+															   { base::eLanguage::eENGLISH, LANGUAGE_ENGLISH },
+															   { base::eLanguage::eFRENCH, LANGUAGE_FRENCH },
+															   { base::eLanguage::eITALIAN, LANGUAGE_ITALIAN },
+															   { base::eLanguage::eDUTCH, LANGUAGE_DUTCH },
+															   { base::eLanguage::ePOLISH, LANGUAGE_POLISH },
+															   { base::eLanguage::eTURKISH, LANGUAGE_TURKISH },
+															   { base::eLanguage::eSPANISH, LANGUAGE_SPANISH },
+															   { base::eLanguage::eRUSSIAN, LANGUAGE_RUSSIAN },
+															   { base::eLanguage::eCHINESE, LANGUAGE_CHINESE },
+															   { base::eLanguage::eUKRAINIAN, LANGUAGE_UKRAINIAN },
+															   { base::eLanguage::eHUNGARIAN, LANGUAGE_HUNGARIAN },
+															   { base::eLanguage::eGREEK, LANGUAGE_GREEK }
+	};
 
-
+	ASSERT(clangmap.size() == _S32(base::eLanguage::eMAXLANGUAGE));
+	BOOL result = FALSE;
+	const auto it = clangmap.find(EASYCGRAPHCONFIGFILE.m_Language);
+	if (it != clangmap.cend())
+	{
+		auto lLanguageID = it->second;
+		HINSTANCE aResInstance = LoadResourceDLL(LANGID(lLanguageID), m_szCMDPath);
+		ASSERT(aResInstance != 0);
+		AfxSetResourceHandle(aResInstance);
+		//BCGCBProSetResourceHandle(aResInstance);
+		result = BOOL(aResInstance != 0);
+	}
+	return result;
+}
 //------------------------------------------------------------------------------------
 ///  @brief   CheckLicence
 ///
@@ -391,6 +422,12 @@ BOOL CEasyGraphApp::InitInstance()
 	if (!result)
 	{
 		AfxMessageBox(_T("Error loading ini-file!"), MB_ICONSTOP | MB_ICONSTOP);
+		return FALSE;
+	}
+	result = LoadModule();
+	if (!result)
+	{
+		AfxMessageBox(_T("No resource file found!"), MB_ICONSTOP | MB_ICONSTOP);
 		return FALSE;
 	}
 

@@ -1,0 +1,688 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#ifndef APSTUDIO_INVOKED
+#include "targetver.h"
+#endif
+#include "afxres.h"
+#include "verrsrc.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""targetver.h""\r\n"
+    "#endif\r\n"
+    "#include ""afxres.h""\r\n"
+    "#include ""verrsrc.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)\r\n"
+    "LANGUAGE 7, 1\r\n"
+    "#include ""resource\\EasyGraph.rc2""  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen\r\n"
+    "#include ""l.DEU\\afxres.rc""      // Standardkomponenten\r\n"
+    "#include ""l.DEU\\afxprint.rc""    // Ressourcen für Drucken/Seitenansicht\r\n"
+    "#if !defined(_AFXDLL)\r\n"
+    "#include ""l.DEU\\afxribbon.rc""        // Ressourcen für MFC-Menüband und -Steuerleiste\r\n"
+    "#endif\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CLASS_VIEW          ICON                    "resource\\class_view.ico"
+
+IDR_MAINFRAME           ICON                    "resource\\EasyGraph.ico"
+
+IDI_FILE_VIEW           ICON                    "resource\\file_view.ico"
+
+IDI_FILE_VIEW_HC        ICON                    "resource\\file_view_hc.ico"
+
+IDI_CLASS_VIEW_HC       ICON                    "resource\\class_view_hc.ico"
+
+IDI_OUTPUT_WND          ICON                    "resource\\output_wnd.ico"
+
+IDI_OUTPUT_WND_HC       ICON                    "resource\\output_wnd_hc.ico"
+
+IDI_PROPERTIES_WND      ICON                    "resource\\properties_wnd.ico"
+
+IDI_PROPERTIES_WND_HC   ICON                    "resource\\properties_wnd_hc.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP                  "resource\\Toolbar.bmp"
+
+IDR_SORT                BITMAP                  "resource\\sort.bmp"
+
+IDB_SORT_24             BITMAP                  "resource\\sort_hc.bmp"
+
+IDB_FILE_VIEW           BITMAP                  "resource\\fileview.bmp"
+
+IDB_FILE_VIEW_24        BITMAP                  "resource\\fileview_hc.bmp"
+
+IDB_CLASS_VIEW          BITMAP                  "resource\\classview.bmp"
+
+IDB_CLASS_VIEW_24       BITMAP                  "resource\\classview_hc.bmp"
+
+IDB_EXPLORER_24         BITMAP                  "resource\\explorer_hc.bmp"
+
+IDB_MENU_IMAGES_24      BITMAP                  "resource\\menuimages_hc.bmp"
+
+IDR_PROPERTIES          BITMAP                  "resource\\properties.bmp"
+
+IDB_PROPERTIES_HC       BITMAP                  "resource\\properties_hc.bmp"
+
+IDB_SPLASH              BITMAP                  "resource\\easyControlSplash.bmp"
+
+IDR_MENU_IMAGES         BITMAP                  "resource\\menuimages.bmp"
+
+IDR_EXPLORER            BITMAP                  "resource\\explorer.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR 23, 24
+BEGIN
+    BUTTON      ID_TB_VIEW
+    BUTTON      ID_TB_LABEL_LINE
+    BUTTON      ID_TB_COLOR_THEME_COMBO
+    BUTTON      ID_TB_DOSESELECT_COMBO
+    BUTTON      ID_TB_ANNUMBER_COMBO
+    BUTTON      ID_TB_LOGMESSAGE_BUTTON
+    BUTTON      ID_TB_MAGNIFY
+    BUTTON      ID_TB_CHART_EXPORT
+    BUTTON      ID_TB_CHART_COPY
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_FILE_PRINT_PREVIEW
+    BUTTON      ID_APP_ABOUT
+END
+
+IDR_SORT TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_SORT_MENU
+    BUTTON      ID_NEW_FOLDER
+END
+
+IDR_PROPERTIES TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_EXPAND_ALL
+    BUTTON      ID_SORTPROPERTIES
+    BUTTON      ID_PROPERTIES1
+    BUTTON      ID_PROPERTIES2
+END
+
+IDR_MENU_IMAGES TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_WINDOW_MANAGER
+    SEPARATOR
+    BUTTON      ID_WINDOW_CASCADE
+    BUTTON      ID_WINDOW_TILE_HORZ
+    BUTTON      ID_TOOLS_MACRO
+    BUTTON      ID_SORTING_SORTALPHABETIC
+    BUTTON      ID_SORTING_SORTBYTYPE
+    BUTTON      ID_SORTING_SORTBYACCESS
+    BUTTON      ID_SORTING_GROUPBYTYPE
+END
+
+IDR_EXPLORER TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_PROPERTIES
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&Datei"
+    BEGIN
+        MENUITEM "&Neu\tStrg+N",                ID_FILE_NEW
+        MENUITEM "Ö&ffnen...\tStrg+O",         ID_FILE_OPEN
+        MENUITEM "&Schließen",                 ID_FILE_CLOSE
+        MENUITEM SEPARATOR
+        MENUITEM "Dru&ckeinrichtung...",        ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Zuletzt verwendete Datei",    ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "&Beenden",                    ID_APP_EXIT
+    END
+    POPUP "&Ansicht"
+    BEGIN
+        POPUP "&Symbolleisten und Andockfenster"
+        BEGIN
+            MENUITEM "<Platzhalter>",               ID_VIEW_TOOLBAR
+        END
+        MENUITEM "Status&leiste",               ID_VIEW_STATUS_BAR
+        POPUP "&Anwendungsdarstellung"
+        BEGIN
+            MENUITEM "Windows &2000",               ID_VIEW_APPLOOK_WIN_2000
+            MENUITEM "Office &XP",                  ID_VIEW_APPLOOK_OFF_XP
+            MENUITEM "&Windows XP",                 ID_VIEW_APPLOOK_WIN_XP
+            MENUITEM "Office 200&3",                ID_VIEW_APPLOOK_OFF_2003
+            MENUITEM "Visual Studio 200&5",         ID_VIEW_APPLOOK_VS_2005
+            MENUITEM "Visual Studio 200&8",         ID_VIEW_APPLOOK_VS_2008
+            POPUP "Office 200&7"
+            BEGIN
+                MENUITEM "Stil '&Blau'",                ID_VIEW_APPLOOK_OFF_2007_BLUE
+                MENUITEM "Stil 'S&chwarz'",             ID_VIEW_APPLOOK_OFF_2007_BLACK
+                MENUITEM "Stil '&Silber'",              ID_VIEW_APPLOOK_OFF_2007_SILVER
+                MENUITEM "Stil '&Aqua'",                ID_VIEW_APPLOOK_OFF_2007_AQUA
+            END
+        END
+    END
+    POPUP "&Hilfe"
+    BEGIN
+        MENUITEM "&Informationen zu EasyGraph...", ID_APP_ABOUT
+    END
+END
+
+IDR_POPUP_EDIT MENU
+BEGIN
+    POPUP "Bearbeiten"
+    BEGIN
+        MENUITEM "&Ausschneiden\tStrg+X",       ID_EDIT_CUT
+        MENUITEM "&Kopieren\tStrg+C",           ID_EDIT_COPY
+        MENUITEM "&Einfügen\tStrg+V",          ID_EDIT_PASTE
+    END
+END
+
+IDR_POPUP_SORT MENU
+BEGIN
+    POPUP "Sortieren"
+    BEGIN
+        MENUITEM "Alphabetisch &sortieren",     ID_SORTING_SORTALPHABETIC
+        MENUITEM "Nach &Typ sortieren",         ID_SORTING_SORTBYTYPE
+        MENUITEM "Nach Zugriff sorti&eren",     ID_SORTING_SORTBYACCESS
+        MENUITEM "Nach T&yp gruppieren",        ID_SORTING_GROUPBYTYPE
+    END
+END
+
+IDR_POPUP_EXPLORER MENU
+BEGIN
+    POPUP "Explorer"
+    BEGIN
+        MENUITEM "Öff&nen",                    ID_OPEN
+        MENUITEM "Öffnen &mit...",             ID_OPEN_WITH
+        MENUITEM SEPARATOR
+        MENUITEM "&Kompilieren",                ID_DUMMY_COMPILE
+        MENUITEM SEPARATOR
+        MENUITEM "&Ausschneiden\tStrg+X",       ID_EDIT_CUT
+        MENUITEM "&Kopieren\tStrg+C",           ID_EDIT_COPY
+        MENUITEM "E&ntfernen",                  ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Eigenschaften...",           ID_PROPERTIES
+    END
+END
+
+IDR_OUTPUT_POPUP MENU
+BEGIN
+    POPUP "Popup"
+    BEGIN
+        MENUITEM "&Kopieren",                   ID_EDIT_COPY
+        MENUITEM "&Löschen",                   ID_EDIT_CLEAR
+        MENUITEM SEPARATOR
+        MENUITEM "&Ausblenden",                 ID_VIEW_OUTPUTWND
+    END
+END
+
+IDR_HELP_MENU MENU
+BEGIN
+    MENUITEM "&Informationen zu EasyGraph...", ID_APP_ABOUT
+END
+
+IDR_THEME_MENU MENU
+BEGIN
+    MENUITEM "Office 2007 (Stil '&Blau')",  ID_VIEW_APPLOOK_OFF_2007_BLUE
+    MENUITEM "Office 2007 (Stil 'S&chwarz')", ID_VIEW_APPLOOK_OFF_2007_BLACK
+    MENUITEM "Office 2007 (Stil '&Silber')", ID_VIEW_APPLOOK_OFF_2007_SILVER
+    MENUITEM "Office 2007 (Stil '&Aqua')",  ID_VIEW_APPLOOK_OFF_2007_AQUA
+    MENUITEM "Win&dows 7",                  ID_VIEW_APPLOOK_WINDOWS_7
+END
+
+IDR_MENU_VIEW MENU
+BEGIN
+    MENUITEM "&StatusBar",                  ID_VIEW_STATUS_BAR
+END
+
+IDR_MENU_MAGNIFY MENU
+BEGIN
+    POPUP "Select"
+    BEGIN
+        MENUITEM "Kein",                        ID_MN_SELECT_NONE
+        MENUITEM "Lupe",                        ID_MN_SELECT_LUPE
+        MENUITEM "Rad",                         ID_MN_SELECT_WHEEL
+        MENUITEM "Ausschnitt",                  ID_MN_SELECT_DISTANCE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 170, 62
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Informationen zu EasyGraph"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
+    LTEXT           "EasyGraph, Version 1.0",IDC_STATIC,42,14,114,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 2024",IDC_STATIC,42,26,114,8
+    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
+END
+
+IDD_FORM DIALOGEX 0, 0, 309, 176
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_FORM,"Static",SS_GRAYRECT,7,57,295,112
+    LTEXT           "Statisch",IDC_FORM_TITLE,7,7,266,23
+END
+
+IDD_CHART DIALOGEX 0, 0, 489, 243
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CHART,"Static",SS_GRAYRECT,6,60,456,139
+    LTEXT           "Statisch",IDC_CHART_LINE,6,18,138,18
+    LTEXT           "Statisch",IDC_CHART_DATE,162,18,150,18
+    LTEXT           "Statisch",IDC_CHART_ANNUMBER,318,18,150,18
+END
+
+IDD_TOTALIZER DIALOGEX 0, 0, 515, 264
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TOTALIZER,"Static",SS_GRAYRECT,7,75,501,182
+    LTEXT           "Statisch",IDC_TOTALIZER_LINE,6,30,118,17
+    LTEXT           "Statisch",IDC_TOTALIZER_DATE,156,30,153,17
+    COMBOBOX        IDC_TOTALIZER_KEYSELECT,18,48,65,59,CBS_DROPDOWNLIST | CBS_OWNERDRAWFIXED | CBS_HASSTRINGS | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Statisch",IDC_TOTALIZER_ANNUMBER,312,30,150,18
+END
+
+IDD_GROUP DIALOGEX 0, 0, 309, 176
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_GROUP,"Static",SS_GRAYRECT,7,57,295,112
+    LTEXT           "Statisch",IDC_GROUP_TITLE,7,7,266,23
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040704B0"
+        BEGIN
+            VALUE "CompanyName", "TODO: <Firmenname>"
+            VALUE "FileDescription", "EasyGraph"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "EasyGraph.exe"
+            VALUE "LegalCopyright", "TODO: (c) <Firmenname>.  Alle Rechte vorbehalten."
+            VALUE "OriginalFilename", "EasyGraph.exe"
+            VALUE "ProductName", "TODO: <Produktname>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x407, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 55
+    END
+
+    IDD_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
+
+    IDD_CHART, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 482
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 236
+    END
+
+    IDD_TOTALIZER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 508
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 257
+    END
+
+    IDD_GROUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_FORM AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_CHART AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TOTALIZER AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_GROUP AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    VK_LEFT,        ID_VIEW_BACK,           VIRTKEY, ALT, NOINVERT
+    VK_UP,          ID_VIEW_UP,             VIRTKEY, ALT, NOINVERT
+    VK_RIGHT,       ID_VIEW_FORWARD,        VIRTKEY, ALT, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_TOOLBAR_HC          PNG                     "resource\\Toolbar_hc.png"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDP_OLE_INIT_FAILED     "OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen."
+    IDS_WB_MASSFLOW         "Durchsatz"
+    IDR_EasyGraphTYPE       "\nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document"
+    IDR_MAINFRAME           "EasyGraph"
+    IDS_WB_SETPOINT         "Sollwert"
+    IDS_WB_DRIVECOMMAND     "Stellbefehl"
+    IDS_WB_ROTSPEED         "Drehzahl"
+    IDS_WB_NETWEIGHT        "Gewicht"
+    IDS_WB_COMBINEDVIEW     "Kombinierte Ansicht"
+    IDS_WB_TOTALIZER        "Totalisator"
+    IDS_WB_DOSEPERFORMANCE  "Dosierperformanz"
+    IDS_WB_STATISTICS       "Statistics"
+END
+
+STRINGTABLE
+BEGIN
+    IDS_BUILD_TAB           "Erstellen"
+    IDS_CALENDAR_VIEW       "Kalender"
+    IDS_EDIT_MENU           "Bearbeiten"
+    IDS_EXPLORER            "Explorer"
+    IDS_FILE_VIEW           "Grafikauswahl"
+    IDS_FILE_VIEW2          "Grafikauswahl"
+    IDS_GRAFIKSELECT_VIEW   "Grafikauswahl"
+    IDS_OUTPUT_WND          "Ausgabe"
+    IDS_PROPERTIES_WND      "Eigenschaften"
+    IDS_STATUS_PANE1        "Bereich 1"
+    IDS_STATUS_PANE2        "Bereich 2"
+    IDS_TOOLBAR_CUSTOMIZE   "Anpassen..."
+    IDS_TOOLBAR_STANDARD    "Standard"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_MANAGER       "&Fenster..."
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "EasyGraph"
+    AFX_IDS_IDLEMESSAGE     "Bereit"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Erstellt ein neues Dokument.\nNeu"
+    ID_FILE_OPEN            "Öffnet ein vorhandenes Dokument.\nÖffnen"
+    ID_FILE_CLOSE           "Schließt das aktive Dokument.\nSchließen"
+    ID_FILE_SAVE            "Speichert das aktive Dokument.\nSpeichern"
+    ID_FILE_SAVE_AS         "Speichert das aktive Dokument unter einem neuem Namen.\nSpeichern unter"
+    ID_FILE_PAGE_SETUP      "Ändert die Druckoptionen.\nSeite einrichten"
+    ID_FILE_PRINT_SETUP     "Ändert den Drucker und die Druckoptionen.\nDruckereinrichtung"
+    ID_FILE_PRINT           "Druckt das aktive Dokument.\nDrucken"
+    ID_FILE_PRINT_DIRECT    "Druckt das aktive Dokument mit den aktuellen Optionen.\nSchnelldruck"
+    ID_FILE_PRINT_PREVIEW   "Zeigt ganze Seiten an.\nSeitenansicht"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "Zeigt Programm-, Versions- und Copyrightinformationen an.\nInfo"
+    ID_APP_EXIT             "Beendet die Anwendung und fordert zum Speichern der Dokumente auf.\nBeenden"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE2       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE3       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE4       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE5       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE6       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE7       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE8       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE9       "Öffnet das Dokument."
+    ID_FILE_MRU_FILE10      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE11      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE12      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE13      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE14      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE15      "Öffnet das Dokument."
+    ID_FILE_MRU_FILE16      "Öffnet das Dokument."
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "Wechselt zum nächsten Fensterbereich.\nNächster Bereich"
+    ID_PREV_PANE            "Wechselt zum vorherigen Fensterbereich.\nVorheriger Bereich"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_NEW           "Öffnet ein weiteres Fenster für das aktive Dokument.\nNeues Fenster"
+    ID_WINDOW_ARRANGE       "Ordnet die Symbole im unteren Fensterrand an.\nSymbole anordnen"
+    ID_WINDOW_CASCADE       "Ordnet die Fenster überlappend an.\nÜberlappende Fenster"
+    ID_WINDOW_TILE_HORZ     "Ordnet die Fenster nebeneinander an.\nFenster nebeneinander"
+    ID_WINDOW_TILE_VERT     "Ordnet die Fenster nebeneinander an.\nFenster nebeneinander"
+    ID_WINDOW_SPLIT         "Teilt das aktive Fenster in Bereiche.\nTeilen"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "Löscht die Auswahl.\nLöschen"
+    ID_EDIT_CLEAR_ALL       "Löscht alles.\nAlles löschen"
+    ID_EDIT_COPY            "Kopiert die Auswahl in die Zwischenablage.\nKopieren"
+    ID_EDIT_CUT             "Überträgt die Auswahl in die Zwischenablage.\nAusschneiden"
+    ID_EDIT_FIND            "Sucht den angegebenen Text.\nSuchen"
+    ID_EDIT_PASTE           "Fügt den Inhalt der Zwischenablage ein.\nEinfügen"
+    ID_EDIT_REPEAT          "Wiederholt den letzten Vorgang.\nWiederholen"
+    ID_EDIT_REPLACE         "Ersetzt den angegebenen Text.\nErsetzen"
+    ID_EDIT_SELECT_ALL      "Markiert das gesamte Dokument.\nAlles auswählen"
+    ID_EDIT_UNDO            "Macht den letzten Vorgang rückgängig.\nRückgängig"
+    ID_EDIT_REDO            "Wiederholt den zuletzt rückgängig gemachten Vorgang.\nWiederherstellen"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_STATUS_BAR      "Blendet die Statusleiste ein oder aus.\nStatusleiste ein- oder ausblenden"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "Ändert die Fenstergröße."
+    AFX_IDS_SCMOVE          "Ändert die Position des Fensters."
+    AFX_IDS_SCMINIMIZE      "Minimiert das Fenster."
+    AFX_IDS_SCMAXIMIZE      "Maximiert das Fenster."
+    AFX_IDS_SCNEXTWINDOW    "Wechselt zum nächsten Dokumentfenster."
+    AFX_IDS_SCPREVWINDOW    "Wechselt zum vorherigen Dokumentfenster."
+    AFX_IDS_SCCLOSE         "Schließt das aktive Fenster und fordert zum Speichern des Dokuments auf."
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "Stellt die ursprüngliche Fenstergröße wieder her."
+    AFX_IDS_SCTASKLIST      "Aktiviert die Aufgabenliste."
+    AFX_IDS_MDICHILD        "Aktiviert dieses Fenster."
+END
+
+STRINGTABLE
+BEGIN
+    ID_TB_CHART_COPY        "Copy chart to the clipbaord\nCopy to Clipboard"
+    ID_TB_CHART_EXPORT      "Export chart to the external file (BMP or PNG format)\nExport"
+    ID_TB_COLOR_THEME_COMBO "Color theme"
+END
+
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE 7, 1
+#include "resource\EasyGraph.rc2"  // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen
+#include "l.DEU\afxres.rc"      // Standardkomponenten
+#include "l.DEU\afxprint.rc"    // Ressourcen für Drucken/Seitenansicht
+#if !defined(_AFXDLL)
+#include "l.DEU\afxribbon.rc"        // Ressourcen für MFC-Menüband und -Steuerleiste
+#endif
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -14,10 +14,10 @@
 //
 
 #include "pch.h"
+#include <map>
 #include "MainFrm.h"
 #include "WorkspaceBar.h"
 #include "EasyGraph.h"
-//#include "MainFrm.h"
 #include "EasyGraphView.h"
 #include "ChartLineView.h"
 #include "ChartTotalizer.h"
@@ -58,6 +58,19 @@ END_MESSAGE_MAP()
 CWorkspaceBar::CWorkspaceBar()
 {
 	m_nLastSelectedItem = -1;
+
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Massflow, RUNTIME_CLASS(CChartMassflow)));
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Setpoint, RUNTIME_CLASS(CChartSetpoint)));
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, RUNTIME_CLASS(CChartDriveCommand)));
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, RUNTIME_CLASS(CChartRotSpeed)));
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, RUNTIME_CLASS(CChartDoseperformance)));
+	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Weight, RUNTIME_CLASS(CChartNetweight)));
+	features.push_back(CDemoFeature(1, CDemoFeature::BCGP_OverallView, RUNTIME_CLASS(CChartCombinedView)));
+	features.push_back(CDemoFeature(2, CDemoFeature::BCGP_Statistics, _RUNTIME_CLASS(CChartTotalizer)));
+
+	groups.push_back(CBCGPMultiViewData(_T("Einzelanalyse"), RUNTIME_CLASS(CGroupView)));
+	groups.push_back(CBCGPMultiViewData(_T("Gesamtanalyse"), RUNTIME_CLASS(CGroupView)));
+	groups.push_back(CBCGPMultiViewData(_T("Statistik"), RUNTIME_CLASS(CGroupView)));
 }
 
 CWorkspaceBar::~CWorkspaceBar()
@@ -67,29 +80,32 @@ CWorkspaceBar::~CWorkspaceBar()
 /////////////////////////////////////////////////////////////////////////////
 // CWorkspaceBar message handlers
 
-static CBCGPMultiViewData groups[] =
-{
-	CBCGPMultiViewData(_T("Einzelanalyse"), RUNTIME_CLASS(CGroupView)),
-	CBCGPMultiViewData(_T("Gesamtanalyse"), RUNTIME_CLASS(CGroupView)),
-	CBCGPMultiViewData(_T("Statistik"), RUNTIME_CLASS(CGroupView)),
+
+
+static const std::map< CDemoFeature::Feature, UINT> g_demoFeatureMap = { { CDemoFeature::BCGP_Massflow, IDS_WB_MASSFLOW },
+																		 { CDemoFeature::BCGP_Setpoint, IDS_WB_SETPOINT },
+																		 { CDemoFeature::BCGP_DriveCommand, IDS_WB_DRIVECOMMAND },
+																		 { CDemoFeature::BCGP_RotSpeed, IDS_WB_ROTSPEED },
+																		 { CDemoFeature::BCGP_DosePerformance, IDS_WB_DOSEPERFORMANCE },
+																		 { CDemoFeature::BCGP_Weight, IDS_WB_NETWEIGHT },
+																		 { CDemoFeature::BCGP_OverallView, 0 },
+																		 { CDemoFeature::BCGP_Statistics,  0},
 };
 
-
-/////////////////////////////////////////////////////////////////////////////
-// CWorkspaceBar message handlers
-static CDemoFeature features[] =
+CDemoFeature::CDemoFeature(int nGroup, Feature feature, CRuntimeClass* pRTI, int nStatus) :
+	CBCGPMultiViewData(CString(), pRTI, nGroup),
+	m_nStatus(nStatus),
+	m_Feature(feature)
 {
-	CDemoFeature(0, CDemoFeature::BCGP_Massflow, _T("Durchsatz"), RUNTIME_CLASS(CChartMassflow)),
-	CDemoFeature(0, CDemoFeature::BCGP_Setpoint, _T("Sollwert"), RUNTIME_CLASS(CChartSetpoint)),
-	CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, _T("Stellbefehl"), RUNTIME_CLASS(CChartDriveCommand)),
-	CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, _T("Drehzahl"), RUNTIME_CLASS(CChartRotSpeed)),
-	CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, _T("Dosierperformanz"), RUNTIME_CLASS(CChartDoseperformance)),
-	CDemoFeature(0, CDemoFeature::BCGP_Weight, _T("Gewicht"), RUNTIME_CLASS(CChartNetweight)),
-	CDemoFeature(1, CDemoFeature::BCGP_OverallView, _T("Kombinierte Ansicht"), RUNTIME_CLASS(CChartCombinedView)),
-	CDemoFeature(2, CDemoFeature::BCGP_Statistics, _T("Totalisator"), RUNTIME_CLASS(CChartTotalizer)),
-};
-
-
+	if ((feature != BCGP_OverallView) && (feature != BCGP_Statistics))
+	{
+		const auto it = g_demoFeatureMap.find(feature);
+		ASSERT(it != g_demoFeatureMap.cend());
+		VERIFY(m_strName.LoadString(it->second));
+	}
+}
+//******************************************************************************************************
+//******************************************************************************************************
 int CWorkspaceBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CBCGPDockingControlBar::OnCreate(lpCreateStruct) == -1)
@@ -119,8 +135,7 @@ int CWorkspaceBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndTree.SetOutOfFilterLabel(_T("No items match your search."));
 
 
-	const int nCount = sizeof(groups) / sizeof(CBCGPMultiViewData);
-
+	const int nCount = (int)groups.size();
 	for (int i = 0; i < nCount; i++)
 	{
 		AddFeatureGroup(groups[i]);
@@ -137,8 +152,7 @@ void CWorkspaceBar::AddFeatureGroup(CBCGPMultiViewData& group)
 	const int nGroupIndex = AddGroup(&group, (DWORD_PTR)hFolder);
 	m_wndTree.SetItemData(hFolder, nGroupIndex + 1);
 
-	const int nCount = sizeof(features) / sizeof(CDemoFeature);
-
+	const int nCount = (int)features.size();
 	for (int i = 0; i < nCount; i++)
 	{
 		CDemoFeature& feature = features[i];

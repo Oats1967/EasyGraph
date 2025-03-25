@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Ressourcendateien">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Quelldateien\Charts">
       <UniqueIdentifier>{1a55d81e-0b89-4626-b93d-a6555fd9485e}</UniqueIdentifier>
     </Filter>
@@ -129,6 +125,9 @@
     <ClInclude Include="..\EasyControl\BASE\include\EasyGraphSettings.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="LoadResource.h">
+      <Filter>Quelldateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EasyGraph.cpp">
@@ -209,98 +208,8 @@
     <ClCompile Include="..\EasyControl\XLicense\LicenseLib\license.cpp">
       <Filter>Quelldateien\License</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="EasyGraph.rc">
-      <Filter>Ressourcendateien</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\file_view.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\file_view_hc.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\class_view.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\class_view_hc.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\fileview.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\fileview_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\classview.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\classview_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\explorer.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\explorer_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\sort.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\sort_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\menuimages.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\menuimages_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\output_wnd.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\output_wnd_hc.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\properties_wnd.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\properties_wnd_hc.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\properties.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\properties_hc.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\userimages.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\EasyGraphDoc.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\EasyGraph.ico">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\Toolbar.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\Toolbar256.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="resource\easyControlSplash.bmp">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-    <Image Include="res\Toolbar_hc.png">
-      <Filter>Ressourcendateien</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\EasyGraph.rc2">
-      <Filter>Ressourcendateien</Filter>
-    </None>
+    <ClCompile Include="LoadResource.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

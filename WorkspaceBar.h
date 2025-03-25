@@ -13,8 +13,10 @@
 // WorkspaceBar.h : interface of the CWorkspaceBar class
 //
 /////////////////////////////////////////////////////////////////////////////
-
 #pragma once
+
+#include <vector>
+
 
 struct CDemoFeature : public CBCGPMultiViewData
 {
@@ -32,12 +34,8 @@ struct CDemoFeature : public CBCGPMultiViewData
 		BCGP_Statistics,
 	};
 
-	CDemoFeature(int nGroup, Feature feature, LPCTSTR lpszName, CRuntimeClass* pRTI, int nStatus = 0) :
-		CBCGPMultiViewData(lpszName, pRTI, nGroup),
-		m_nStatus(nStatus),
-		m_Feature(feature)
-	{
-	}
+	CDemoFeature(int nGroup, Feature feature, CRuntimeClass* pRTI, int nStatus = 0);
+
 	const int		m_nStatus;
 	const Feature	m_Feature;
 };
@@ -45,6 +43,9 @@ struct CDemoFeature : public CBCGPMultiViewData
 class CWorkspaceBar : public CBCGPDockingControlBar,
 					  public CBCGPMultiViewsCollection
 {
+	std::vector<CDemoFeature> features;
+	std::vector < CBCGPMultiViewData> groups;
+
 public:
 	CWorkspaceBar();
 

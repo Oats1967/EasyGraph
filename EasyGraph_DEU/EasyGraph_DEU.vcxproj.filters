@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EasyGraph_DEU.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\class_view.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\EasyGraph.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\file_view.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\file_view_hc.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\class_view_hc.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\output_wnd.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\output_wnd_hc.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\properties_wnd.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\properties_wnd_hc.ico">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\Toolbar.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\sort.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\sort_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\fileview.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\fileview_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\classview.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\classview_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\explorer_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\menuimages_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\properties.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\properties_hc.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\easyControlSplash.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\menuimages.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\explorer.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="resource\Toolbar_hc.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
