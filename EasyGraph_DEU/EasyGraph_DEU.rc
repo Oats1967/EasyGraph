@@ -507,17 +507,22 @@ IDB_TOOLBAR_HC          PNG                     "resource\\Toolbar_hc.png"
 STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen."
-    IDS_WB_MASSFLOW         "Durchsatz"
+    IDS_WB_SINGLEANALYSIS   "Einzelanalyse"
     IDR_EasyGraphTYPE       "\nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document"
     IDR_MAINFRAME           "EasyGraph"
-    IDS_WB_SETPOINT         "Sollwert"
+    IDS_WB_TOTALANALYSIS    "Gesamtanalyse"
+    IDS_WB_STATISTIC        "Statistik"
+END
+
+STRINGTABLE
+BEGIN
     IDS_WB_DRIVECOMMAND     "Stellbefehl"
-    IDS_WB_ROTSPEED         "Drehzahl"
+    IDS_WB_MASSFLOW         "Durchsatz"
     IDS_WB_NETWEIGHT        "Gewicht"
-    IDS_WB_COMBINEDVIEW     "Kombinierte Ansicht"
-    IDS_WB_TOTALIZER        "Totalisator"
-    IDS_WB_DOSEPERFORMANCE  "Dosierperformanz"
+    IDS_WB_ROTSPEED         "Drehzahl"
+    IDS_WB_SETPOINT         "Sollwert"
     IDS_WB_STATISTICS       "Statistics"
+    IDS_WB_TOTALIZER        "Totalisator"
 END
 
 STRINGTABLE
@@ -535,6 +540,8 @@ BEGIN
     IDS_STATUS_PANE2        "Bereich 2"
     IDS_TOOLBAR_CUSTOMIZE   "Anpassen..."
     IDS_TOOLBAR_STANDARD    "Standard"
+    IDS_WB_COMBINEDVIEW     "Kombinierte Ansicht"
+    IDS_WB_DOSEPERFORMANCE  "Dosierperformanz"
 END
 
 STRINGTABLE

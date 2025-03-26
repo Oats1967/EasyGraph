@@ -55,22 +55,21 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CWorkspaceBar construction/destruction
 
-CWorkspaceBar::CWorkspaceBar()
+CWorkspaceBar::CWorkspaceBar() 
+	: features{ CDemoFeature(0, CDemoFeature::BCGP_Massflow, RUNTIME_CLASS(CChartMassflow)) , 
+			    CDemoFeature(0, CDemoFeature::BCGP_Setpoint, RUNTIME_CLASS(CChartSetpoint)),
+			    CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, RUNTIME_CLASS(CChartDriveCommand)),
+				CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, RUNTIME_CLASS(CChartRotSpeed)),
+				CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, RUNTIME_CLASS(CChartDoseperformance)),
+				CDemoFeature(0, CDemoFeature::BCGP_Weight, RUNTIME_CLASS(CChartNetweight)),
+				CDemoFeature(1, CDemoFeature::BCGP_OverallView, RUNTIME_CLASS(CChartCombinedView)),
+				CDemoFeature(2, CDemoFeature::BCGP_Statistics, _RUNTIME_CLASS(CChartTotalizer)) }
+
+	, groups { CGroupData(IDS_WB_SINGLEANALYSIS, RUNTIME_CLASS(CGroupView)),
+			   CGroupData(IDS_WB_TOTALANALYSIS, RUNTIME_CLASS(CGroupView)),
+			   CGroupData(IDS_WB_STATISTIC, RUNTIME_CLASS(CGroupView)) }
 {
 	m_nLastSelectedItem = -1;
-
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Massflow, RUNTIME_CLASS(CChartMassflow)));
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Setpoint, RUNTIME_CLASS(CChartSetpoint)));
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_DriveCommand, RUNTIME_CLASS(CChartDriveCommand)));
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_RotSpeed, RUNTIME_CLASS(CChartRotSpeed)));
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_DosePerformance, RUNTIME_CLASS(CChartDoseperformance)));
-	features.push_back(CDemoFeature(0, CDemoFeature::BCGP_Weight, RUNTIME_CLASS(CChartNetweight)));
-	features.push_back(CDemoFeature(1, CDemoFeature::BCGP_OverallView, RUNTIME_CLASS(CChartCombinedView)));
-	features.push_back(CDemoFeature(2, CDemoFeature::BCGP_Statistics, _RUNTIME_CLASS(CChartTotalizer)));
-
-	groups.push_back(CBCGPMultiViewData(_T("Einzelanalyse"), RUNTIME_CLASS(CGroupView)));
-	groups.push_back(CBCGPMultiViewData(_T("Gesamtanalyse"), RUNTIME_CLASS(CGroupView)));
-	groups.push_back(CBCGPMultiViewData(_T("Statistik"), RUNTIME_CLASS(CGroupView)));
 }
 
 CWorkspaceBar::~CWorkspaceBar()

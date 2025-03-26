@@ -40,11 +40,20 @@ struct CDemoFeature : public CBCGPMultiViewData
 	const Feature	m_Feature;
 };
 
+struct CGroupData : public CBCGPMultiViewData
+{
+	CGroupData(UINT id, CRuntimeClass* pRTI) : CBCGPMultiViewData(CString(), pRTI)
+	{
+		VERIFY(m_strName.LoadString(id));
+	}
+};
+
+
 class CWorkspaceBar : public CBCGPDockingControlBar,
 					  public CBCGPMultiViewsCollection
 {
-	std::vector<CDemoFeature> features;
-	std::vector < CBCGPMultiViewData> groups;
+	std::vector < CDemoFeature > features;
+	std::vector < CGroupData > groups;
 
 public:
 	CWorkspaceBar();
