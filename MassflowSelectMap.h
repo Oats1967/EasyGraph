@@ -19,27 +19,9 @@
 
 #pragma once
 
-#include <string>
+#include <map>
 #include "BASE/types.h"
-#include "BASE/include/XMLStringEnumMap.h"
 #include "BASE/include/MassflowSelect.h"
 
 
-using TMassflowSelectMap = base::CXMLStringEnumMap< base::eMassflowSelect >;
-class CMassflowSelectMap : public TMassflowSelectMap
-{
-    public:
-        CMassflowSelectMap() :TMassflowSelectMap(
-            {
-                { base::eMassflowSelect::eVIEWMASSFLOW, "Durchsatz" },
-                { base::eMassflowSelect::eVIEWSETPOINT, "Sollwert" },
-                { base::eMassflowSelect::eVIEWDRIVECOMMAND, "Stellbefehl" },
-                { base::eMassflowSelect::eVIEWWEIGHT, "Nettogewicht" },
-                { base::eMassflowSelect::eVIEWDOSEPERFORMANCE, "Dosierperformanz" },
-                { base::eMassflowSelect::eVIEWROTSPEED, "Drehzahl" },
-                { base::eMassflowSelect::eVIEWTOTALIZER, "Verbrauch" }
-            })
-        {
-            assert(m_Map.size() == _S32(base::eMassflowSelect::eVIEWMAX));
-        }
-};
+using CMassflowSelectMap = std::map< base::eMassflowSelect, uint32_t>;

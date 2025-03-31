@@ -1,0 +1,323 @@
+resource.h
+afxres.h
+resource.h\0
+#include
+afxres.h
+\r\n
+\nEasyControl\nEasyControl\n\n\nEasyControl.Document\nEasyControl.Document
+\nDiagram\nDiagram\nDiagram\nDiagram\nDiagram.Document\nDiagram.Document
+\nEasyControl\n\n\nEasyControl.Document\nEasyControl.Document
+\nRezeptur\n\n\nRezeptur.Document\nRezeptur.Document
+..\\Ressource\\Mainframe16.bmp
+..\\Ressource\\recipeframe16.bmp
+..\\Ressource\\BILD_REFILL_BLACK.bmp
+..\\Ressource\\BILD_REFILL_RED.bmp
+..\\Ressource\\BtMinusDisable.bmp
+..\\Ressource\\BtMinusDown.bmp
+..\\Ressource\\BtMinusFocus.bmp
+..\\Ressource\\BtMinusUp.bmp
+..\\Ressource\\BtPlusDisable.bmp
+..\\Ressource\\BtPlusDown.bmp
+..\\Ressource\\BtPlusFocus.bmp
+res\\easyControlsplash.bmp
+..\\Ressource\\tabimages.bmp
+..\\Ressource\\BtPlusUp.bmp
+..\\Ressource\\BILD_LWS_DOSIERER.bmp
+..\\Ressource\\BILD_LWS_DOSIERER_RUN.bmp
+..\\Ressource\\BILD_LWS_DOSIERER_ALARM.bmp
+..\\Ressource\\BILD_LWF_DOSIERER_REFILL.bmp
+..\\Ressource\\BILD_LWF_DOSIERER_REFILL_ALARM.bmp
+..\\Ressource\\BILD_LWP_DOSIERER.bmp
+..\\Ressource\\BILD_LWP_DOSIERER_ALARM.bmp
+..\\Ressource\\BILD_LWP_DOSIERER_RUN.bmp
+..\\Ressource\\BILD_LWV_DOSIERER.bmp
+..\\Ressource\\BILD_LWV_DOSIERER_ALARM.bmp
+..\\Ressource\\BILD_LWV_DOSIERER_RUN.bmp
+..\\Ressource\\BILD_VERRIEGELUNG.bmp
+..\\Ressource\\BILD_PID_DOSIERER.bmp
+..\\Ressource\\BILD_ICP_DOSIERER.bmp
+..\\Ressource\\BILD_VOL_DOSIERER.bmp
+..\\Ressource\\BILD_WBF_DOSIERER.bmp
+..\\Ressource\\BILD_WBM_DOSIERER.bmp
+..\\Ressource\\ImageLCGreen.bmp
+..\\Ressource\\ImageLCRed.bmp
+..\\Ressource\\key.bmp
+..\\Ressource\\keynew.bmp
+..\\Ressource\\ImageLCOrange.bmp
+..\\Ressource\\dosierer.bmp
+..\\Ressource\\kalibwarning.bmp
+..\\ressource\\tarawarn.bmp
+..\\Ressource\\fillbrush.bmp
+..\\Ressource\\LcGravimetricDisable.bmp
+..\\Ressource\\LcGravimetricFocus.bmp
+..\\Ressource\\LcVolumetricDisable.bmp
+..\\Ressource\\LcVolumetricFocus.bmp
+..\\Ressource\\LineDisable.bmp
+..\\Ressource\\LineFocus.bmp
+..\\Ressource\\LokalDisable.bmp
+..\\Ressource\\LokalFocus.bmp
+..\\Ressource\\EasyControl.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\MotorOff.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\MotorRun.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\MotorReady.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusOff.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusRun.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusLineRun.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusLineOff.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DoseButtonOff.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DoseButtonReady.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DoseButtonRun.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\RemoteNormal.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\RemoteDisonnect.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\RemoteConnect.bmp
+..\\ressource\\DiagramFrame16.bmp
+..\\ressource\\logbar16.bmp
+..\\ressource\\Overview16.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\recipeframe256.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DiagramFrame256.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\Mainframe256.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\Overview256.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\logbar256.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\Logo.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\Stoppuhr.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\radioOnOff.bmp
+..\\ressource\\kalibwar.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_REFILL_BLUE.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\signale.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\totalisator.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\process.bmp
+..\\Ressource\\RefillReleaseEnableDown.bmp
+..\\ressource\\RefillReleaseEnableDisable.bmp
+..\\ressource\\RefillReleaseEnableDownExt.bmp
+..\\ressource\\RefillReleaseEnableDisableExt.bmp
+..\\ressource\\RefillReleaseDisableUp.bmp
+..\\Ressource\\RefillReleaseDisableDisable.bmp
+..\\ressource\\RefillReleaseDisableUpExt.bmp
+..\\ressource\\RefillReleaseDisableDisableExt.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\LcGravimetricDisableExt.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\LcGravimetricFocusExt.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\LcVolumetricDisableExt.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\LcVolumetricFocusExt.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DoseButtonPressed.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_LWB_DOSIERER.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_LWB_DOSIERER_RUN.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_LWB_DOSIERER_ALARM.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_GWB_DOSIERER_RUN.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_GWB_DOSIERER.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_GWB_DOSIERER_ALARM.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_ICB_DOSIERER.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\DoseButtonPause.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\ImageLCOrangeGreen.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_LCL_DOSIERER_ALARM.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_LCL_DOSIERER.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_IFL_DOSIERER.bmp
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BILD_IFS_DOSIERER.bmp
+..\\Ressource\\IconFile.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\IconFlagGreek.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\IconFlagHungarian.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\IconFlagUkrainian.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\IconFlagChinese.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\IconFlagRussian.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\iconProductDatabase.ico
+..\\Ressource\\IconProtocolS7Dave.ico
+..\\Ressource\\IconEasyControl.ico
+..\\Ressource\\IconEasyControlDoc.ico
+..\\Ressource\\IconWarning.ico
+..\\Ressource\\IconReset.ico
+..\\Ressource\\IconResetMessage.ico
+..\\Ressource\\IconAlert.ico
+..\\Ressource\\IconUser.ico
+..\\Ressource\\IconVolumExt.ico
+..\\Ressource\\IconVolum.ico
+..\\Ressource\\IconGravNeutral.ico
+..\\Ressource\\IconAlarm.ico
+..\\Ressource\\IconFlagEnglish.ico
+..\\Ressource\\IconFlagGerman.ico
+..\\ressource\\IconFlagFrench.ico
+..\\ressource\\IconFlagItalian.ico
+..\\Ressource\\IconUserLogin.ico
+..\\Ressource\\IconProtocolNo.ico
+..\\Ressource\\IconProtocolModBus.ico
+..\\Ressource\\IconProtocolProfiBus.ico
+..\\Ressource\\IconAlarmBig.ico
+..\\Ressource\\IconDisconnect.ico
+..\\Ressource\\IconConnect.ico
+..\\Ressource\\IconConnectNormal.ico
+..\\ressource\\IconFlagDutch.ico
+..\\ressource\\IconProtocolProfiNet.ico
+..\\ressource\\IconFlagTurkish.ico
+..\\ressource\\iconconn.ico
+..\\ressource\\idr_over.ico
+..\\ressource\\ico00001.ico
+..\\ressource\\ico00002.ico
+..\\ressource\\IconFlagPolish.ico
+..\\ressource\\IconFlagSpanish.ico
+..\\ressource\\iconalar.ico
+..\\ressource\\IconWarningBig.ico
+..\\ressource\\RecorderActive.ico
+..\\ressource\\RecorderDeactive.ico
+..\\ressource\\RecorderError.ico
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\ImageKgh.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\ImagePercent.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\ImageUpm.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\icons_large.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\SettingsHeader.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\Trash.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtTrashDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtTrashUp.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtTrashFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtTrashDown.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtAddDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtAddDown.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtAddFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtAddUp.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtNextDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtNextDown.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtNextFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtNextUp.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtPreviousDown.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtPreviousDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtPreviousFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtPreviousUp.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\logobrush.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\radio_of32.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\radio_on32.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\start.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\stop.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\HelpInfo.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederMotorOff.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederMotorRun.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederMotorReady.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusRun.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusLineRun.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusOff.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\feederstatusLineOff.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\arrow_down.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\arrow_up.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\AgitatorFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\AgitatorDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtSpeedFocus.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BtSpeedDisable.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\LossInWeight.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\GainInWeight.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\ImageKg.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\arrow_right.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BTRefillScrewUp.png
+C:\\DEVELOP\\Cplusplus\\EasyControl\\Ressource\\BTRefillScrewDisable.png
+Static
+Button
+Button1
+*** todo ***
+MS Shell Dlg
+Microsoft Sans Serif
+Copyright (C) 2022, written by Dipl.- Inf. Detlef Hafer
+User
+Alarme
+MS Shell Dlg
+SysListView32
+000.00
+****
+00000
+ffnet ein vorhandenes Dokument.\nÖffnen
+Schließt das aktive Dokument.\nSchließen
+Speichert das aktive Dokument.\nSpeichern
+Speichert das aktive Dokument unter einem neuem Namen.\nSpeichern unter
+Ändert die Druckoptionen.\nSeite einrichten
+Ändert den Drucker und die Druckoptionen.\nDruckereinrichtung
+Druckt das aktive Dokument.\nDrucken
+Zeigt ganze Seiten an.\nSeitenansicht
+Zeigt Programm-, Versions- und Copyrightinformationen an.\nInfo
+Beendet die Anwendung und fordert zum Speichern der Dokumente auf.\nBeenden
+Öffnet die Hilfefunktion.\nHilfethemen
+Listet die Hilfethemen auf.\nHilfethemen
+Zeigt Anweisungen zum Verwenden der Hilfe an.\nHilfe
+Zeigt Hilfe zu Schaltflächen, Menüs und Fenstern an.\nHilfe
+Zeigt Hilfe zum aktuellen Vorgang oder Befehl an.\nHilfe
+Öffnet ein vorhandenes Dokument.\nÖffnen
+Wechselt zum nächsten Fensterbereich.\nNächster Bereich
+Wechselt zum vorherigen Fensterbereich.\nVorheriger Bereich
+Öffnet ein weiteres Fenster für das aktive Dokument.\nNeues Fenster
+Ordnet die Symbole im unteren Fensterrand an.\nSymbole anordnen
+Ordnet die Fenster überlappend an.\nÜberlappende Fenster
+Ordnet die Fenster nebeneinander an.\nFenster nebeneinander
+Ordnet die Fenster nebeneinander an.\nFenster nebeneinander
+Teilt das aktive Fenster in Bereiche.\nTeilen
+Löscht die Auswahl.\nLöschen
+Löscht alles.\nAlles löschen
+Kopiert die Auswahl in die Zwischenablage.\nKopieren
+Überträgt die Auswahl in die Zwischenablage.\nAusschneiden
+Sucht den angegebenen Text.\nSuchen
+Fügt den Inhalt der Zwischenablage ein.\nEinfügen
+Wiederholt den letzten Vorgang.\nWiederholen
+Ersetzt den angegebenen Text.\nErsetzen
+Markiert das gesamte Dokument.\nAlles auswählen
+Macht den letzten Vorgang rückgängig.\nRückgängig 
+Wiederholt den zuletzt rückgängig gemachten Vorgang.\nWiederherstellen
+Blendet die Symbolleiste ein oder aus.\nSymbolleiste
+Blendet die Statusleiste ein oder aus.\nStatusleiste
+Ändert die Fenstergröße
+Ändert die Position des Fensters
+Minimiert das Fenster
+Maximiert das Fenster
+Wechselt zum nächsten Dokumentfenster
+Wechselt zum vorherigen Dokumentfenster
+Schließt das aktive Fenster und fordert zum Speichern des Dokuments auf
+Öffnet das Dokument
+000.00 kg/h
+000 %
+Next
+Prev
+Statisch
+Prev
+Prev
+0.00 kg
+123456789
+123456789
+123456
+DateTime Picker
+DateTime
+1000.00 [kg/h]
+0.00
+AUTHORIZE
+Overviewframe
+Recipeframe
+Diagram
+StringFileInfo
+040704e4
+Copyright (C) 2022
+SmaDoTec GmbH all rights reserved
+FileDescription
+FileVersion
+InfoBox
+ONOFF
+Auto
+3.2.2.9
+InternalName
+EasyControl.exe
+OriginalFilename
+EasyControl.exe
+Pane
+*** ToDo ***
+Show more info
+Applikation beenden\nApplikation beenden
+Keyboard zeigen\nKeyboard zeigen
+Servicemode\nServicemode
+EasyControl 4.0
+30.12.2010 11:11:11
+offline
+online
+192.168.178.4
+MS Sans Serif
+
+
+
+
+
+
+
+
+
+
+
+
+

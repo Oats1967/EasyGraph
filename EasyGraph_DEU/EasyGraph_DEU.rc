@@ -507,22 +507,10 @@ IDB_TOOLBAR_HC          PNG                     "resource\\Toolbar_hc.png"
 STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen."
-    IDS_WB_SINGLEANALYSIS   "Einzelanalyse"
+    IDS_P_APPLICATION       "Anwendung"
     IDR_EasyGraphTYPE       "\nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document"
     IDR_MAINFRAME           "EasyGraph"
-    IDS_WB_TOTALANALYSIS    "Gesamtanalyse"
-    IDS_WB_STATISTIC        "Statistik"
-END
-
-STRINGTABLE
-BEGIN
-    IDS_WB_DRIVECOMMAND     "Stellbefehl"
-    IDS_WB_MASSFLOW         "Durchsatz"
-    IDS_WB_NETWEIGHT        "Gewicht"
-    IDS_WB_ROTSPEED         "Drehzahl"
-    IDS_WB_SETPOINT         "Sollwert"
-    IDS_WB_STATISTICS       "Statistics"
-    IDS_WB_TOTALIZER        "Totalisator"
+    IDS_P_PROPERTYWINDOW    "Eigenschaftenfenster"
 END
 
 STRINGTABLE
@@ -536,12 +524,31 @@ BEGIN
     IDS_GRAFIKSELECT_VIEW   "Grafikauswahl"
     IDS_OUTPUT_WND          "Ausgabe"
     IDS_PROPERTIES_WND      "Eigenschaften"
+    IDS_P_LINESELECT        "Linienauswahl"
+    IDS_P_NO                "Nein"
+    IDS_P_OPTIONS           "Eine der folgenden Optionen: Ja, Nein"
+    IDS_P_VIEW              "Ansicht"
+    IDS_P_YES               "Ja"
     IDS_STATUS_PANE1        "Bereich 1"
     IDS_STATUS_PANE2        "Bereich 2"
+END
+
+STRINGTABLE
+BEGIN
     IDS_TOOLBAR_CUSTOMIZE   "Anpassen..."
     IDS_TOOLBAR_STANDARD    "Standard"
     IDS_WB_COMBINEDVIEW     "Kombinierte Ansicht"
     IDS_WB_DOSEPERFORMANCE  "Dosierperformanz"
+    IDS_WB_DRIVECOMMAND     "Stellbefehl"
+    IDS_WB_MASSFLOW         "Durchsatz"
+    IDS_WB_NETWEIGHT        "Gewicht"
+    IDS_WB_ROTSPEED         "Drehzahl"
+    IDS_WB_SETPOINT         "Sollwert"
+    IDS_WB_SINGLEANALYSIS   "Einzelanalyse"
+    IDS_WB_STATISTIC        "Statistik"
+    IDS_WB_STATISTICS       "Statistics"
+    IDS_WB_TOTALANALYSIS    "Gesamtanalyse"
+    IDS_WB_TOTALIZER        "Totalisator"
 END
 
 STRINGTABLE

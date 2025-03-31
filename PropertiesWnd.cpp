@@ -30,9 +30,18 @@ struct ItemProperty
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
 
-CPropertiesWnd::CPropertiesWnd() noexcept 
+CPropertiesWnd::CPropertiesWnd() noexcept :
+	c_MassflowSelectMap{ { base::eMassflowSelect::eVIEWWEIGHT, IDS_WB_NETWEIGHT },
+						 { base::eMassflowSelect::eVIEWDOSEPERFORMANCE, IDS_WB_DOSEPERFORMANCE },
+						 { base::eMassflowSelect::eVIEWDRIVECOMMAND, IDS_WB_DRIVECOMMAND },
+						 { base::eMassflowSelect::eVIEWMASSFLOW, IDS_WB_MASSFLOW },
+						 { base::eMassflowSelect::eVIEWROTSPEED, IDS_WB_ROTSPEED },
+						 { base::eMassflowSelect::eVIEWSETPOINT, IDS_WB_SETPOINT },
+						 { base::eMassflowSelect::eVIEWTOTALIZER, IDS_WB_TOTALIZER }
+						}
+	, m_nComboHeight{ 0 }
+	, m_LinienColorPos{ 0 }
 {
-	m_nComboHeight = 0;
 }
 
 CPropertiesWnd::~CPropertiesWnd()
@@ -91,9 +100,11 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Fehler beim Erstellen des Eigenschaftenkombinationsfelds. \n");
 		return -1;      // Fehler beim Erstellen
 	}
-
-	m_wndObjectCombo.AddString(_T("Anwendung"));
-	m_wndObjectCombo.AddString(_T("Eigenschaftenfenster"));
+	CString szTemp;
+	VERIFY(szTemp.LoadString(IDS_P_APPLICATION));
+	m_wndObjectCombo.AddString(szTemp);
+	VERIFY(szTemp.LoadString(IDS_P_PROPERTYWINDOW));
+	m_wndObjectCombo.AddString(szTemp);
 	m_wndObjectCombo.SetCurSel(0);
 
 	CRect rectCombo;
@@ -257,13 +268,26 @@ void CPropertiesWnd::InitPropList()
 #else
 CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select)
 {
+	CString szTemp;
+	CString szYes;
+	CString szNo;
+	CString szOptions;
 	const auto& attrib = g_Statistics.GetLineAttribute(select);
-	CPropertyGrid* pGroupProp = new CPropertyGrid(select, 0, toCString(c_MassflowSelectMap.get(select).c_str()));
-	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, _T("Ansicht"), _T("Ja"), _T("Eine der folgenden Optionen: 'Ja', 'Nein"));
-	pElProp->AddOption(_T("Ja"));
-	pElProp->AddOption(_T("Nein"));  
+	auto it = c_MassflowSelectMap.find(select);
+	ASSERT(it != c_MassflowSelectMap.cend());
+	VERIFY(szTemp.LoadString(it->second));
+	CPropertyGrid* pGroupProp = new CPropertyGrid(select, 0, szTemp);
+
+	VERIFY(szTemp.LoadString(IDS_P_VIEW));
+	VERIFY(szYes.LoadString(IDS_P_YES));
+	VERIFY(szNo.LoadString(IDS_P_NO));
+	VERIFY(szOptions.LoadString(IDS_P_OPTIONS));
+
+	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, szTemp, szYes, szOptions);
+	pElProp->AddOption(szYes);
+	pElProp->AddOption(szNo);
 	pElProp->AllowEdit(FALSE);
-	pElProp->SetValue(COleVariant((attrib.m_Visible) ? _T("Ja") : _T("Nein"), VT_BSTR));
+	pElProp->SetValue(COleVariant((attrib.m_Visible) ? szYes : szNo, VT_BSTR));
 	pGroupProp->AddSubItem(pElProp);
 
 	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR,_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
@@ -301,7 +325,9 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.SetVSDotNetLook();
 	m_wndPropList.MarkModifiedProperties();
 
-	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty(_T("Linienauswahl"));
+	CString szTemp;
+	VERIFY(szTemp.LoadStringW(IDS_P_LINESELECT));
+	CMFCPropertyGridProperty* pGroup = new CMFCPropertyGridProperty(szTemp);
 	DECLARE_MASSFLOWSELECT(field);
 	for (const auto& rItem : field)
 	{

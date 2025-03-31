@@ -1,36 +1,21 @@
-resource.h
 targetver.h
-afxres.h
 verrsrc.h
-resource.h\0
 #ifndef APSTUDIO_INVOKED\r\n
-#include
 targetver.h
-\r\n
 #endif\r\n
-#include
-afxres.h
-\r\n
-#include
 verrsrc.h
-\r\n
 #define _AFX_NO_OLE_RESOURCES\r\n
 #define _AFX_NO_TRACKER_RESOURCES\r\n
 #define _AFX_NO_PROPERTY_RESOURCES\r\n
-\r\n
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)\r\n
 LANGUAGE 7, 1\r\n
-#include
 resource\\EasyGraph.rc2
   // Nicht mit Microsoft Visual C++ bearbeitete Ressourcen\r\n
-#include
 l.DEU\\afxres.rc
       // Standardkomponenten\r\n
-#include
 l.DEU\\afxprint.rc
     // Ressourcen für Drucken/Seitenansicht\r\n
 #if !defined(_AFXDLL)\r\n
-#include
 l.DEU\\afxribbon.rc
         // Ressourcen für MFC-Menüband und -Steuerleiste\r\n
 #endif\r\n
@@ -113,37 +98,15 @@ Win&dows 7
 &StatusBar
 Select
 Informationen zu EasyGraph
-MS Shell Dlg
 EasyGraph, Version 1.0
 Copyright (C) 2024
-MS Shell Dlg
-Static
-Statisch
-MS Shell Dlg
-Static
-Statisch
-Statisch
-Statisch
-MS Shell Dlg
-Static
-Statisch
-Statisch
-Statisch
-MS Shell Dlg
-Static
-Statisch
-StringFileInfo
 040704B0
 TODO: <Firmenname>
-FileDescription
 EasyGraph
-FileVersion
 1.0.0.1
-InternalName
 EasyGraph.exe
 LegalCopyright
 TODO: (c) <Firmenname>.  Alle Rechte vorbehalten
-OriginalFilename
 EasyGraph.exe
 ProductName
 TODO: <Produktname>
@@ -153,74 +116,28 @@ VarFileInfo
 Translation
 resource\\Toolbar_hc.png
 OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen
+Anwendung
 \nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document
 EasyGraph
-Statistics
+Eigenschaftenfenster
 Erstellen
 Bearbeiten
 Explorer
 Ausgabe
+Linienauswahl
+Eine der folgenden Optionen: Ja, Nein
+Ansicht
 Bereich 1
 Bereich 2
+Statistics
 &Fenster
 EasyGraph
 Bereit
 SCRL
 Erstellt ein neues Dokument.\nNeu
-Öffnet ein vorhandenes Dokument.\nÖffnen
-Schließt das aktive Dokument.\nSchließen
-Speichert das aktive Dokument.\nSpeichern
-Speichert das aktive Dokument unter einem neuem Namen.\nSpeichern unter
-Ändert die Druckoptionen.\nSeite einrichten
-Ändert den Drucker und die Druckoptionen.\nDruckereinrichtung
-Druckt das aktive Dokument.\nDrucken
 Druckt das aktive Dokument mit den aktuellen Optionen.\nSchnelldruck
-Zeigt ganze Seiten an.\nSeitenansicht
-Zeigt Programm-, Versions- und Copyrightinformationen an.\nInfo
-Beendet die Anwendung und fordert zum Speichern der Dokumente auf.\nBeenden
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Öffnet das Dokument
-Wechselt zum nächsten Fensterbereich.\nNächster Bereich
-Wechselt zum vorherigen Fensterbereich.\nVorheriger Bereich
-Öffnet ein weiteres Fenster für das aktive Dokument.\nNeues Fenster
-Ordnet die Symbole im unteren Fensterrand an.\nSymbole anordnen
-Ordnet die Fenster überlappend an.\nÜberlappende Fenster
-Ordnet die Fenster nebeneinander an.\nFenster nebeneinander
-Ordnet die Fenster nebeneinander an.\nFenster nebeneinander
-Teilt das aktive Fenster in Bereiche.\nTeilen
-Löscht die Auswahl.\nLöschen
-Löscht alles.\nAlles löschen
-Kopiert die Auswahl in die Zwischenablage.\nKopieren
-Überträgt die Auswahl in die Zwischenablage.\nAusschneiden
-Sucht den angegebenen Text.\nSuchen
-Fügt den Inhalt der Zwischenablage ein.\nEinfügen
-Wiederholt den letzten Vorgang.\nWiederholen
-Ersetzt den angegebenen Text.\nErsetzen
-Markiert das gesamte Dokument.\nAlles auswählen
 Macht den letzten Vorgang rückgängig.\nRückgängig
-Wiederholt den zuletzt rückgängig gemachten Vorgang.\nWiederherstellen
 Blendet die Statusleiste ein oder aus.\nStatusleiste ein- oder ausblenden
-Ändert die Fenstergröße
-Ändert die Position des Fensters
-Minimiert das Fenster
-Maximiert das Fenster
-Wechselt zum nächsten Dokumentfenster
-Wechselt zum vorherigen Dokumentfenster
-Schließt das aktive Fenster und fordert zum Speichern des Dokuments auf
 Stellt die ursprüngliche Fenstergröße wieder her
 Aktiviert die Aufgabenliste
 Aktiviert dieses Fenster
