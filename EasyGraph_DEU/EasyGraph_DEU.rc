@@ -507,10 +507,11 @@ IDB_TOOLBAR_HC          PNG                     "resource\\Toolbar_hc.png"
 STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen."
-    IDS_P_APPLICATION       "Anwendung"
+    IDS_MF_ALL              "alle"
     IDR_EasyGraphTYPE       "\nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document"
     IDR_MAINFRAME           "EasyGraph"
-    IDS_P_PROPERTYWINDOW    "Eigenschaftenfenster"
+    IDS_MF_FEEDER           "Dosierung"
+    IDS_MF_ORDER            "Auftrag"
 END
 
 STRINGTABLE
@@ -522,22 +523,38 @@ BEGIN
     IDS_FILE_VIEW           "Grafikauswahl"
     IDS_FILE_VIEW2          "Grafikauswahl"
     IDS_GRAFIKSELECT_VIEW   "Grafikauswahl"
+    IDS_MF_FEEDER_ALL       "Dosierung: alle"
+    IDS_MF_LOGMESSAGE       "Logmeldungen"
+    IDS_MF_ORDER_NR_ALL     "Auftragsnummer : alle"
     IDS_OUTPUT_WND          "Ausgabe"
     IDS_PROPERTIES_WND      "Eigenschaften"
-    IDS_P_LINESELECT        "Linienauswahl"
-    IDS_P_NO                "Nein"
-    IDS_P_OPTIONS           "Eine der folgenden Optionen: Ja, Nein"
-    IDS_P_VIEW              "Ansicht"
-    IDS_P_YES               "Ja"
-    IDS_STATUS_PANE1        "Bereich 1"
-    IDS_STATUS_PANE2        "Bereich 2"
+    IDS_PW_CATEGORY         "Kategorie"
+    IDS_PW_CATEGORY_OPTIONS "Eine der folgenden Optionen: Linie Flaeche"
+    IDS_PW_FLAECHE          "Flaeche"
+    IDS_PW_LINE             "Linie"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_PW_LINECOLOR        "Linienfarbe"
+    IDS_PW_LINECOLOR_INFO   "Gibt die Standardfarbe des Fensters an"
+    IDS_PW_LINIENSTAERKE    "Linienbreite"
+    IDS_P_APPLICATION       "Anwendung"
+    IDS_P_LINESELECT        "Linienauswahl"
+    IDS_P_NO                "Nein"
+    IDS_P_OPTIONS           "Eine der folgenden Optionen: Ja, Nein"
+    IDS_P_PROPERTYWINDOW    "Eigenschaftenfenster"
+    IDS_P_VIEW              "Ansicht"
+    IDS_P_YES               "Ja"
+    IDS_STATUS_PANE1        "Bereich 1"
+    IDS_STATUS_PANE2        "Bereich 2"
     IDS_TOOLBAR_CUSTOMIZE   "Anpassen..."
     IDS_TOOLBAR_STANDARD    "Standard"
     IDS_WB_COMBINEDVIEW     "Kombinierte Ansicht"
+END
+
+STRINGTABLE
+BEGIN
     IDS_WB_DOSEPERFORMANCE  "Dosierperformanz"
     IDS_WB_DRIVECOMMAND     "Stellbefehl"
     IDS_WB_MASSFLOW         "Durchsatz"

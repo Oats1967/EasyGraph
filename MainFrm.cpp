@@ -130,7 +130,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		CBCGPToolbarMenuButton((UINT)-1, menuView.GetSubMenu(0)->GetSafeHmenu(), -1, _T("&Zoom")));
 	
 
-	m_wndToolBar.ReplaceButton(ID_TB_LABEL_LINE, CBCGPToolbarLabel(ID_TB_LABEL_LINE, _T("Linie:")));
+	CString szLine;
+	VERIFY(szLine.LoadString(IDS_PW_LINE));
+	m_wndToolBar.ReplaceButton(ID_TB_LABEL_LINE, CBCGPToolbarLabel(ID_TB_LABEL_LINE, szLine));
 
 	{
 		CBCGPToolbarComboBoxButton comboTheme(ID_TB_COLOR_THEME_COMBO,
@@ -150,6 +152,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 		m_wndToolBar.ReplaceButton(ID_TB_COLOR_THEME_COMBO, comboTheme);
 	}
+	CString szFeeder;
+	VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
+	CString szAll;
+	VERIFY(szAll.LoadString(IDS_MF_ALL));
 	{
 		CBCGPToolbarComboBoxButton comboTheme(ID_TB_DOSESELECT_COMBO,
 #ifdef _BCGSUITE_INC_
@@ -160,7 +166,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(120, this));
 
 		CString szTemp;
-		szTemp.Format(_T("Dosierung: all"));
+		szTemp.Format(_T("%s: %s"), (LPCTSTR)szFeeder, LPCTSTR(szAll));
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_TB_DOSESELECT_COMBO, comboTheme);
@@ -174,13 +180,18 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 #endif
 			CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(140, this));
 
+		CString szOrder;
+		VERIFY(szOrder.LoadString(IDS_MF_ORDER));
 		CString szTemp;
-		szTemp.Format(_T("Auftragsnummer: all"));
+		szTemp.Format(_T("%s: %s"), LPCTSTR(szOrder), LPCTSTR(szAll));
 		comboTheme.AddItem(szTemp);
 		comboTheme.SelectItem(0);
 		m_wndToolBar.ReplaceButton(ID_TB_ANNUMBER_COMBO, comboTheme);
 	}
-	m_wndToolBar.ReplaceButton(ID_TB_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_TB_LOGMESSAGE_BUTTON, _T("Logmeldungen:")));
+	CString szLogMessage;
+	VERIFY(szLogMessage.LoadString(IDS_MF_LOGMESSAGE));
+
+	m_wndToolBar.ReplaceButton(ID_TB_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_TB_LOGMESSAGE_BUTTON, szLogMessage));
 	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
 
 	//m_wndToolBar.ReplaceButton(ID_ANIMATION_LABEL, CBCGPToolbarLabel(ID_ANIMATION_LABEL, _T("Animation:")));
@@ -715,6 +726,8 @@ void CMainFrame::UpdateNewData()
 {
 	g_Statistics.LoadRectItemList();
 
+	CString szAll;
+	VERIFY(szAll.LoadString(IDS_MF_ALL));
 	// Find button index for command ID
 	{
 		int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
@@ -724,18 +737,19 @@ void CMainFrame::UpdateNewData()
 		{
 			pButton->DeleteItem(0);
 		}
-
+		CString szFeeder;
+		VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
 		pButton->ClearData();
 		{
 			CString szTemp;
-			szTemp.Format(_T("Dosierung: all"));
+			szTemp.Format(_T("%s: %s"), (LPCTSTR)szFeeder, LPCTSTR(szAll));
 			pButton->AddItem(szTemp);
 		}
 		auto count = g_Statistics.GetFeederCount();
 		for (uint32_t k = 0; k < count; k++)
 		{
 			CString szTemp;
-			szTemp.Format(_T("Dosierung: %u"), k + 1);
+			szTemp.Format(_T("%s: %u"), (LPCTSTR)szFeeder, k + 1);
 			pButton->AddItem(szTemp);
 		}
 		auto activeFeeder = g_Statistics.GetActiveFeeder();
@@ -754,7 +768,11 @@ void CMainFrame::UpdateNewData()
 			pButton->DeleteItem(0);
 		}
 		pButton->ClearData();
-		pButton->AddItem(_T("Auftragsnummer: all"));
+		CString szOrder;
+		VERIFY(szOrder.LoadString(IDS_MF_ORDER));
+		CString szTemp;
+		szTemp.Format(_T("%s: %s"), LPCTSTR(szOrder), LPCTSTR(szAll));
+		pButton->AddItem(szTemp);
 		auto count = _U32(rANNumberList.size());
 		for (uint32_t k = 0; k < count; k++)
 		{

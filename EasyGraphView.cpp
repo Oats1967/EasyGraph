@@ -52,14 +52,7 @@ END_MESSAGE_MAP()
 
 CEasyGraphView::CEasyGraphView(UINT id)
 	: CBCGPFormView(id == 0 ? CEasyGraphView::IDD : id)
-	, c_SelectString{ _T("Durchsatz"),
-				   _T("Sollwert"),
-				   _T("Stellbefehl"),
-				   _T("Nettogewicht"),
-				   _T("Dosierperformanz"),
-				   _T("Verbrauch"),
-				   _T("Drehzahl") }
-
+	, c_SelectString{ IDS_WB_MASSFLOW,IDS_WB_SETPOINT, IDS_WB_DRIVECOMMAND, IDS_WB_NETWEIGHT, IDS_WB_DOSEPERFORMANCE,IDS_WB_TOTALIZER, IDS_WB_ROTSPEED }
 {
 	//{{AFX_DATA_INIT(CEasyGraphView)
 	m_strTitle = _T("BCGSoft charts");

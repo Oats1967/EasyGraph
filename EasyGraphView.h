@@ -61,7 +61,7 @@ protected:
 	BOOL								m_bIsFlatTheme;
 	UINT								m_nThumbnailFlags;
 	CBCGPCircularProgressIndicatorCtrl	m_wndProgress;
-	const std::array<const CString, base::cMassflowSelectMax> c_SelectString;
+	const std::array<const UINT, base::cMassflowSelectMax> c_SelectString;
 
 
 protected: // create from serialization only

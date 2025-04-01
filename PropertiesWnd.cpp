@@ -181,91 +181,8 @@ void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Fügen Sie hier Ihren Befehlsaktualisierungs-UI-Befehlshandlercode ein.
 }
-#if 0
-void CPropertiesWnd::InitPropList()
-{
-	SetPropListFont();
 
-	m_wndPropList.EnableHeaderCtrl(FALSE);
-	m_wndPropList.EnableDescriptionArea();
-	m_wndPropList.SetVSDotNetLook();
-	m_wndPropList.MarkModifiedProperties();
 
-	CMFCPropertyGridProperty* pGroup1 = new CMFCPropertyGridProperty(_T("Darstellung"));
-
-	//pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("3D-Darstellung"), (_variant_t) false, _T("Gibt an, dass im Fenster eine nicht fette Schriftart verwendet wird und dass Steuerelemente mit einem 3D-Rahmen versehen werden.")));
-
-	CMFCPropertyGridProperty* pProp = new CMFCPropertyGridProperty(_T("Rahmen"), _T("Dialogfeldrahmen"), _T("Eine der folgenden Optionen: 'Keiner', 'Dünn', 'Größe änderbar' oder 'Dialogfeldrahmen'"));
-	pProp->AddOption(_T("Keiner"));
-	pProp->AddOption(_T("Dünn"));
-	pProp->AddOption(_T("Größe änderbar"));
-	pProp->AddOption(_T("Dialogfeldrahmen"));
-	pProp->AllowEdit(FALSE);
-
-	pGroup1->AddSubItem(pProp);
-	pGroup1->AddSubItem(new CMFCPropertyGridProperty(_T("Beschriftung"), (_variant_t) _T("Info"), _T("Gibt den Text an, der in der Titelleiste des Fensters angezeigt wird.")));
-
-	m_wndPropList.AddProperty(pGroup1);
-
-	CMFCPropertyGridProperty* pSize = new CMFCPropertyGridProperty(_T("Fenstergröße"), 0, TRUE);
-
-	pProp = new CMFCPropertyGridProperty(_T("Höhe"), (_variant_t) 250l, _T("Gibt die Höhe des Fensters an."));
-	pProp->EnableSpinControl(TRUE, 50, 300);
-	pSize->AddSubItem(pProp);
-
-	pProp = new CMFCPropertyGridProperty( _T("Breite"), (_variant_t) 150l, _T("Gibt die Breite des Fensters an."));
-	pProp->EnableSpinControl(TRUE, 50, 200);
-	pSize->AddSubItem(pProp);
-
-	m_wndPropList.AddProperty(pSize);
-
-	CMFCPropertyGridProperty* pGroup2 = new CMFCPropertyGridProperty(_T("Schriftart"));
-
-	LOGFONT lf;
-	CFont* font = CFont::FromHandle((HFONT) GetStockObject(DEFAULT_GUI_FONT));
-	font->GetLogFont(&lf);
-
-	_tcscpy_s(lf.lfFaceName, _T("Arial"));
-
-	pGroup2->AddSubItem(new CMFCPropertyGridFontProperty(_T("Schriftart"), lf, CF_EFFECTS | CF_SCREENFONTS, _T("Gibt die Standardschriftart für das Fenster an.")));
-	pGroup2->AddSubItem(new CMFCPropertyGridProperty(_T("Systemschriftart verwenden"), (_variant_t) true, _T("Gibt an, dass im Fenster die Schriftart 'MS Shell Dlg' verwendet wird.")));
-
-	m_wndPropList.AddProperty(pGroup2);
-
-	CMFCPropertyGridProperty* pGroup3 = new CMFCPropertyGridProperty(_T("Sonstiges"));
-	pProp = new CMFCPropertyGridProperty(_T("(Name)"), _T("Anwendung"));
-	pProp->Enable(FALSE);
-	pGroup3->AddSubItem(pProp);
-
-	CMFCPropertyGridColorProperty* pColorProp = new CMFCPropertyGridColorProperty(_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
-	pColorProp->EnableOtherButton(_T("Andere..."));
-	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
-	pGroup3->AddSubItem(pColorProp);
-
-	static const TCHAR szFilter[] = _T("Symboldateien(*.ico)|*.ico|Alle Dateien(*.*)|*.*||");
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Symbol"), TRUE, _T(""), _T("ico"), 0, szFilter, _T("Gibt das Fenstersymbol an.")));
-
-	pGroup3->AddSubItem(new CMFCPropertyGridFileProperty(_T("Ordner"), _T("c:\\")));
-
-	m_wndPropList.AddProperty(pGroup3);
-#if 0
-	CMFCPropertyGridProperty* pGroup4 = new CMFCPropertyGridProperty(_T("Hierarchie"));
-
-	CMFCPropertyGridProperty* pGroup41 = new CMFCPropertyGridProperty(_T("Erste Unterebene"));
-	pGroup4->AddSubItem(pGroup41);
-
-	CMFCPropertyGridProperty* pGroup411 = new CMFCPropertyGridProperty(_T("Zweite Unterebene"));
-	pGroup41->AddSubItem(pGroup411);
-
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 1"), (_variant_t) _T("Wert 1"), _T("Dies ist eine Beschreibung.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 2"), (_variant_t) _T("Wert 2"), _T("Dies ist eine Beschreibung.")));
-	pGroup411->AddSubItem(new CMFCPropertyGridProperty(_T("Element 3"), (_variant_t) _T("Wert 3"), _T("Dies ist eine Beschreibung.")));
-
-	pGroup4->Expand(FALSE);
-#endif
-	m_wndPropList.AddProperty(pGroup4);
-}
-#else
 CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select)
 {
 	CString szTemp;
@@ -290,20 +207,34 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	pElProp->SetValue(COleVariant((attrib.m_Visible) ? szYes : szNo, VT_BSTR));
 	pGroupProp->AddSubItem(pElProp);
 
-	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR,_T("Linienfarbe"), RGB(210, 192, 254), nullptr, _T("Gibt die Standardfarbe des Fensters an."));
+	CString szLineColor;
+	VERIFY(szLineColor.LoadString(IDS_PW_LINECOLOR));
+	CString szLineColorInfo;
+	VERIFY(szLineColorInfo.LoadString(IDS_PW_LINECOLOR_INFO));
+	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR, szLineColor, RGB(210, 192, 254), nullptr, szLineColorInfo);
 	pColorProp->EnableOtherButton(_T("Andere..."));
 	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
 	pColorProp->SetColor(attrib.m_Color);
 	pGroupProp->AddSubItem(pColorProp);
 
-	CPropertyGrid* pCategoryProp = new CPropertyGrid(select, ID_CATEGORY, _T("Kategorie"), _T("Linie"), _T("Eine der folgenden Optionen: 'Linie', 'Flaeche"));
-	pCategoryProp->AddOption(_T("Linie"));
-	pCategoryProp->AddOption(_T("Flaeche"));
+	CString szCategory;
+	VERIFY(szCategory.LoadString(IDS_PW_CATEGORY));
+	CString szLine;
+	VERIFY(szLine.LoadString(IDS_PW_LINE));
+	CString szLineCategoryOptions;
+	VERIFY(szLineCategoryOptions.LoadString(IDS_PW_CATEGORY_OPTIONS));
+	CPropertyGrid* pCategoryProp = new CPropertyGrid(select, ID_CATEGORY, szCategory, szLine, szLineCategoryOptions);
+	pCategoryProp->AddOption(szLine);
+	CString szFlaeche;
+	VERIFY(szFlaeche.LoadString(IDS_PW_FLAECHE));
+	pCategoryProp->AddOption(szFlaeche);
 	pCategoryProp->AllowEdit(FALSE);
-	pCategoryProp->SetValue(COleVariant((attrib.m_Category == base::LineCategory::eLine) ? _T("Linie") : _T("Flaeche"), VT_BSTR));
+	pCategoryProp->SetValue(COleVariant((attrib.m_Category == base::LineCategory::eLine) ? szLine : szFlaeche, VT_BSTR));
 	pGroupProp->AddSubItem(pCategoryProp);
 
-	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, _T("Linienstaerke"), _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	CString szLinienstaerke;
+	VERIFY(szLinienstaerke.LoadString(IDS_PW_LINIENSTAERKE));
+	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, szLinienstaerke, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
 	pLineWidthProp->AddOption(_T("1"));
 	pLineWidthProp->AddOption(_T("2"));
 	pLineWidthProp->AddOption(_T("3"));
@@ -340,7 +271,6 @@ void CPropertiesWnd::InitPropList()
 	m_wndPropList.AddProperty(pGroup);
 	m_wndPropList.ExpandAll(FALSE);
 }
-#endif
 
 void CPropertiesWnd::OnSetColor(CPropertyColorGrid* pGrid)
 {
