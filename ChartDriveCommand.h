@@ -5,9 +5,13 @@
 
 class CChartDriveCommand : public CChartLineView
 {
+	CString m_Title;
+
 protected:
 	CChartDriveCommand() : CChartLineView() 
-	{}
+	{
+		VERIFY(m_Title.LoadString(IDS_WB_DRIVECOMMAND));
+	}
 	// protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(CChartDriveCommand)
 
@@ -16,9 +20,7 @@ public:
 	{	return base::eMassflowSelect::eVIEWDRIVECOMMAND;	}
 
 	const CString GetTitle() const override
-	{	return CString("Stellbefehl");	}
-
-
+	{	return m_Title;	}
 
 	// Implementation
 protected:

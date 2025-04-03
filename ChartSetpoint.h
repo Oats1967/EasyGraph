@@ -5,9 +5,13 @@
 
 class CChartSetpoint : public CChartLineView
 {
+	CString m_Title;
+
 protected:
 	CChartSetpoint() : CChartLineView() 
-	{}
+	{
+		VERIFY(m_Title.LoadString(IDS_WB_SETPOINT));
+	}
 	// protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(CChartSetpoint)
 
@@ -16,7 +20,7 @@ public:
 	{	return base::eMassflowSelect::eVIEWSETPOINT;	}
 
 	const CString GetTitle() const override
-	{	return CString("Sollwert");	}
+	{	return m_Title;	}
 
 
 

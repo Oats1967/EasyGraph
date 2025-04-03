@@ -332,7 +332,9 @@ void CPropertiesWnd::OnSetCategory(CPropertyGrid* pGrid)
 	LPVARIANT pVar = (LPVARIANT)val;
 	ASSERT(pVar->vt == VT_BSTR);
 	CString str1{ pVar->bstrVal };
-	lineAttrib.m_Category = ( str1 == "Linie") ? base::LineCategory::eLine : base::LineCategory::eArea;
+	CString szLine;
+	VERIFY(szLine.LoadString(IDS_PW_LINE));
+	lineAttrib.m_Category = ( str1 == szLine) ? base::LineCategory::eLine : base::LineCategory::eArea;
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(pGrid->GetSelect()));
 }
@@ -346,7 +348,9 @@ void CPropertiesWnd::OnSetVisible(CPropertyGrid* pGrid)
 	LPVARIANT pVar = (LPVARIANT)val;
 	ASSERT(pVar->vt == VT_BSTR);
 	CString str1{ pVar->bstrVal };
-	lineAttrib.m_Visible = (str1 == "Ja") ? TRUE : FALSE;
+	CString szYes;
+	VERIFY(szYes.LoadString(IDS_P_YES));
+	lineAttrib.m_Visible = (str1 == szYes) ? TRUE : FALSE;
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_VISIBLE, WPARAM(pGrid->GetSelect()));
 }

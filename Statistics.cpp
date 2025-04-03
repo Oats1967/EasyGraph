@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "EasyGraph.h"
 #include "Statistics.h"
 #include "StringConvert.h"
 
@@ -241,21 +242,25 @@ CString CStatistics::GetHeaderLine() const
 //*********************************************************************************************************************************
 CString CStatistics::GetHeaderDateTime() const
 {
-	CString szDate("Vom ");
+	CString szDate;
+
+	CString szFrom;
+	VERIFY(szFrom.LoadString(IDS_S_FROM));
+	szFrom.Append(_T(": "));
 
 	if (m_Settings.m_StartTime == m_Settings.m_EndTime)
 	{
 		COleDateTime aDate(m_Settings.m_StartTime);
-		auto szTemp = aDate.Format(_T("%d.%m.%y"));
-		szDate += szTemp;
+		szDate = szFrom + aDate.Format(_T("%d.%m.%y"));
 	}
 	else
 	{
+		CString szTo;
+		VERIFY(szTo.LoadString(IDS_S_TO));
+		szTo.Append(_T(": "));
 		COleDateTime start(m_Settings.m_StartTime);
 		COleDateTime end(m_Settings.m_EndTime);
-		auto szStart = start.Format(_T("%d.%m.%y"));
-		auto szEnd = end.Format(_T("%d.%m.%y"));
-		szDate += szStart + CString(" bis ") + szEnd;
+		szDate = szFrom + start.Format(_T("%d.%m.%y")) + _T(" ") + szTo + end.Format(_T("%d.%m.%y"));
 	}
 	return szDate;
 

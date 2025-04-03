@@ -87,8 +87,8 @@ static const std::map< CDemoFeature::Feature, UINT> g_demoFeatureMap = { { CDemo
 																		 { CDemoFeature::BCGP_RotSpeed, IDS_WB_ROTSPEED },
 																		 { CDemoFeature::BCGP_DosePerformance, IDS_WB_DOSEPERFORMANCE },
 																		 { CDemoFeature::BCGP_Weight, IDS_WB_NETWEIGHT },
-																		 { CDemoFeature::BCGP_OverallView, 0 },
-																		 { CDemoFeature::BCGP_Statistics,  0},
+																		 { CDemoFeature::BCGP_OverallView, IDS_WB_TOTALANALYSIS},
+																		 { CDemoFeature::BCGP_Statistics,  IDS_WB_TOTALIZER},
 };
 
 CDemoFeature::CDemoFeature(int nGroup, Feature feature, CRuntimeClass* pRTI, int nStatus) :
@@ -96,7 +96,7 @@ CDemoFeature::CDemoFeature(int nGroup, Feature feature, CRuntimeClass* pRTI, int
 	m_nStatus(nStatus),
 	m_Feature(feature)
 {
-	if ((feature != BCGP_OverallView) && (feature != BCGP_Statistics))
+	//if ((feature != BCGP_OverallView) && (feature != BCGP_Statistics))
 	{
 		const auto it = g_demoFeatureMap.find(feature);
 		ASSERT(it != g_demoFeatureMap.cend());
