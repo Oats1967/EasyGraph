@@ -234,9 +234,17 @@ void CStatistics::CalcTotalizerFeeder(void)
 //*********************************************************************************************************************************
 CString CStatistics::GetHeaderLine() const
 {
+	CString szTemp;
+
 	const base::CLineGraphConfig::VectorConfig& rIt = m_LineGraphConfig.m_field;
 	const auto& ActiveLine = m_Settings.m_ActiveLine;
-	return (ActiveLine < rIt.size()) ? CString(_T("Linie : ")) + toCString(rIt[ActiveLine].m_szName) : _T("");
+	if (ActiveLine < rIt.size())
+	{
+		CString szLine;
+		VERIFY(szLine.LoadString(IDS_PW_LINE));
+		szTemp = szLine + _T(" : ") + toCString(rIt[ActiveLine].m_szName);
+	}
+	return szTemp;
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************

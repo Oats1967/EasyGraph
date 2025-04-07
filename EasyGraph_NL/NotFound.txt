@@ -132,15 +132,13 @@ resource\\Toolbar_hc.png
 OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen
 \nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document
 EasyGraph
+Statistics
 Erstellen
 Bearbeiten
 Explorer
-Dosierung: alle
-Auftragsnummer : alle
 Eigenschaftenfenster
 Bereich 1
 Bereich 2
-Statistics
 &Fenster
 EasyGraph
 Bereit
