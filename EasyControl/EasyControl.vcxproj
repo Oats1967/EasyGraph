@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6E547BB2-E9BE-45DA-8751-F1386BE6DD0C}</ProjectGuid>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>NotSet</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>16.0.31025.104</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>Debug\</OutDir>
+    <IntDir>Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>Release\</OutDir>
+    <IntDir>Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\DEVELOP\Cplusplus\EasyControl\BASE;C:\DEVELOP\Cplusplus\EasyControl\Tools;C:\DEVELOP\Cplusplus\EasyControl\DoseServer\include;C:\DEVELOP\Cplusplus\EasyControl\remote\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;__EASYCONTROL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>2048000</HeapReserveSize>
+      <HeapCommitSize>2048000</HeapCommitSize>
+      <StackReserveSize>2048000</StackReserveSize>
+      <StackCommitSize>2048000</StackCommitSize>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0407</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>C:\DEVELOP\Cplusplus\EasyControl;C:\DEVELOP\Cplusplus\EasyControl\Tools;C:\DEVELOP\Cplusplus\EasyControl\DoseServer\include;C:\Program Files %28x86%29\BCGSoft\BCGSuite for MFC\BCGSuite;C:\DEVELOP\Cplusplus\EasyControl\TKBoard\public;C:\DEVELOP\Cplusplus\EasyControl\VKBoard\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;__EASYCONTROL;_CRTDBG_MAP_ALLOC;_BCGCBPRO_STATIC_;LOGLEVELFILE="$(ProjectDir)LogLevel.def";__TKBOARD;__SIM_WEIGHT_GUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <UndefinePreprocessorDefinitions>__TKBOARD;__SIM_WEIGHT_GUI</UndefinePreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>2048000</HeapReserveSize>
+      <HeapCommitSize>2048000</HeapCommitSize>
+      <StackReserveSize>2048000</StackReserveSize>
+      <StackCommitSize>2048000</StackCommitSize>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\BCGSoft\BCGSuite for MFC\Bin64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0407</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>C:\develop\C++\EasyControl\AutoThread\ExtInterface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;__EASYCONTROL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat />
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0407</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>C:\DEVELOP\Cplusplus\EasyControl;C:\DEVELOP\Cplusplus\EasyControl\Tools;C:\DEVELOP\Cplusplus\EasyControl\DoseServer\include;C:\Program Files %28x86%29\BCGSoft\BCGSuite for MFC\BCGSuite;C:\DEVELOP\Cplusplus\EasyControl\TKBoard\public;C:\DEVELOP\Cplusplus\EasyControl\VKBoard\public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;__EASYCONTROL;_BCGCBPRO_STATIC_;LOGLEVELFILE="$(ProjectDir)LogLevel.def";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+    </Midl>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0407</Culture>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AgitatorSpeedBoxDlg.cpp" />
+    <ClCompile Include="AlarmArchiveDoc.cpp" />
+    <ClCompile Include="AlarmArchiveFrame.cpp" />
+    <ClCompile Include="AlarmArchiveView.cpp" />
+    <ClCompile Include="AlarmConfigCtrl.cpp" />
+    <ClCompile Include="AlarmConfigPage.cpp" />
+    <ClCompile Include="AlarmCtrl.cpp" />
+    <ClCompile Include="AlarmLog.cpp" />
+    <ClCompile Include="AlarmMap.cpp" />
+    <ClCompile Include="AlertCtrl.cpp" />
+    <ClCompile Include="AlertPage.cpp" />
+    <ClCompile Include="BarChart.cpp" />
+    <ClCompile Include="CalibrateProgressDlg.cpp" />
+    <ClCompile Include="CalibrationDlg.cpp" />
+    <ClCompile Include="CalibrationVolDlg.cpp" />
+    <ClCompile Include="ChildFrm.cpp" />
+    <ClCompile Include="DataImage.cpp" />
+    <ClCompile Include="DateTimePicker.cpp" />
+    <ClCompile Include="DiagramBaseView.cpp" />
+    <ClCompile Include="DiagramDoc.cpp" />
+    <ClCompile Include="DiagramFrame.cpp" />
+    <ClCompile Include="DiagramScaleDlg.cpp" />
+    <ClCompile Include="DiagramView.cpp" />
+    <ClCompile Include="DisplayContainer.cpp" />
+    <ClCompile Include="DoseBaseActualGrafik.cpp" />
+    <ClCompile Include="DoseBaseNominalGrafik.cpp" />
+    <ClCompile Include="DoseBatcherActualGrafik.cpp" />
+    <ClCompile Include="DoseBatcherNominalGrafik.cpp" />
+    <ClCompile Include="DoseButtonBatcherGrafik.cpp" />
+    <ClCompile Include="DoseButtonContinousGrafik.cpp" />
+    <ClCompile Include="DoseButtonGrafik.cpp" />
+    <ClCompile Include="DoseButtonGrafikContext.cpp" />
+    <ClCompile Include="DoseContinousActualGrafik.cpp" />
+    <ClCompile Include="DoseContinousActualGrafikIfl.cpp" />
+    <ClCompile Include="DoseContinousActualGrafikIfs.cpp" />
+    <ClCompile Include="DoseContinousNominalGrafik.cpp" />
+    <ClCompile Include="DosePage.cpp" />
+    <ClCompile Include="DoseProductNameGrafik.cpp" />
+    <ClCompile Include="DosePropertySheet.cpp" />
+    <ClCompile Include="DoseRefillButtonGrafik.cpp" />
+    <ClCompile Include="DoseRefillReleaseButtonGrafik.cpp" />
+    <ClCompile Include="EasyControl.cpp" />
+    <ClCompile Include="EasyControlDoc.cpp" />
+    <ClCompile Include="EasyControlLayout.cpp" />
+    <ClCompile Include="EasyControlView.cpp" />
+    <ClCompile Include="ECMessageBox.cpp" />
+    <ClCompile Include="EditCtrl.cpp" />
+    <ClCompile Include="EditCtrlEx.cpp" />
+    <ClCompile Include="EmptyFeederSpeedBoxDlg.cpp" />
+    <ClCompile Include="FeederDisplay.cpp" />
+    <ClCompile Include="FeederDisplayGwb.cpp" />
+    <ClCompile Include="FeederDisplayIcb.cpp" />
+    <ClCompile Include="FeederDisplayIcp.cpp" />
+    <ClCompile Include="FeederDisplayIfl.cpp" />
+    <ClCompile Include="FeederDisplayIfs.cpp" />
+    <ClCompile Include="FeederDisplayIfso.cpp" />
+    <ClCompile Include="FeederDisplayIfsu.cpp" />
+    <ClCompile Include="FeederDisplayLcl.cpp" />
+    <ClCompile Include="FeederDisplayLwb.cpp" />
+    <ClCompile Include="FeederDisplayLwf.cpp" />
+    <ClCompile Include="FeederDisplayLwp.cpp" />
+    <ClCompile Include="FeederDisplayLws.cpp" />
+    <ClCompile Include="FeederDisplayLwv.cpp" />
+    <ClCompile Include="FeederDisplayPid.cpp" />
+    <ClCompile Include="FeederDisplayVol.cpp" />
+    <ClCompile Include="FeederDisplayWbf.cpp" />
+    <ClCompile Include="FeederDisplayWbm.cpp" />
+    <ClCompile Include="FeederScaleBoxDlg.cpp" />
+    <ClCompile Include="FileHelper.cpp" />
+    <ClCompile Include="FormatMetric.cpp" />
+    <ClCompile Include="GainFactorSpeedBoxDlg.cpp" />
+    <ClCompile Include="GlobalConst.cpp" />
+    <ClCompile Include="GrafikContext.cpp" />
+    <ClCompile Include="HelpInfoDlg.cpp" />
+    <ClCompile Include="HelpInfoDlgEx.cpp" />
+    <ClCompile Include="IcbRecipePage.cpp" />
+    <ClCompile Include="IcpAlarmPage.cpp" />
+    <ClCompile Include="IcpMotorPage.cpp" />
+    <ClCompile Include="IcpRecipePage.cpp" />
+    <ClCompile Include="IflMotorPage.cpp" />
+    <ClCompile Include="IflRecipePage.cpp" />
+    <ClCompile Include="IfsAlarmPage.cpp" />
+    <ClCompile Include="IfsRecipePage.cpp" />
+    <ClCompile Include="IfsSettingBoxDlg.cpp" />
+    <ClCompile Include="InfoBox.cpp" />
+    <ClCompile Include="LclRecipePage.cpp" />
+    <ClCompile Include="LCStatus.cpp" />
+    <ClCompile Include="LineExtSetpointDlg.cpp" />
+    <ClCompile Include="LineRampDlg.cpp" />
+    <ClCompile Include="LineSetpointLineDlg.cpp" />
+    <ClCompile Include="LineSetpointLocalDlg.cpp" />
+    <ClCompile Include="LineSettingsDlg.cpp" />
+    <ClCompile Include="LineTabCtrl.cpp" />
+    <ClCompile Include="LineTabExtern.cpp" />
+    <ClCompile Include="LineTabMassflow.cpp" />
+    <ClCompile Include="LineTabOverview.cpp" />
+    <ClCompile Include="LineTabTotalizer.cpp" />
+    <ClCompile Include="LineTotalizerBox.cpp" />
+    <ClCompile Include="LineTotalizerPulseDlg.cpp" />
+    <ClCompile Include="LoadResource.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="LwbMotorPage.cpp" />
+    <ClCompile Include="LwbRecipePage.cpp" />
+    <ClCompile Include="LwfAlarmPage.cpp" />
+    <ClCompile Include="LwfMotorPage.cpp" />
+    <ClCompile Include="LwfRecipePage.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MainFrmStatusBar.cpp" />
+    <ClCompile Include="MaxFineSpeedBoxDlg.cpp" />
+    <ClCompile Include="MaxGrossSpeedBoxDlg.cpp" />
+    <ClCompile Include="MFCMacros.cpp" />
+    <ClCompile Include="ModelessDlg.cpp" />
+    <ClCompile Include="NewPasswordDlg.cpp" />
+    <ClCompile Include="OverviewGaugeCtrl.cpp" />
+    <ClCompile Include="PasswordDlg.cpp" />
+    <ClCompile Include="PidAlarmPage.cpp" />
+    <ClCompile Include="PidMotorPage.cpp" />
+    <ClCompile Include="PidRecipePage.cpp" />
+    <ClCompile Include="ProductDatabaseBox.cpp" />
+    <ClCompile Include="ProductListCtrl.cpp" />
+    <ClCompile Include="RecipeDoc.cpp" />
+    <ClCompile Include="RecipeEditDlg.cpp" />
+    <ClCompile Include="RecipeFrame.cpp" />
+    <ClCompile Include="RecipeGaugeCtrl.cpp" />
+    <ClCompile Include="RecipeHelper.cpp" />
+    <ClCompile Include="RecipeView.cpp" />
+    <ClCompile Include="Recorder.cpp" />
+    <ClCompile Include="RecView.cpp" />
+    <ClCompile Include="ReduceFactorSpeedBoxDlg.cpp" />
+    <ClCompile Include="RefillFeederSpeedBoxDlg.cpp" />
+    <ClCompile Include="RefillGravBoxDlg.cpp" />
+    <ClCompile Include="RefillVolBoxDlg.cpp" />
+    <ClCompile Include="RemoteControl.cpp" />
+    <ClCompile Include="ScaleBoxDlg.cpp" />
+    <ClCompile Include="SettingsAlarmConfigPage.cpp" />
+    <ClCompile Include="SettingsLayoutPage.cpp" />
+    <ClCompile Include="SettingsPathPage.cpp" />
+    <ClCompile Include="SettingsProductListPage.cpp" />
+    <ClCompile Include="SettingsPropertySheet.cpp" />
+    <ClCompile Include="SettingsRecipePage.cpp" />
+    <ClCompile Include="SettingsRemotePage.cpp" />
+    <ClCompile Include="SettingsUserLoginPage.cpp" />
+    <ClCompile Include="Shutdown.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SingleUserDlg.cpp" />
+    <ClCompile Include="SpeedBoxDlg.cpp" />
+    <ClCompile Include="Splash.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="TextProgressCtrl.cpp" />
+    <ClCompile Include="ToolTipDlg.cpp" />
+    <ClCompile Include="UserNameDlg.cpp" />
+    <ClCompile Include="VolAlarmPage.cpp" />
+    <ClCompile Include="VolMotorPage.cpp" />
+    <ClCompile Include="VolRecipePage.cpp" />
+    <ClCompile Include="WbfAlarmPage.cpp" />
+    <ClCompile Include="WbfMotorPage.cpp" />
+    <ClCompile Include="WbfRecipePage.cpp" />
+    <ClCompile Include="WbmAlarmPage.cpp" />
+    <ClCompile Include="WbmMotorPage.cpp" />
+    <ClCompile Include="WbmRecipePage.cpp" />
+    <ClCompile Include="WeightDemoDlg.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="WrapperBase.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="XLicense\LicenseLib\hostid.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="XLicense\LicenseLib\IdentifyB.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="XLicense\LicenseLib\license.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AgitatorSpeedBoxDlg.h" />
+    <ClInclude Include="AlarmArchiveDoc.h" />
+    <ClInclude Include="AlarmArchiveFrame.h" />
+    <ClInclude Include="AlarmArchiveView.h" />
+    <ClInclude Include="AlarmConfigPage.h" />
+    <ClInclude Include="AlarmLog.h" />
+    <ClInclude Include="AlertCtrl.h" />
+    <ClInclude Include="BarChart.h" />
+    <ClInclude Include="ButtonCheckBox.h" />
+    <ClInclude Include="ButtonEmptyFeederSpeed.h" />
+    <ClInclude Include="ButtonLocalLine.h" />
+    <ClInclude Include="ButtonOneScrewMinMixSpeed.h" />
+    <ClInclude Include="ButtonRefillRelease.h" />
+    <ClInclude Include="ButtonRefillScrewSpeed.h" />
+    <ClInclude Include="ButtonSignal.h" />
+    <ClInclude Include="ButtonVolGrav.h" />
+    <ClInclude Include="CalibrateDlg.h" />
+    <ClInclude Include="CalibrateExtDlg.h" />
+    <ClInclude Include="CalibrationDlg.h" />
+    <ClInclude Include="CalibrationVolDlg.h" />
+    <ClInclude Include="CMemDC.h" />
+    <ClInclude Include="DataImage.h" />
+    <ClInclude Include="DateTimePicker.h" />
+    <ClInclude Include="DiagramBar.h" />
+    <ClInclude Include="DiagramBaseView.h" />
+    <ClInclude Include="DiagramConfigDlg.h" />
+    <ClInclude Include="DiagramDoc.h" />
+    <ClInclude Include="DiagramFrame.h" />
+    <ClInclude Include="DiagramMenu.h" />
+    <ClInclude Include="DiagramMenuData.h" />
+    <ClInclude Include="DiagramScaleDlg.h" />
+    <ClInclude Include="DiagramView.h" />
+    <ClInclude Include="DiagramViewMakro.h" />
+    <ClInclude Include="DisplayContainer.h" />
+    <ClInclude Include="DoseBaseActualGrafik.h" />
+    <ClInclude Include="DoseBatcherActualGrafik.h" />
+    <ClInclude Include="DoseBatcherActualGrafikGwb.h" />
+    <ClInclude Include="DoseBatcherActualGrafikIcb.h" />
+    <ClInclude Include="DoseBatcherActualGrafikLwb.h" />
+    <ClInclude Include="DoseBatcherNominalGrafik.h" />
+    <ClInclude Include="DoseBatcherNominalGrafikGwb.h" />
+    <ClInclude Include="DoseBatcherNominalGrafikIcb.h" />
+    <ClInclude Include="DoseBatcherNominalGrafikLwb.h" />
+    <ClInclude Include="DoseButtonBatcherGrafik.h" />
+    <ClInclude Include="DoseButtonBatcherGrafikGwb.h" />
+    <ClInclude Include="DoseButtonBatcherGrafikIcb.h" />
+    <ClInclude Include="DoseButtonBatcherGrafikLwb.h" />
+    <ClInclude Include="DoseButtonContinousGrafikIcp.h" />
+    <ClInclude Include="DoseButtonContinousGrafikIfl.h" />
+    <ClInclude Include="DoseButtonContinousGrafikIfs.h" />
+    <ClInclude Include="DoseButtonContinousGrafikLcl.h" />
+    <ClInclude Include="DoseButtonContinousGrafikLwp.h" />
+    <ClInclude Include="DoseButtonContinousGrafikLws.h" />
+    <ClInclude Include="DoseButtonContinousGrafikLwv.h" />
+    <ClInclude Include="DoseButtonContinousGrafikPid.h" />
+    <ClInclude Include="DoseButtonContinousGrafikVol.h" />
+    <ClInclude Include="DoseButtonContinousGrafikWbf.h" />
+    <ClInclude Include="DoseButtonContinousGrafikWbm.h" />
+    <ClInclude Include="DoseButtonGrafik.h" />
+    <ClInclude Include="DoseButtonGrafikContext.h" />
+    <ClInclude Include="DoseContinousActualGrafik.h" />
+    <ClInclude Include="DoseContinousActualGrafikIcp.h" />
+    <ClInclude Include="DoseContinousActualGrafikIfl.h" />
+    <ClInclude Include="DoseContinousActualGrafikIfs.h" />
+    <ClInclude Include="DoseContinousActualGrafikLcl.h" />
+    <ClInclude Include="DoseContinousActualGrafikLwp.h" />
+    <ClInclude Include="DoseContinousActualGrafikLws.h" />
+    <ClInclude Include="DoseContinousActualGrafikLwv.h" />
+    <ClInclude Include="DoseContinousActualGrafikPid.h" />
+    <ClInclude Include="DoseContinousActualGrafikVol.h" />
+    <ClInclude Include="DoseContinousActualGrafikWbf.h" />
+    <ClInclude Include="DoseContinousActualGrafikWbm.h" />
+    <ClInclude Include="DoseContinousNominalGrafik.h" />
+    <ClInclude Include="DoseContinousNominalGrafikIcp.h" />
+    <ClInclude Include="DoseContinousNominalGrafikIfl.h" />
+    <ClInclude Include="DoseContinousNominalGrafikIfs.h" />
+    <ClInclude Include="DoseContinousNominalGrafikLcl.h" />
+    <ClInclude Include="DoseContinousNominalGrafikLwp.h" />
+    <ClInclude Include="DoseContinousNominalGrafikLws.h" />
+    <ClInclude Include="DoseContinousNominalGrafikLwv.h" />
+    <ClInclude Include="DoseContinousNominalGrafikPid.h" />
+    <ClInclude Include="DoseContinousNominalGrafikVol.h" />
+    <ClInclude Include="DoseContinousNominalGrafikWbf.h" />
+    <ClInclude Include="DoseContinousNominalGrafikWbm.h" />
+    <ClInclude Include="DoseProductNameGrafik.h" />
+    <ClInclude Include="DoseRecipePage.h" />
+    <ClInclude Include="DoseRefillButtonGrafik.h" />
+    <ClInclude Include="DoseRefillButtonGrafikGwb.h" />
+    <ClInclude Include="DoseRefillButtonGrafikIcb.h" />
+    <ClInclude Include="DoseRefillButtonGrafikIcp.h" />
+    <ClInclude Include="DoseRefillButtonGrafikIfl.h" />
+    <ClInclude Include="DoseRefillButtonGrafikIfs.h" />
+    <ClInclude Include="DoseRefillButtonGrafikLcl.h" />
+    <ClInclude Include="DoseRefillButtonGrafikLwb.h" />
+    <ClInclude Include="DoseRefillButtonGrafikLwp.h" />
+    <ClInclude Include="DoseRefillButtonGrafikLws.h" />
+    <ClInclude Include="DoseRefillButtonGrafikLwv.h" />
+    <ClInclude Include="DoseRefillButtonGrafikPid.h" />
+    <ClInclude Include="DoseRefillButtonGrafikVol.h" />
+    <ClInclude Include="DoseRefillButtonGrafikWbf.h" />
+    <ClInclude Include="DoseRefillButtonGrafikWbm.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafik.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikGwb.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikIcb.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikIcp.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikIfl.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikIfs.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikLcl.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikLwb.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikLwp.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikLws.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikLwv.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikPid.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikVol.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikWbf.h" />
+    <ClInclude Include="DoseRefillReleaseButtonGrafikWbm.h" />
+    <ClInclude Include="EditCtrlEx.h" />
+    <ClInclude Include="EmptyFeederSpeedBoxDlg.h" />
+    <ClInclude Include="FeederDisplay.h" />
+    <ClInclude Include="FeederDisplayGwb.h" />
+    <ClInclude Include="FeederDisplayHopper.h" />
+    <ClInclude Include="FeederDisplayIcb.h" />
+    <ClInclude Include="FeederDisplayIcp.h" />
+    <ClInclude Include="FeederDisplayIfl.h" />
+    <ClInclude Include="FeederDisplayIfs.h" />
+    <ClInclude Include="FeederDisplayIfso.h" />
+    <ClInclude Include="FeederDisplayIfsu.h" />
+    <ClInclude Include="FeederDisplayLcl.h" />
+    <ClInclude Include="FeederDisplayLwb.h" />
+    <ClInclude Include="FeederDisplayLwf.h" />
+    <ClInclude Include="FeederDisplayLwp.h" />
+    <ClInclude Include="FeederDisplayLws.h" />
+    <ClInclude Include="FeederDisplayLwv.h" />
+    <ClInclude Include="FeederDisplayPid.h" />
+    <ClInclude Include="FeederDisplayVol.h" />
+    <ClInclude Include="FeederDisplayWbf.h" />
+    <ClInclude Include="FeederDisplayWbm.h" />
+    <ClInclude Include="FeederScaleBoxDlg.h" />
+    <ClInclude Include="FileHelper.h" />
+    <ClInclude Include="GainFactorSpeedBoxDlg.h" />
+    <ClInclude Include="GaugeDriveCommand.h" />
+    <ClInclude Include="GaugeMassflow.h" />
+    <ClInclude Include="GaugeRotSpeed.h" />
+    <ClInclude Include="GrafikHopperLwb.h" />
+    <ClInclude Include="GrafikHopperLwf.h" />
+    <ClInclude Include="GrafikHopperWbf.h" />
+    <ClInclude Include="GrafikHopperWbm.h" />
+    <ClInclude Include="GwbLoadCellPage.h" />
+    <ClInclude Include="GwbRefillPage.h" />
+    <ClInclude Include="HelpInfoDlgEx.h" />
+    <ClInclude Include="HopperGwb.h" />
+    <ClInclude Include="HopperIfs.h" />
+    <ClInclude Include="HopperLcl.h" />
+    <ClInclude Include="HopperLwb.h" />
+    <ClInclude Include="HopperLwp.h" />
+    <ClInclude Include="HopperLws.h" />
+    <ClInclude Include="HopperLwv.h" />
+    <ClInclude Include="HopperVol.h" />
+    <ClInclude Include="HopperWbf.h" />
+    <ClInclude Include="HopperWbm.h" />
+    <ClInclude Include="IcbRecipePage.h" />
+    <ClInclude Include="IflMotorPage.h" />
+    <ClInclude Include="IflRecipePage.h" />
+    <ClInclude Include="IfsAlarmPage.h" />
+    <ClInclude Include="IfsRecipePage.h" />
+    <ClInclude Include="IfsSettingBoxDlg.h" />
+    <ClInclude Include="IGrafikHopper.h" />
+    <ClInclude Include="LclRecipePage.h" />
+    <ClInclude Include="LCStatus.h" />
+    <ClInclude Include="LineExtSetpointDlg.h" />
+    <ClInclude Include="LineOneScrewSwitchesDlg.h" />
+    <ClInclude Include="LineRampDlg.h" />
+    <ClInclude Include="LineSetpointLineDlg.h" />
+    <ClInclude Include="LineSetpointLocalDlg.h" />
+    <ClInclude Include="LineSettingsDlg.h" />
+    <ClInclude Include="LineTabCtrl.h" />
+    <ClInclude Include="LineTabExtern.h" />
+    <ClInclude Include="LineTabMassflow.h" />
+    <ClInclude Include="LineTabOverview.h" />
+    <ClInclude Include="LineTabSettings.h" />
+    <ClInclude Include="LineTabTotalizer.h" />
+    <ClInclude Include="LineTotalizerBox.h" />
+    <ClInclude Include="LineTotalizerPulseDlg.h" />
+    <ClInclude Include="LwbMotorPage.h" />
+    <ClInclude Include="LwbRecipePage.h" />
+    <ClInclude Include="LwfAgitatorPage.h" />
+    <ClInclude Include="LwfAlarmConfigPage.h" />
+    <ClInclude Include="LwfAlarmPage.h" />
+    <ClInclude Include="LwfAlertPage.h" />
+    <ClInclude Include="LwfMotorPage.h" />
+    <ClInclude Include="LwfRecipePage.h" />
+    <ClInclude Include="MainFrmStatusBar.h" />
+    <ClInclude Include="MaxGrossSpeedBoxDlg.h" />
+    <ClInclude Include="MaxSpeedBoxDlg.h" />
+    <ClInclude Include="MDITabs.h" />
+    <ClInclude Include="NewPasswordDlg.h" />
+    <ClInclude Include="OneScrewSwitchesGainSpeedBoxDlg.h" />
+    <ClInclude Include="OneScrewSwitchesReduceSpeedBoxDlg.h" />
+    <ClInclude Include="OverviewGaugeCtrl.h" />
+    <ClInclude Include="PasswordDlg.h" />
+    <ClInclude Include="PidAlarmPage.h" />
+    <ClInclude Include="PidAlertPage.h" />
+    <ClInclude Include="PidMotorPage.h" />
+    <ClInclude Include="PidRecipePage.h" />
+    <ClInclude Include="Polygon.h" />
+    <ClInclude Include="ProductionGrafik.h" />
+    <ClInclude Include="ProductListCtrl.h" />
+    <ClInclude Include="RampButton.h" />
+    <ClInclude Include="RecipeGaugeCtrl.h" />
+    <ClInclude Include="RecipeHelper.h" />
+    <ClInclude Include="ReduceFactorSpeedBoxDlg.h" />
+    <ClInclude Include="RefillFeederSpeedBoxDlg.h" />
+    <ClInclude Include="RefillGravBoxDlg.h" />
+    <ClInclude Include="RefillVolBoxDlg.h" />
+    <ClInclude Include="SettingsAlarmConfigPage.h" />
+    <ClInclude Include="SettingsLayoutPage.h" />
+    <ClInclude Include="SettingsPathPage.h" />
+    <ClInclude Include="SettingsProductListPage.h" />
+    <ClInclude Include="SettingsRecipePage.h" />
+    <ClInclude Include="SettingsRemotePage.h" />
+    <ClInclude Include="SettingsUserLoginPage.h" />
+    <ClInclude Include="Shutdown.h" />
+    <ClInclude Include="SingleUserDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TaraProgressDlg.h" />
+    <ClInclude Include="TotalizerDlg.h" />
+    <ClInclude Include="TouchComboBox.h" />
+    <ClInclude Include="TouchKeyboard.h" />
+    <ClInclude Include="UserNameDlg.h" />
+    <ClInclude Include="UserPage.h" />
+    <ClInclude Include="VolAlarmPage.h" />
+    <ClInclude Include="VolAlertPage.h" />
+    <ClInclude Include="VolMotorPage.h" />
+    <ClInclude Include="VolRecipePage.h" />
+    <ClInclude Include="WbfAlarmConfigPage.h" />
+    <ClInclude Include="WbfAlarmPage.h" />
+    <ClInclude Include="WbfAlertPage.h" />
+    <ClInclude Include="WbfMotorPage.h" />
+    <ClInclude Include="WbfRecipePage.h" />
+    <ClInclude Include="WbmAlarmPage.h" />
+    <ClInclude Include="WbmMotorPage.h" />
+    <ClInclude Include="WbmRecipePage.h" />
+    <ClInclude Include="WeightDemoDlg.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="WindowPosition.h" />
+    <ClInclude Include="wmuser.h" />
+    <ClInclude Include="WorkspaceBar.h" />
+    <ClInclude Include="WrapperBase.h" />
+    <ClInclude Include="XLicense\LicenseLib\hostid.h" />
+    <ClInclude Include="XLicense\LicenseLib\identify.h" />
+    <ClInclude Include="XLicense\LicenseLib\License.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="BASE\BASE.vcxproj">
+      <Project>{ab592a6e-7b7f-4f77-9d9d-618f24d8c87d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="DoseServer\DoseServer.vcxproj">
+      <Project>{16a959bf-9bab-4847-b831-861ee91d1ba5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="RemoteServer\RemoteServer.vcxproj">
+      <Project>{533affdf-f9b0-4a80-b79d-1b6841d5fd6f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\ModBusKernel\ModBusKernel.vcxproj">
+      <Project>{16bffa23-a22e-4084-b4ea-efbcbdfef960}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\RemoteServiceModbusStandard\RemoteServiceModbusStandard.vcxproj">
+      <Project>{f3f14ce1-1a8c-4fb1-85c8-b6cccb01c793}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\RemoteServiceProfibus\RemoteServiceProfibus.vcxproj">
+      <Project>{d8224c3e-3ee2-42f9-8c9c-652f9dabd6e2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\RemoteServiceS7\RemoteServiceS7.vcxproj">
+      <Project>{5b322d67-dd8a-4997-bae8-9bc5a3799bc6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\S7Simulator\S7Simulator.vcxproj">
+      <Project>{0b3aaada-ea20-442b-ba79-8b907794312d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="remote\S7Snap\S7Snap.vcxproj">
+      <Project>{ff6f78aa-202a-45aa-a0aa-34849e2a6e07}</Project>
+    </ProjectReference>
+    <ProjectReference Include="VKBoard\VKBoard.vcxproj">
+      <Project>{5daa81f8-6325-4d5b-9f81-9d7ab0e144ea}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LogLevel.def" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="EasyControl.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
