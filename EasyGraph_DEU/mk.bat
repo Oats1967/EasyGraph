@@ -1,0 +1,1 @@
+mklink /d resource ..\resource
