@@ -301,6 +301,10 @@ void CChartLineView::OnUpdateSeries()
 	ASSERT_VALID(pChart);
 
 	pChart->CleanUpChartData(-1, TRUE);
+
+	CString szFeeder;
+	VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
+
 	if (g_Statistics.GetActiveFeeder() < 0)
 	{
 		for (int32_t k = 0; k < _S32(g_Statistics.GetFeederCount()); k++)
@@ -309,7 +313,7 @@ void CChartLineView::OnUpdateSeries()
 			if (pSeries)
 			{
 				CString szName;
-				szName.Format(_T("Dosierung : %d"), k + 1);
+				szName.Format(_T("%s : %d"), LPCTSTR(szFeeder), k + 1);
 				pSeries->m_strSeriesName = szName;
 				pSeries->SetSeriesLineColor(CBCGPBrush(c_Colors[k]));
 			}
@@ -321,7 +325,7 @@ void CChartLineView::OnUpdateSeries()
 		if (pSeries)
 		{
 			CString szName;
-			szName.Format(_T("Dosierung : %d"), g_Statistics.GetActiveFeeder() + 1);
+			szName.Format(_T("%s : %d"), LPCTSTR(szFeeder), g_Statistics.GetActiveFeeder() + 1);
 			pSeries->m_strSeriesName = szName;
 		}
 	}

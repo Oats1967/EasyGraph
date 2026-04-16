@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "EasyGraph.h"
 #include "wmuser.h"
 #include "CustomChart.h"
 #include "CustomYAxis.h"
@@ -166,8 +167,10 @@ void CChartCombinedView::OnUpdateChart()
 
 	pChart->SetChartType(BCGPChartLine, BCGP_CT_SIMPLE, FALSE, FALSE);
 	pChart->SetCurveType(BCGPChartFormatSeries::CCT_LINE);
+	CString szFeeder;
+	VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
 	CString szTemp;
-	szTemp.Format(_T("Dosierung : %d"), g_Statistics.GetActiveFeeder() + 1);
+	szTemp.Format(_T("%s : %d"), LPCTSTR(szFeeder), g_Statistics.GetActiveFeeder() + 1);
 	pChart->SetChartTitle(szTemp);
 	pChart->ShowDataLabels(FALSE);
 

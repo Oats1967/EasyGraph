@@ -87,7 +87,7 @@ Office 2007 (Stil 'S&chwarz')
 Office 2007 (Stil '&Silber')
 Office 2007 (Stil '&Aqua')
 Win&dows 7
-&StatusBar
+Realtime Monitoring
 Select
 Informationen zu EasyGraph
 MS Shell Dlg
@@ -130,15 +130,16 @@ VarFileInfo
 Translation
 resource\\Toolbar_hc.png
 OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen
+Realtime Monitoring
 \nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document
 EasyGraph
+Eigenschaftenfenster
+Bereich 1
+Bereich 2
 Statistics
 Erstellen
 Bearbeiten
 Explorer
-Eigenschaftenfenster
-Bereich 1
-Bereich 2
 &Fenster
 EasyGraph
 Bereit

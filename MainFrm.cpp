@@ -707,6 +707,12 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 		g_Statistics.SetANNumber("");
 		g_Statistics.GetANNumberList().clear();
 		g_Statistics.SetDateToShow(*pDate);
+
+		if (g_Statistics.GetRealMonitoring())
+		{
+			g_Statistics.SetRealMonitoring(FALSE);
+			KillTimer(REFRESHTIMER);
+		}
 		UpdateNewData();
 	}
 	return 0L;

@@ -293,7 +293,7 @@ END
 
 IDR_MENU_VIEW MENU
 BEGIN
-    MENUITEM "Real Monitroing",             ID_TB_VIEW
+    MENUITEM "Realtime Monitoring",             ID_TB_VIEW
 END
 
 IDR_MENU_MAGNIFY MENU
@@ -507,7 +507,7 @@ IDB_TOOLBAR_HC          PNG                     "resource\\Toolbar_hc.png"
 STRINGTABLE
 BEGIN
     IDP_OLE_INIT_FAILED     "OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen."
-    IDS_REALMONITORING      "Real Monitoring"
+    IDS_REALMONITORING      "Realtime Monitoring"
     IDR_EasyGraphTYPE       "\nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document"
     IDR_MAINFRAME           "EasyGraph"
 END
@@ -556,7 +556,6 @@ BEGIN
     IDS_EDIT_MENU           "Bearbeiten"
     IDS_EXPLORER            "Explorer"
     IDS_FILE_VIEW           "Grafikauswahl"
-    IDS_FILE_VIEW2          "Grafikauswahl"
     IDS_GRAFIKSELECT_VIEW   "Grafikauswahl"
     IDS_MF_ALL              "alle"
     IDS_MF_FEEDER           "Dosierung"
