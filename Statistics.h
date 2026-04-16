@@ -36,6 +36,7 @@ class CStatistics
 	base::eMassflowSelect		  m_DoseSelect;
 	std::string					  m_ANNumber;
 	BOOL						  m_LogMessages;
+	BOOL						  m_RealMonitoring;
 
 private:
 	//void GetQMNUmbers(void);
@@ -46,6 +47,7 @@ private:
 	void CalcLogRecMapping(void);
 	void Init();
 	BOOL LoadLogItemList();
+	void LoadLogItemList(base::utils::CLogItemList& tempList, const std::tm& _tmStart);
 
 	static time_t ConvertTime(const DATE& rD)
 	{
@@ -62,6 +64,10 @@ private:
 		return rT.m_dt;
 	}
 
+	void LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart);
+	static std::tm OleDateTime2TM(const COleDateTime& dSO);
+
+
 public:
     BOOL LoadRectItemList();
 
@@ -77,6 +83,7 @@ public:
 	SETGET(const BOOL, LogMessages);
 	SETGET(const base::CEasyGraphSettings&, Settings);
 	SETGET(const std::string&, ANNumber);
+	SETGET(const BOOL, RealMonitoring);
 
 	int32_t GetActiveFeeder(void) const
 	{	return m_Settings.m_ActiveFeeder;	}

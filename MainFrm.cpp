@@ -19,8 +19,8 @@
 IMPLEMENT_DYNCREATE(CMainFrame, CBCGPMultiViewFrameWnd)
 
 const int  iMaxUserToolbars = 10;
-const UINT uiFirstUserToolBarId = AFX_IDW_CONTROLBAR_FIRST + 40;
-const UINT uiLastUserToolBarId = uiFirstUserToolBarId + iMaxUserToolbars - 1;
+
+#define REFRESHTIMER 1
 
 BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_WM_CREATE()
@@ -34,6 +34,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_CBN_SELENDOK(ID_TB_ANNUMBER_COMBO, &CMainFrame::OnANNumberCombo)
 	ON_COMMAND(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnLogMessages)
 	ON_UPDATE_COMMAND_UI(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
+	ON_COMMAND(ID_TB_VIEW, &CMainFrame::OnRealMonitoring)
+	ON_UPDATE_COMMAND_UI(ID_TB_VIEW, &CMainFrame::OnUpdateRealMonitoring)
 
 
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
@@ -47,6 +49,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_MESSAGE(WM_VISIBLE, &CMainFrame::OnSetVisible)
 	ON_MESSAGE(WM_LINEWIDTH, &CMainFrame::OnSetLineWidth)
 	ON_REGISTERED_MESSAGE(AFX_WM_ON_PRESS_CLOSE_BUTTON, OnClosePane)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -69,21 +72,36 @@ CMainFrame::~CMainFrame()
 {
 }
 
+
+void CMainFrame::OnTimer(UINT_PTR nIDEvent)
+{
+	if (nIDEvent == REFRESHTIMER)
+	{
+		// Aktion hier ausführen, z.B. StatusBar aktualisieren
+		uint32_t bEnable = g_Statistics.GetRealMonitoring();
+		DateToShow aDate;
+		GetRealMonitoringTimeSpan(aDate);
+
+		g_Statistics.SetDateToShow(aDate);
+		g_Statistics.SetRealMonitoring(bEnable);
+		UpdateNewData();
+	}
+	CFrameWnd::OnTimer(nIDEvent);
+}
+
+void CMainFrame::OnDestroy() 
+{
+	g_Statistics.SetRealMonitoring(FALSE);
+	KillTimer(REFRESHTIMER); // Timer beenden
+	CFrameWnd::OnDestroy();
+}
+
+
 LRESULT CMainFrame::OnClosePane(WPARAM, LPARAM lp)
 {
-#if 0
-	CBasePane* pane = (CBasePane*)lp;
-	int id = pane->GetDlgCtrlID();
-	pane->ShowPane(FALSE, FALSE, FALSE);
-	RemovePaneFromDockManager(pane, TRUE, TRUE, TRUE, NULL);
-	AdjustDockingLayout();
-	pane->PostMessage(WM_CLOSE);
-	PostMessage(WM_RESETMEMBER, id, 0);
-#endif
 	return (LRESULT)TRUE;//prevent close , we already close it
 }
 
-#if 1
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	//lpCreateStruct->style |= WS_MAXIMIZE;
@@ -96,10 +114,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	SetMenu(NULL);
 
-	m_wndToolBar.SetSizes(CSize(32, 32), CSize(24, 24));
-	m_wndToolBar.SetMenuSizes(globalUtils.ScaleByDPI(CSize(32, 32), this), CSize(24, 24));
+	//m_wndToolBar.EnableNavigationButtons(ID_VIEW_BACK, ID_VIEW_FORWARD, 0, 0, 5, ID_VIEW_UP, TRUE);
 
-	m_wndToolBar.EnableNavigationButtons(ID_VIEW_BACK, ID_VIEW_FORWARD, 0, 0, 5, ID_VIEW_UP, TRUE);
+
+	m_wndToolBar.SetSizes(CSize(24, 24), CSize(24, 24));
+	m_wndToolBar.SetMenuSizes(globalUtils.ScaleByDPI(CSize(32, 32), this), CSize(32, 32));
+
+	//m_wndToolBar.EnableNavigationButtons(ID_VIEW_BACK, ID_VIEW_FORWARD, 0, 0, 5, ID_VIEW_UP, TRUE);
 
 	// Detect color depth. 256 color toolbars can be used in the
 	// high or true color modes only (bits per pixel is > 8):
@@ -115,6 +136,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
+
 
 	//-----------------------
 	// Setup toolbar buttons:
@@ -194,15 +216,10 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.ReplaceButton(ID_TB_LOGMESSAGE_BUTTON, CBCGPToolbarLabel(ID_TB_LOGMESSAGE_BUTTON, szLogMessage));
 	m_wndToolBar.SetButtonStyle(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), TBBS_CHECKBOX);
 
-	//m_wndToolBar.ReplaceButton(ID_ANIMATION_LABEL, CBCGPToolbarLabel(ID_ANIMATION_LABEL, _T("Animation:")));
-
-	//m_wndToolBar.ReplaceButton(ID_ANIMATION_COMBO, CToolbarAnimationCombo(ID_ANIMATION_COMBO));
-
-	//m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_DARK_THEME), NULL, TRUE, FALSE);
 	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_TB_CHART_EXPORT), NULL, TRUE, TRUE);
 	m_wndToolBar.SetToolBarBtnText(m_wndToolBar.CommandToIndex(ID_TB_CHART_COPY), NULL, TRUE, TRUE);
 
-	m_wndToolBar.EnableCustomizeButton(TRUE, (UINT)-1, _T("More Items"));
+	//m_wndToolBar.EnableCustomizeButton(TRUE, (UINT)-1, _T("More Items"));
 
 	//-------------------
 	// Create status bar:
@@ -214,26 +231,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
-#if 0
-
-	if (!m_wndWorkSpace.Create(_T("Features"), this, CRect(0, 0, globalUtils.ScaleByDPI(300, this), globalUtils.ScaleByDPI(300, this)),
-		TRUE, ID_VIEW_WORKSPACE,
-		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI,
-#ifndef _BCGSUITE_INC_
-		CBRS_BCGP_REGULAR_TABS, CBRS_BCGP_RESIZE | CBRS_BCGP_AUTOHIDE))
-#else
-		AFX_CBRS_REGULAR_TABS, AFX_CBRS_RESIZE | AFX_CBRS_AUTOHIDE))
-#endif
-	{
-		TRACE0("Failed to create Workspace bar\n");
-		return -1;      // fail to create
-	}
-
-#ifndef _BCGSUITE_INC_
-	m_wndWorkSpace.SetIconIndex(0);
-#endif
-	m_wndWorkSpace.EnableDocking(CBRS_ALIGN_ANY);
-#endif
 
 	if (!CreateDockingWindows())
 	{
@@ -254,167 +251,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	RecalcLayout();
 	return 0;
 }
-#else
-int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
-	if (CBCGPMultiViewFrameWnd::OnCreate(lpCreateStruct) == -1)
-		return -1;
-
-	BOOL bNameValid;
-
-	CMDITabInfo mdiTabParams;
-	mdiTabParams.m_style = CMFCTabCtrl::STYLE_3D_ONENOTE; // Weitere Stile verfügbar...
-	mdiTabParams.m_bActiveTabCloseButton = TRUE;      // Auf "FALSE" festlegen, um die Schaltfläche "Schließen" rechts auf der Registerkarte zu platzieren
-	mdiTabParams.m_bTabIcons = FALSE;    // Auf "TRUE" festlegen, um Dokumentsymbole auf MDI-Registerkarten zu aktivieren
-	mdiTabParams.m_bAutoColor = TRUE;    // Auf "FALSE" festlegen, um automatische Farben für MDI-Registerkarten zu deaktivieren
-	mdiTabParams.m_bDocumentMenu = TRUE; // Dokumentmenü am rechten Rand des Registerkartenbereichs aktivieren
-	EnableMDITabbedGroups(TRUE, mdiTabParams);
-
-	if (!m_wndMenuBar.Create(this))
-	{
-		TRACE0("Fehler beim Erstellen der Menüleiste.\n");
-		return -1;      // Fehler beim Erstellen
-	}
-
-	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY);
-
-	// Verhindern, dass die Menüleiste beim Aktivieren den Fokus erhält
-	CMFCPopupMenu::SetForceMenuFocus(FALSE);
-
-	if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
-		!m_wndToolBar.LoadToolBar(theApp.m_bHiColorIcons ? IDR_MAINFRAME_256 : IDR_MAINFRAME))
-	{
-		TRACE0("Fehler beim Erstellen der Symbolleiste.\n");
-		return -1;      // Fehler beim Erstellen
-	}
-
-	CString strToolBarName;
-	bNameValid = strToolBarName.LoadString(IDS_TOOLBAR_STANDARD);
-	ASSERT(bNameValid);
-	m_wndToolBar.SetWindowText(strToolBarName);
-
-	CString strCustomize;
-	bNameValid = strCustomize.LoadString(IDS_TOOLBAR_CUSTOMIZE);
-	ASSERT(bNameValid);
-
-	m_wndToolBar.EnableCustomizeButton(TRUE, ID_VIEW_CUSTOMIZE, strCustomize);
-
-	CBCGPToolbarComboBoxButton comboTheme(ID_TB_COLOR_THEME_COMBO,
-#ifdef _BCGSUITE_INC_
-		GetCmdMgr()->GetCmdImage(ID_TB_COLOR_THEME_COMBO, FALSE),
-#else
-		CImageHash::GetImageOfCommand(ID_TB_COLOR_THEME_COMBO, FALSE),
-#endif
-		CBS_DROPDOWNLIST, globalUtils.ScaleByDPI(150));
-
-	comboTheme.m_strText = _T("Color Theme");
-	comboTheme.AddItem(_T("Light Theme"));
-	comboTheme.AddItem(_T("Dark Theme"));
-	comboTheme.AddItem(_T("Blue Theme"));
-
-	comboTheme.SelectItem(m_nActiveLine);
-	m_wndToolBar.ReplaceButton(ID_TB_COLOR_THEME_COMBO, comboTheme);
-
-	// Benutzerdefinierte Symbolleistenvorgänge zulassen:
-	InitUserToolbars(nullptr, uiFirstUserToolBarId, uiLastUserToolBarId);
-
-	if (!m_wndStatusBar.Create(this))
-	{
-		TRACE0("Fehler beim Erstellen der Statusleiste.\n");
-		return -1;      // Fehler beim Erstellen
-	}
-	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
-
-	// TODO: Löschen Sie diese fünf Zeilen, wenn Sie nicht möchten, dass die Symbolleiste und die Menüleiste andockbar sind
-	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
-	EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndMenuBar);
-	DockPane(&m_wndToolBar);
-
-
-	// Andockfensterverhalten wie in Visual Studio 2005 aktivieren
-	CDockingManager::SetDockingMode(DT_SMART);
-	// Automatisches Ausblenden von Andockfenstern wie in Visual Studio 2005 aktivieren
-	EnableAutoHidePanes(CBRS_ALIGN_ANY);
-
-	// Menüelementbild laden (nicht auf Standardsymbolleisten platziert):
-	CMFCToolBar::AddToolBarForImageCollection(IDR_MENU_IMAGES, theApp.m_bHiColorIcons ? IDB_MENU_IMAGES_24 : 0);
-
-	// Andockfenster erstellen
-	if (!CreateDockingWindows())
-	{
-		TRACE0("Fehler beim Erstellen der Andockfenster.\n");
-		return -1;
-	}
-
-	m_wndDoseSelectView.EnableDocking(CBRS_ALIGN_ANY);
-	m_wndCalendarView.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndDoseSelectView);
-	CDockablePane* pTabbedBar = nullptr;
-	m_wndCalendarView.AttachToTabWnd(&m_wndDoseSelectView, DM_SHOW, TRUE, &pTabbedBar);
-	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndOutput);
-	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndProperties);
-
-	// Visuellen Manager und Stil auf Basis eines persistenten Werts festlegen
-	OnApplicationLook(theApp.m_nAppLook);
-
-	// Dialogfeld für erweiterte Fensterverwaltung aktivieren
-	EnableWindowsDialog(ID_WINDOW_MANAGER, ID_WINDOW_MANAGER, TRUE);
-
-	// Umpositionieren des Menüs für Symbolleisten und Andockfenster aktivieren
-	EnablePaneMenu(TRUE, ID_VIEW_CUSTOMIZE, strCustomize, ID_VIEW_TOOLBAR);
-
-	// Schnelles Anpassen von Symbolleisten mit Alt+Ziehen aktivieren
-	CMFCToolBar::EnableQuickCustomization();
-
-	if (CMFCToolBar::GetUserImages() == nullptr)
-	{
-		// Benutzerdefinierte Symbolleistenbilder laden
-		if (m_UserImages.Load(_T(".\\UserImages.bmp")))
-		{
-			CMFCToolBar::SetUserImages(&m_UserImages);
-		}
-	}
-
-	// Menüpersonalisierung aktivieren (zuletzt verwendete Befehle)
-	// TODO: Definieren Sie eigene Basisbefehle, wobei jedes Pulldownmenü mindestens einen Basisbefehl enthalten muss.
-	CList<UINT, UINT> lstBasicCommands;
-
-	lstBasicCommands.AddTail(ID_FILE_NEW);
-	lstBasicCommands.AddTail(ID_FILE_OPEN);
-	lstBasicCommands.AddTail(ID_FILE_SAVE);
-	lstBasicCommands.AddTail(ID_FILE_PRINT);
-	lstBasicCommands.AddTail(ID_APP_EXIT);
-	lstBasicCommands.AddTail(ID_EDIT_CUT);
-	lstBasicCommands.AddTail(ID_EDIT_PASTE);
-	lstBasicCommands.AddTail(ID_EDIT_UNDO);
-	lstBasicCommands.AddTail(ID_APP_ABOUT);
-	lstBasicCommands.AddTail(ID_VIEW_STATUS_BAR);
-	lstBasicCommands.AddTail(ID_VIEW_TOOLBAR);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_OFF_2003);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_VS_2005);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_OFF_2007_BLUE);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_OFF_2007_SILVER);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_OFF_2007_BLACK);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_OFF_2007_AQUA);
-	lstBasicCommands.AddTail(ID_VIEW_APPLOOK_WINDOWS_7);
-	lstBasicCommands.AddTail(ID_SORTING_SORTALPHABETIC);
-	lstBasicCommands.AddTail(ID_SORTING_SORTBYTYPE);
-	lstBasicCommands.AddTail(ID_SORTING_SORTBYACCESS);
-	lstBasicCommands.AddTail(ID_SORTING_GROUPBYTYPE);
-
-	CMFCToolBar::SetBasicCommands(lstBasicCommands);
-
-	// Vertauschen Sie die Reihenfolge von Dokumentname und Anwendungsname auf der Titelleiste des Fensters. Hierdurch
-	// wird die Verwendbarkeit der Taskleiste verbessert, da der Dokumentname in der Miniaturansicht sichtbar ist.
-	ModifyStyle(0, FWS_PREFIXTITLE);
-
-	return 0;
-}
-#endif
 
 void CMainFrame::OnLogMessages()
 {
@@ -432,6 +268,59 @@ void CMainFrame::OnUpdateLogMessages(CCmdUI* pCmdUI)
 {
 	uint32_t bEnable = (g_Statistics.GetFeederCount() * g_Statistics.GetLogDaysList().GetCount()) > 0;
 	pCmdUI->Enable(bEnable);
+}
+
+void CMainFrame::GetRealMonitoringTimeSpan(DateToShow& rDate)
+{
+	COleDateTime dateEnd = COleDateTime::GetCurrentTime();
+	COleDateTime dateStart = dateEnd;
+
+	COleDateTimeSpan timediff;
+	const auto& rS = g_Statistics.GetSettings();
+	auto totalminutes = rS.m_RealMonitoringHistoryMinutes;
+	auto minutes	= totalminutes % 60U;
+	auto totalhours = totalminutes / 60U;
+	auto hours	    = totalhours % 60U;
+	auto days	    = totalhours / 24U;
+
+
+	timediff.SetDateTimeSpan(days, hours, minutes, 0);
+	dateStart -= timediff;
+
+	rDate.dateStart = dateStart.m_dt;
+	rDate.dateEnd = dateEnd.m_dt;
+}
+
+
+void CMainFrame::OnRealMonitoring()
+{
+	uint32_t bEnable = g_Statistics.GetRealMonitoring();
+	bEnable = !bEnable;
+	if (bEnable)
+	{
+		DateToShow aDate;
+		GetRealMonitoringTimeSpan(aDate);
+		g_Statistics.SetDateToShow(aDate);
+		g_Statistics.SetRealMonitoring(bEnable);
+		UpdateNewData();
+		const auto& rS = g_Statistics.GetSettings();
+		auto sec = rS.m_RealMonitoringRefreshTime;
+		sec *= 1000;
+		sec = RANGE(sec, 10*1000, 300 * 1000);
+		SetTimer(REFRESHTIMER, sec, NULL);
+	}
+	else
+	{
+		KillTimer(REFRESHTIMER);
+		g_Statistics.SetRealMonitoring(bEnable);
+	}
+}
+
+void CMainFrame::OnUpdateRealMonitoring(CCmdUI* pCmdUI)
+{
+	uint32_t bEnable = TRUE;
+	pCmdUI->Enable(bEnable);
+	pCmdUI->SetCheck(g_Statistics.GetRealMonitoring());
 }
 
 
@@ -726,31 +615,38 @@ void CMainFrame::UpdateNewData()
 {
 	g_Statistics.LoadRectItemList();
 
-	CString szAll;
-	VERIFY(szAll.LoadString(IDS_MF_ALL));
 	// Find button index for command ID
 	{
-		int index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
+		auto index = m_wndToolBar.CommandToIndex(ID_TB_DOSESELECT_COMBO);
 		// Retrieve button
 		auto* pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
-		while (pButton->GetCount())
+		ASSERT(pButton);
+
+		auto btcount = _U32(pButton->GetCount());
+		if (btcount > 0)
 		{
-			pButton->DeleteItem(0);
+			btcount--;
 		}
-		CString szFeeder;
-		VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
-		pButton->ClearData();
+		auto fdcount = g_Statistics.GetFeederCount();
+		if (btcount != fdcount)
 		{
-			CString szTemp;
-			szTemp.Format(_T("%s: %s"), (LPCTSTR)szFeeder, LPCTSTR(szAll));
-			pButton->AddItem(szTemp);
-		}
-		auto count = g_Statistics.GetFeederCount();
-		for (uint32_t k = 0; k < count; k++)
-		{
-			CString szTemp;
-			szTemp.Format(_T("%s: %u"), (LPCTSTR)szFeeder, k + 1);
-			pButton->AddItem(szTemp);
+			pButton->RemoveAllItems();
+
+			CString szFeeder;
+			VERIFY(szFeeder.LoadString(IDS_MF_FEEDER));
+			CString szAll;
+			VERIFY(szAll.LoadString(IDS_MF_ALL));
+			{
+				CString szTemp;
+				szTemp.Format(_T("%s: %s"), (LPCTSTR)szFeeder, LPCTSTR(szAll));
+				pButton->AddItem(szTemp);
+			}
+			for (uint32_t k = 0; k < fdcount; k++)
+			{
+				CString szTemp;
+				szTemp.Format(_T("%s: %u"), (LPCTSTR)szFeeder, k + 1);
+				pButton->AddItem(szTemp);
+			}
 		}
 		auto activeFeeder = g_Statistics.GetActiveFeeder();
 		pButton->SelectItem((activeFeeder < 0) ? 0 : activeFeeder + 1);
@@ -760,29 +656,36 @@ void CMainFrame::UpdateNewData()
 	{
 		const auto& rANNumberList = g_Statistics.GetANNumberList();
 
-		int sel = 0;
 		int index = m_wndToolBar.CommandToIndex(ID_TB_ANNUMBER_COMBO);
 		auto *pButton = DYNAMIC_DOWNCAST(CBCGPToolbarComboBoxButton, m_wndToolBar.GetButton(index));
-		while (pButton->GetCount())
+		auto btcount = _U32(pButton->GetCount());
+		if (btcount > 0)
 		{
-			pButton->DeleteItem(0);
+			btcount--;
 		}
-		pButton->ClearData();
-		CString szOrder;
-		VERIFY(szOrder.LoadString(IDS_MF_ORDER));
-		CString szTemp;
-		szTemp.Format(_T("%s: %s"), LPCTSTR(szOrder), LPCTSTR(szAll));
-		pButton->AddItem(szTemp);
-		auto count = _U32(rANNumberList.size());
-		for (uint32_t k = 0; k < count; k++)
+		auto ancount = _U32(rANNumberList.size());
+		if (btcount != ancount)
 		{
-			if (rANNumberList[k] == g_Statistics.GetANNumber())
+			pButton->RemoveAllItems();
+			CString szOrder;
+			VERIFY(szOrder.LoadString(IDS_MF_ORDER));
+			CString szAll;
+			VERIFY(szAll.LoadString(IDS_MF_ALL));
+			CString szTemp;
+			szTemp.Format(_T("%s: %s"), LPCTSTR(szOrder), LPCTSTR(szAll));
+			pButton->AddItem(szTemp);
+			uint32_t sel = 0;
+			for (uint32_t k = 0; k < ancount; k++)
 			{
-				sel = k + 1;
+				const auto& str = rANNumberList[k];
+				if (str == g_Statistics.GetANNumber())
+				{
+					sel = k + 1U;
+				}
+				pButton->AddItem(toCString(str));
 			}
-			pButton->AddItem(toCString(rANNumberList[k]));
+			pButton->SelectItem(_S32(sel));
 		}
-		pButton->SelectItem(sel);
 	}
 
 	auto pView = GetActiveView();

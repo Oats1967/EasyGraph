@@ -94,6 +94,24 @@ void CCalendarBar::OnPaint()
 	dc.FillSolidRect(rectClient, colors.clrBackground == (COLORREF)-1 ? globalData.clrWindow : colors.clrBackground);
 }
 
+static void GetLastSecondOfDay(COleDateTime& rTime)
+{
+	auto y = rTime.GetYear();
+	auto m = rTime.GetMonth();
+	auto d = rTime.GetDay();
+
+	rTime = COleDateTime(y, m, d, 23, 59, 59);
+}
+
+static void GetFirstSecondOfDay(COleDateTime& rTime)
+{
+	auto y = rTime.GetYear();
+	auto m = rTime.GetMonth();
+	auto d = rTime.GetDay();
+	rTime = COleDateTime(y, m, d, 0, 0, 0);
+}
+
+
 LRESULT CCalendarBar::OnSelChanged(WPARAM, LPARAM)
 {
 	static DateToShow g_Date;
@@ -109,8 +127,11 @@ LRESULT CCalendarBar::OnSelChanged(WPARAM, LPARAM)
 
 		CBCGPCalendar::GetMinMaxSelection (lstDates, date1, date2);
 
+		GetFirstSecondOfDay(date1);
+		GetLastSecondOfDay(date2);
+
 		g_Date.dateStart = date1;
-		g_Date.dateEnd = date2;
+		g_Date.dateEnd   = date2;
 
 		pFrame->SendMessage(WM_NEWDATE, WPARAM(&g_Date));
 	}

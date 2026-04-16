@@ -68,6 +68,16 @@ void CStatistics::GetANNumbers(void)
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
+void CStatistics::LoadLogItemList(base::utils::CLogItemList& tempList, const std::tm& _tmStart)
+{
+	std::tm tmStart = _tmStart;
+	assert(tmStart.tm_isdst == -1);
+	time_t aTime = mktime(&tmStart);
+	tempList.SetFilename(aTime);
+	tempList.LoadAll();
+}
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
 BOOL CStatistics::LoadLogItemList()
 {
 	BOOL result = FALSE;
@@ -83,27 +93,55 @@ BOOL CStatistics::LoadLogItemList()
 		int32_t days = difftime.GetDays();
 		COleDateTimeSpan dayskip(1, 0, 0, 0);
 
-		for (int32_t k = 0; k <= days; k++)
+		auto tmStart = OleDateTime2TM(dSO);
+		if (days == 0)
 		{
-			tm date_tm;
-			memset(&date_tm, 0, sizeof(date_tm));
-			date_tm.tm_year = dSO.GetYear() - 1900;
-			date_tm.tm_mon = dSO.GetMonth() - 1;
-			date_tm.tm_mday = dSO.GetDay();
-			date_tm.tm_isdst = 0;
-			time_t aTime = std::mktime(&date_tm);
-
-			base::utils::CLogItemList tempList;
-			tempList.SetPath(rLineItem.m_szLogPath);
-			tempList.SetFilename(aTime);
-			tempList.LoadAll();
-			m_LogDaysList += tempList;;
-			dSO += dayskip;
+			m_LogDaysList.SetPath(rLineItem.m_szRecPath);
+			LoadLogItemList(m_LogDaysList, tmStart);
 		}
+		else
+		{
+			base::utils::CLogItemList TempList;
+			TempList.SetPath(rLineItem.m_szRecPath);
+			auto tmTemp = tmStart;
+			for (int32_t k = 0; k <= days; k++)
+			{
+				LoadLogItemList(TempList, tmTemp);
+				m_LogDaysList += TempList;
+				dSO += dayskip;
+				tmTemp = OleDateTime2TM(dSO);
+			}
+		}
+		m_LogDaysList.Extract(tmStart, OleDateTime2TM(dEO));
 		result = TRUE;
 	}
 	return result;
 }
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
+void CStatistics::LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart)
+{
+	std::tm tmStart = _tmStart;
+	assert(tmStart.tm_isdst == -1);
+	time_t aTime = mktime(&tmStart);
+	tempList.SetFilename(aTime);
+	tempList.LoadAll();
+}
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
+std::tm CStatistics::OleDateTime2TM(const COleDateTime& dSO)
+{
+	tm tmStart;
+	memset(&tmStart, 0, sizeof(tmStart));
+	tmStart.tm_year = dSO.GetYear() - 1900;
+	tmStart.tm_mon = dSO.GetMonth() - 1;
+	tmStart.tm_mday = dSO.GetDay();
+	tmStart.tm_hour = dSO.GetHour();
+	tmStart.tm_min = dSO.GetMinute();
+	tmStart.tm_isdst = -1;
+	return tmStart;
+}
+
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
 BOOL CStatistics::LoadRectItemList()
@@ -122,23 +160,27 @@ BOOL CStatistics::LoadRectItemList()
 		int32_t days = difftime.GetDays();
 		COleDateTimeSpan dayskip(1, 0, 0, 0);
 
-		for (int32_t k = 0; k <= days; k++)
+		auto tmStart = OleDateTime2TM(dSO);
+		if (days == 0)
 		{
-			tm date_tm;
-			memset(&date_tm, 0, sizeof(date_tm));
-			date_tm.tm_year = dSO.GetYear() - 1900;
-			date_tm.tm_mon = dSO.GetMonth() - 1;
-			date_tm.tm_mday = dSO.GetDay();
-			date_tm.tm_isdst = 0;
-			time_t aTime = std::mktime(&date_tm);
-
-			base::utils::CRecItemList tempList;
-			tempList.SetPath(rLineItem.m_szRecPath);
-			tempList.SetFilename(aTime);
-			tempList.LoadAll();
-			m_RecDaysList += tempList;;
-			dSO += dayskip;
+			m_RecDaysList.SetPath(rLineItem.m_szRecPath);
+			LoadRectItemList(m_RecDaysList, tmStart);
 		}
+		else
+		{
+			base::utils::CRecItemList TempList;
+			auto tmTemp = tmStart;
+			TempList.SetPath(rLineItem.m_szRecPath);
+			for (int32_t k = 0; k <= days; k++)
+			{
+				LoadRectItemList(TempList, tmTemp);
+				m_RecDaysList += TempList;
+				dSO += dayskip;
+				tmTemp = OleDateTime2TM(dSO);
+			}
+		}
+		m_RecDaysList.Extract(tmStart, OleDateTime2TM(dEO));
+
 		GetANNumbers();
 		if (!m_ANNumber.empty())
 		{

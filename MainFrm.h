@@ -61,8 +61,12 @@ private:
 	BOOL			  m_bIsDarkTheme = FALSE;
 
 
+private:
+	void GetRealMonitoringTimeSpan(DateToShow& rDate);
+
 // Generierte Funktionen für die Meldungstabellen
 protected:
+	afx_msg void OnDestroy();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnWindowManager();
 	afx_msg void OnViewCustomize();
@@ -71,6 +75,8 @@ protected:
 	afx_msg void OnANNumberCombo();
 	afx_msg void OnLogMessages();
 	afx_msg void OnUpdateLogMessages(CCmdUI* pCmdUI);
+	afx_msg void OnRealMonitoring();
+	afx_msg void OnUpdateRealMonitoring(CCmdUI* pCmdUI);
 
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
 	afx_msg void OnApplicationLook(UINT id);
@@ -81,7 +87,7 @@ protected:
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 	virtual void OnSelectView(int nView);
 	void UpdateNewData();
-
+	void OnTimer(UINT_PTR nIDEvent);
 
 public:
 	int	GetColorTheme() const
