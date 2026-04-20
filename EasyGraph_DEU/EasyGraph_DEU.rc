@@ -550,6 +550,7 @@ STRINGTABLE
 BEGIN
     IDS_P_YES               "Ja"
     IDS_REALTIMEMONITORING  "Realtime Monitoring"
+    IDS_REFRESHTIME_S       "Refreshtime [s]"
     IDS_STATUS_PANE1        "Bereich 1"
     IDS_STATUS_PANE2        "Bereich 2"
     IDS_S_FROM              "vom"
@@ -568,7 +569,8 @@ END
 STRINGTABLE
 BEGIN
     DS_                     "Refreshtime [s]"
-    IDS_REFRESHTIME_S       "Refreshtime [s]"
+    IDS_REFRESHTIME_DESCR   "Definiert, nach welcher Zeit die Anzeige wieder aktualisiert wird."
+    IDS_HISTORY_DESCR       "Gib an, bis zu welchem Zeitraum in der Vergangenheit angezeigt werden soll."
 END
 
 STRINGTABLE

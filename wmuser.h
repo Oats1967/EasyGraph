@@ -25,4 +25,6 @@
 #define WM_CATEGORY			                    (WM_EASYGRAPH + 4) // Send if application will be closed
 #define WM_LINEWIDTH			                (WM_EASYGRAPH + 5) // Send if application will be closed
 #define WM_VISIBLE			                    (WM_EASYGRAPH + 6) // Send if application will be closed
+#define WM_REFRESHTIME			                (WM_EASYGRAPH + 7) // Send if application will be closed
+#define WM_HISTORY								(WM_EASYGRAPH + 8) // Send if application will be closed
 

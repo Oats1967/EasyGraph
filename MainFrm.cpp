@@ -48,6 +48,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_MESSAGE(WM_CATEGORY, &CMainFrame::OnSetCategory)
 	ON_MESSAGE(WM_VISIBLE, &CMainFrame::OnSetVisible)
 	ON_MESSAGE(WM_LINEWIDTH, &CMainFrame::OnSetLineWidth)
+	ON_MESSAGE(WM_REFRESHTIME, &CMainFrame::OnSetRefreshTime)
+	ON_MESSAGE(WM_HISTORY, &CMainFrame::OnSetHistory)
 	ON_REGISTERED_MESSAGE(AFX_WM_ON_PRESS_CLOSE_BUTTON, OnClosePane)
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
@@ -306,7 +308,7 @@ void CMainFrame::OnRealMonitoring()
 		const auto& rS = g_Statistics.GetSettings();
 		auto sec = rS.m_RealMonitoringRefreshTime;
 		sec *= 1000;
-		sec = RANGE(sec, 10*1000, 300 * 1000);
+		sec = RANGE(sec, 5*1000, 300 * 1000);
 		SetTimer(REFRESHTIMER, sec, NULL);
 	}
 	else
@@ -764,6 +766,27 @@ LRESULT CMainFrame::OnSetVisible(WPARAM wParam, LPARAM lParam)
 	}
 	return 0L;
 }
+
+LRESULT CMainFrame::OnSetRefreshTime(WPARAM wParam, LPARAM lParam)
+{
+	uint32_t bEnable = g_Statistics.GetRealMonitoring();
+	if (bEnable)
+	{
+		KillTimer(REFRESHTIMER);
+		const auto& rS = g_Statistics.GetSettings();
+		auto sec = rS.m_RealMonitoringRefreshTime;
+		sec *= 1000;
+		sec = RANGE(sec, 5 * 1000, 300 * 1000);
+		SetTimer(REFRESHTIMER, sec, NULL);
+	}
+	return 0L;
+}
+
+LRESULT CMainFrame::OnSetHistory(WPARAM wParam, LPARAM lParam)
+{
+	return 0L;
+}
+
 
 
 void CMainFrame::OnSelectView(int nView)

@@ -241,12 +241,14 @@ CPropertySettingsGrid* CPropertiesWnd::CreateRealTimeMonitoringProperty()
 
 	CString szRealtimeMonitoring;
 	VERIFY(szRealtimeMonitoring.LoadString(IDS_REALTIMEMONITORING));
-	CPropertySettingsGrid* pElRealTime = new CPropertySettingsGrid(szRealtimeMonitoring);
+	auto* pElRealTime = new CPropertySettingsGrid(szRealtimeMonitoring);
 	pGroupProp->AddSubItem(pElRealTime);
 
 	CString szRefreshtime;
 	VERIFY(szRefreshtime.LoadString(IDS_REFRESHTIME_S));
-	CPropertySettingsGrid* pElPropRefreshTime = new CPropertySettingsGrid(ID_REFRESHTIME, szRefreshtime, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	CString szRefreshtimeDescr;
+	VERIFY(szRefreshtimeDescr.LoadString(IDS_REFRESHTIME_DESCR));
+	auto* pElPropRefreshTime = new CPropertySettingsGrid(ID_REFRESHTIME, szRefreshtime, _T("1"), szRefreshtimeDescr, NULL, NULL, NULL, _T("0123456789"));
 	auto& rSettings = g_Statistics.GetSettings();
 	szTemp.Format(_T("%d"), rSettings.m_RealMonitoringRefreshTime);
 	pElPropRefreshTime->SetValue(COleVariant(szTemp, VT_BSTR));
@@ -255,7 +257,9 @@ CPropertySettingsGrid* CPropertiesWnd::CreateRealTimeMonitoringProperty()
 
 	CString szHistory;
 	VERIFY(szHistory.LoadString(IDS_HISTORY_MIN));
-	CPropertySettingsGrid* pElPropHistory = new CPropertySettingsGrid(ID_HISTORY, szHistory, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	CString szHistoryDescr;
+	VERIFY(szHistoryDescr.LoadString(IDS_HISTORY_DESCR));
+	auto* pElPropHistory = new CPropertySettingsGrid(ID_HISTORY, szHistory, _T("1"), szHistoryDescr, NULL, NULL, NULL, _T("0123456789"));
 	szTemp.Format(_T("%d"), rSettings.m_RealMonitoringHistoryMinutes);
 	pElPropHistory->SetValue(COleVariant(szTemp, VT_BSTR));
 	pElPropHistory->AllowEdit(TRUE);
@@ -413,6 +417,7 @@ void CPropertiesWnd::OnSetRefreshtime(CPropertySettingsGrid* pGrid)
 	auto settings = g_Statistics.GetSettings();
 	Convert(pGrid->GetValue(), settings.m_RealMonitoringRefreshTime);
 	g_Statistics.SetSettings(settings);
+	AfxGetMainWnd()->SendMessage(WM_REFRESHTIME, WPARAM(pGrid->GetSelect()));
 }
 //*****************************************************************************************************************************************
 //*****************************************************************************************************************************************
@@ -421,6 +426,7 @@ void CPropertiesWnd::OnSetHistory(CPropertySettingsGrid* pGrid)
 	auto settings = g_Statistics.GetSettings();
 	Convert(pGrid->GetValue(), settings.m_RealMonitoringHistoryMinutes);
 	g_Statistics.SetSettings(settings);
+	AfxGetMainWnd()->SendMessage(WM_HISTORY, WPARAM(pGrid->GetSelect()));
 }
 //*****************************************************************************************************************************************
 //*****************************************************************************************************************************************
