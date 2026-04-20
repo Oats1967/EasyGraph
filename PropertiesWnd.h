@@ -3,6 +3,7 @@
 #include <map>
 #include "MassflowSelectMap.h"
 
+
 class CUniqueProperty
 {
 protected:
@@ -10,10 +11,9 @@ protected:
 	int32_t m_Id;
 
 
-	CUniqueProperty() : m_Select(base::eMassflowSelect::eVIEWMAX), m_Id(-1)
-	{}
-
-	CUniqueProperty(const base::eMassflowSelect select, const int32_t id) : m_Select(select), m_Id(id)
+	CUniqueProperty(const int32_t id = -1, const base::eMassflowSelect select = base::eMassflowSelect::eVIEWMAX) : 
+		m_Id(id)
+		,m_Select(select)
 	{}
 
 public:
@@ -21,27 +21,42 @@ public:
 	SETGET(const base::eMassflowSelect, Select);
 };
 
+class CPropertySettingsGrid : public CMFCPropertyGridProperty, public CUniqueProperty
+{
+public:
+	CPropertySettingsGrid(const int32_t id, const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
+		LPCTSTR lpszEditMask = NULL, LPCTSTR lpszEditTemplate = NULL, LPCTSTR lpszValidChars = NULL) :
+		CMFCPropertyGridProperty(strName, varValue, lpszDescr, dwData, lpszEditMask, lpszEditTemplate, lpszValidChars), 
+		CUniqueProperty(id)
+	{}
+
+	CPropertySettingsGrid(const CString& strGroupName, DWORD_PTR dwData = 0, BOOL bIsValueList = FALSE) :
+		CMFCPropertyGridProperty(strGroupName, dwData, bIsValueList), CUniqueProperty()
+	{}
+};
+
+
 class CPropertyGrid : public CMFCPropertyGridProperty, public CUniqueProperty
 {
 public:
-	CPropertyGrid(const base::eMassflowSelect select, const int32_t id, const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
+	CPropertyGrid(const int32_t id, const base::eMassflowSelect select, const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
 		LPCTSTR lpszEditMask = NULL, LPCTSTR lpszEditTemplate = NULL, LPCTSTR lpszValidChars = NULL) :
 		CMFCPropertyGridProperty(strName, varValue, lpszDescr, dwData, lpszEditMask, lpszEditTemplate, lpszValidChars),
-		CUniqueProperty(select, id)
+		CUniqueProperty(id, select)
 	{}
 
-	CPropertyGrid(const base::eMassflowSelect select, const int32_t id, const CString& strGroupName, DWORD_PTR dwData = 0, BOOL bIsValueList = FALSE) :
+	CPropertyGrid(const int32_t id, const base::eMassflowSelect select, const CString& strGroupName, DWORD_PTR dwData = 0, BOOL bIsValueList = FALSE) :
 		CMFCPropertyGridProperty(strGroupName, dwData, bIsValueList),
-		CUniqueProperty(select, id)
+		CUniqueProperty(id, select)
 	{}
 };
 
 class CPropertyColorGrid : public CMFCPropertyGridColorProperty, public CUniqueProperty
 {
 public:
-	CPropertyColorGrid(const base::eMassflowSelect select, const int32_t id, const CString& strName, const COLORREF& color, CPalette* pPalette = NULL, LPCTSTR lpszDescr = NULL) :
+	CPropertyColorGrid(const int32_t id, const base::eMassflowSelect select, const CString& strName, const COLORREF& color, CPalette* pPalette = NULL, LPCTSTR lpszDescr = NULL) :
 		CMFCPropertyGridColorProperty(strName, color, pPalette, lpszDescr),
-		CUniqueProperty(select, id)
+		CUniqueProperty(id, select)
 	{}
 };
 
@@ -87,7 +102,13 @@ private:
 	void OnSetLineWidth(CPropertyGrid* pGrid);
 	void OnSetCategory(CPropertyGrid* pGrid);
 	void OnSetVisible(CPropertyGrid* pGrid);
+	void OnSetRefreshtime(CPropertySettingsGrid* pGrid);
+	void OnSetHistory(CPropertySettingsGrid* pGrid);
+
 	CPropertyGrid* CreateProperty(const base::eMassflowSelect select);
+	CPropertySettingsGrid* CreateRealTimeMonitoringProperty();
+
+
 
 // Implementierung
 public:

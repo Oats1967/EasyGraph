@@ -130,16 +130,20 @@ VarFileInfo
 Translation
 resource\\Toolbar_hc.png
 OLE-Initialisierungsfehler.  Stellen Sie sicher, dass die OLE-Bibliotheken in der richtigen Version vorliegen
-Realtime Monitoring
 \nEasyGraph\nEasyGraph\n\n\nEasyGraph.Document\nEasyGraph.Document
 EasyGraph
-Eigenschaftenfenster
-Bereich 1
-Bereich 2
-Statistics
 Erstellen
 Bearbeiten
 Explorer
+Global settings
+Historie [min]
+Eigenschaftenfenster
+Realtime Monitoring
+Bereich 1
+Bereich 2
+Refreshtime [s]
+Refreshtime [s]
+Statistics
 &Fenster
 EasyGraph
 Bereit

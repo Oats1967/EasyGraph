@@ -17,6 +17,8 @@ static char THIS_FILE[]=__FILE__;
 #define ID_VISIBLE   2
 #define ID_CATEGORY  3
 #define ID_COLOR	 4
+#define ID_REFRESHTIME	 5
+#define ID_HISTORY	 6
 
 struct ItemProperty
 {
@@ -66,7 +68,43 @@ END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar-Meldungshandler
-
+template <typename T>
+void Convert(const COleVariant& val, T& value)
+{
+	LPCVARIANT pVar = (LPCVARIANT)val;
+	switch (pVar->vt)
+	{
+	case VT_I2:    // short
+		value = pVar->iVal;
+		break;
+	case VT_I4:     // int
+		value = pVar->lVal;
+		break;
+	case VT_R4:    // float
+		value = static_cast<T>(pVar->fltVal);
+		break;
+	case VT_R8:    // double
+		value = static_cast<T>(pVar->dblVal);
+		break;
+	case VT_INT:
+		value = pVar->lVal;
+		break;
+	case VT_BOOL:
+		ASSERT(FALSE);
+		break;
+	case VT_BSTR:
+	{
+		CString str1{ pVar->bstrVal };
+		value = static_cast<T>(_ttoi(str1));
+	}
+	break;
+	default:
+		ASSERT(FALSE);
+		break;
+	}
+}
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::AdjustLayout()
 {
 	if (GetSafeHwnd () == nullptr || (AfxGetMainWnd() != nullptr && AfxGetMainWnd()->IsIconic()))
@@ -83,7 +121,8 @@ void CPropertiesWnd::AdjustLayout()
 	m_wndToolBar.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight, rectClient.Width(), cyTlb, SWP_NOACTIVATE | SWP_NOZORDER);
 	m_wndPropList.SetWindowPos(nullptr, rectClient.left, rectClient.top + m_nComboHeight + cyTlb, rectClient.Width(), rectClient.Height() -(m_nComboHeight+cyTlb), SWP_NOACTIVATE | SWP_NOZORDER);
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDockablePane::OnCreate(lpCreateStruct) == -1)
@@ -136,54 +175,96 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	AdjustLayout();
 	return 0;
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSize(UINT nType, int cx, int cy)
 {
 	CDockablePane::OnSize(nType, cx, cy);
 	AdjustLayout();
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnExpandAllProperties()
 {
 	m_wndPropList.ExpandAll();
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnUpdateExpandAllProperties(CCmdUI* /* pCmdUI */)
 {
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSortProperties()
 {
 	m_wndPropList.SetAlphabeticMode(!m_wndPropList.IsAlphabeticMode());
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnUpdateSortProperties(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(m_wndPropList.IsAlphabeticMode());
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnProperties1()
 {
 	// TODO: Fügen Sie hier Ihren Befehlshandlercode ein.
 	int k = 0;
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnUpdateProperties1(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Fügen Sie hier Ihren Befehlsaktualisierungs-UI-Befehlshandlercode ein.
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnProperties2()
 {
 	// TODO: Fügen Sie hier Ihren Befehlshandlercode ein.
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnUpdateProperties2(CCmdUI* /*pCmdUI*/)
 {
 	// TODO: Fügen Sie hier Ihren Befehlsaktualisierungs-UI-Befehlshandlercode ein.
 }
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
+CPropertySettingsGrid* CPropertiesWnd::CreateRealTimeMonitoringProperty()
+{
+	CString szTemp;
 
+	VERIFY(szTemp.LoadString(IDS_GLOBALSETTINGS));
+	CPropertySettingsGrid* pGroupProp = new CPropertySettingsGrid(szTemp);
 
+	CString szRealtimeMonitoring;
+	VERIFY(szRealtimeMonitoring.LoadString(IDS_REALTIMEMONITORING));
+	CPropertySettingsGrid* pElRealTime = new CPropertySettingsGrid(szRealtimeMonitoring);
+	pGroupProp->AddSubItem(pElRealTime);
+
+	CString szRefreshtime;
+	VERIFY(szRefreshtime.LoadString(IDS_REFRESHTIME_S));
+	CPropertySettingsGrid* pElPropRefreshTime = new CPropertySettingsGrid(ID_REFRESHTIME, szRefreshtime, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	auto& rSettings = g_Statistics.GetSettings();
+	szTemp.Format(_T("%d"), rSettings.m_RealMonitoringRefreshTime);
+	pElPropRefreshTime->SetValue(COleVariant(szTemp, VT_BSTR));
+	pElPropRefreshTime->AllowEdit(TRUE);
+	pElRealTime->AddSubItem(pElPropRefreshTime);
+
+	CString szHistory;
+	VERIFY(szHistory.LoadString(IDS_HISTORY_MIN));
+	CPropertySettingsGrid* pElPropHistory = new CPropertySettingsGrid(ID_HISTORY, szHistory, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	szTemp.Format(_T("%d"), rSettings.m_RealMonitoringHistoryMinutes);
+	pElPropHistory->SetValue(COleVariant(szTemp, VT_BSTR));
+	pElPropHistory->AllowEdit(TRUE);
+	pElRealTime->AddSubItem(pElPropHistory);
+
+	return pGroupProp;
+}
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select)
 {
 	CString szTemp;
@@ -194,14 +275,14 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	auto it = c_MassflowSelectMap.find(select);
 	ASSERT(it != c_MassflowSelectMap.cend());
 	VERIFY(szTemp.LoadString(it->second));
-	CPropertyGrid* pGroupProp = new CPropertyGrid(select, 0, szTemp);
+	CPropertyGrid* pGroupProp = new CPropertyGrid(0, select, szTemp);
 
 	VERIFY(szTemp.LoadString(IDS_P_VIEW));
 	VERIFY(szYes.LoadString(IDS_P_YES));
 	VERIFY(szNo.LoadString(IDS_P_NO));
 	VERIFY(szOptions.LoadString(IDS_P_OPTIONS));
 
-	CPropertyGrid* pElProp	 = new CPropertyGrid(select, ID_VISIBLE, szTemp, szYes, szOptions);
+	CPropertyGrid* pElProp	 = new CPropertyGrid(ID_VISIBLE, select, szTemp, szYes, szOptions);
 	pElProp->AddOption(szYes);
 	pElProp->AddOption(szNo);
 	pElProp->AllowEdit(FALSE);
@@ -212,7 +293,7 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	VERIFY(szLineColor.LoadString(IDS_PW_LINECOLOR));
 	CString szLineColorInfo;
 	VERIFY(szLineColorInfo.LoadString(IDS_PW_LINECOLOR_INFO));
-	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(select, ID_COLOR, szLineColor, RGB(210, 192, 254), nullptr, szLineColorInfo);
+	CPropertyColorGrid* pColorProp = new CPropertyColorGrid(ID_COLOR, select, szLineColor, RGB(210, 192, 254), nullptr, szLineColorInfo);
 	pColorProp->EnableOtherButton(_T("Andere..."));
 	pColorProp->EnableAutomaticButton(_T("Standard"), ::GetSysColor(COLOR_3DFACE));
 	pColorProp->SetColor(attrib.m_Color);
@@ -224,7 +305,7 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 	VERIFY(szLine.LoadString(IDS_PW_LINE));
 	CString szLineCategoryOptions;
 	VERIFY(szLineCategoryOptions.LoadString(IDS_PW_CATEGORY_OPTIONS));
-	CPropertyGrid* pCategoryProp = new CPropertyGrid(select, ID_CATEGORY, szCategory, szLine, szLineCategoryOptions);
+	CPropertyGrid* pCategoryProp = new CPropertyGrid(ID_CATEGORY, select, szCategory, szLine, szLineCategoryOptions);
 	pCategoryProp->AddOption(szLine);
 	CString szFlaeche;
 	VERIFY(szFlaeche.LoadString(IDS_PW_FLAECHE));
@@ -235,7 +316,7 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 
 	CString szLinienstaerke;
 	VERIFY(szLinienstaerke.LoadString(IDS_PW_LINIENSTAERKE));
-	CPropertyGrid* pLineWidthProp = new CPropertyGrid(select, ID_LINEWIDTH, szLinienstaerke, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
+	CPropertyGrid* pLineWidthProp = new CPropertyGrid(ID_LINEWIDTH, select, szLinienstaerke, _T("1"), _T("A numeric value"), NULL, NULL, NULL, _T("0123456789"));
 	pLineWidthProp->AddOption(_T("1"));
 	pLineWidthProp->AddOption(_T("2"));
 	pLineWidthProp->AddOption(_T("3"));
@@ -247,7 +328,8 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 
 	return pGroupProp;
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::InitPropList()
 {
 	SetPropListFont();
@@ -270,9 +352,12 @@ void CPropertiesWnd::InitPropList()
 		}
 	}
 	m_wndPropList.AddProperty(pGroup);
+	auto pRealTimeProperty = CreateRealTimeMonitoringProperty();
+	m_wndPropList.AddProperty(pRealTimeProperty);
 	m_wndPropList.ExpandAll(FALSE);
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSetColor(CPropertyColorGrid* pGrid)
 {
 	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
@@ -280,51 +365,17 @@ void CPropertiesWnd::OnSetColor(CPropertyColorGrid* pGrid)
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_LINECOLOR, WPARAM(pGrid->GetSelect()));
 }
-
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSetLineWidth(CPropertyGrid* pGrid)
 {
 	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
-	COleVariant i = pGrid->GetValue();// get the change value.
-
-	//below is the code to change COleVariant to other variable type
-	LPVARIANT pVar = (LPVARIANT)i;
-	switch (pVar->vt)
-	{
-		case VT_I2:    // short
-			lineAttrib.m_LineWidth = pVar->iVal;
-			break;
-		case VT_I4:     // int
-			lineAttrib.m_LineWidth = pVar->lVal;
-			break;
-		case VT_R4:    // float
-			lineAttrib.m_LineWidth = _S32(pVar->fltVal);
-			break;
-		case VT_R8:    // double
-			lineAttrib.m_LineWidth = _S32(pVar->dblVal);
-			break;
-		case VT_INT:
-			lineAttrib.m_LineWidth = pVar->lVal;
-			break;
-		case VT_BOOL:
-			ASSERT(FALSE);
-			break;
-		case VT_BSTR:
-			{
-				CString str1{ pVar->bstrVal };
-				lineAttrib.m_LineWidth = _ttoi(str1);
-
-			}
-			break;
-		default:
-			ASSERT(FALSE);
-			break;
-			// etc.
-	}
+	Convert(pGrid->GetValue(), lineAttrib.m_LineWidth);
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_LINEWIDTH, WPARAM(pGrid->GetSelect()));
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSetCategory(CPropertyGrid* pGrid)
 {
 	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
@@ -339,8 +390,8 @@ void CPropertiesWnd::OnSetCategory(CPropertyGrid* pGrid)
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_CATEGORY, WPARAM(pGrid->GetSelect()));
 }
-
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSetVisible(CPropertyGrid* pGrid)
 {
 	auto lineAttrib = g_Statistics.GetLineAttribute(pGrid->GetSelect());
@@ -355,7 +406,24 @@ void CPropertiesWnd::OnSetVisible(CPropertyGrid* pGrid)
 	g_Statistics.SetLineAttribute(pGrid->GetSelect(), lineAttrib);
 	AfxGetMainWnd()->SendMessage(WM_VISIBLE, WPARAM(pGrid->GetSelect()));
 }
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
+void CPropertiesWnd::OnSetRefreshtime(CPropertySettingsGrid* pGrid)
+{
+	auto settings = g_Statistics.GetSettings();
+	Convert(pGrid->GetValue(), settings.m_RealMonitoringRefreshTime);
+	g_Statistics.SetSettings(settings);
+}
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
+void CPropertiesWnd::OnSetHistory(CPropertySettingsGrid* pGrid)
+{
+	auto settings = g_Statistics.GetSettings();
+	Convert(pGrid->GetValue(), settings.m_RealMonitoringHistoryMinutes);
+	g_Statistics.SetSettings(settings);
+}
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 {
 	CDockablePane::OnSetFocus(pOldWnd);
@@ -401,6 +469,22 @@ LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam
 	{
 		CPropertyColorGrid* pUnique = (CPropertyColorGrid*)pGrid;
 		OnSetColor(pUnique);
+	}
+	else if (pRuntime->IsDerivedFrom(RUNTIME_CLASS(CPropertySettingsGrid)))
+	{
+		CPropertySettingsGrid* pUnique = (CPropertySettingsGrid*)pGrid;
+		switch (pUnique->GetId())
+		{
+		case ID_REFRESHTIME:
+			OnSetRefreshtime(pUnique);
+			break;
+		case ID_HISTORY:
+			OnSetHistory(pUnique);
+			break;
+		default:
+			ASSERT(FALSE);
+			break;
+		}
 	}
 	else
 	{
