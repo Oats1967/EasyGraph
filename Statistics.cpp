@@ -96,13 +96,13 @@ BOOL CStatistics::LoadLogItemList()
 		auto tmStart = OleDateTime2TM(dSO);
 		if (days == 0)
 		{
-			m_LogDaysList.SetPath(rLineItem.m_szRecPath);
+			m_LogDaysList.SetPath(rLineItem.m_szLogPath);
 			LoadLogItemList(m_LogDaysList, tmStart);
 		}
 		else
 		{
 			base::utils::CLogItemList TempList;
-			TempList.SetPath(rLineItem.m_szRecPath);
+			TempList.SetPath(rLineItem.m_szLogPath);
 			auto tmTemp = tmStart;
 			for (int32_t k = 0; k <= days; k++)
 			{

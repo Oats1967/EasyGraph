@@ -92,8 +92,6 @@ Refreshtime [s]
 Bereich 1
 Bereich 2
 Refreshtime [s]
-Definiert, nach welcher Zeit die Anzeige wieder aktualisiert wird
-Gib an, bis zu welchem Zeitraum in der Vergangenheit angezeigt werden soll
 Statistics
 &Fenster
 Bereit
