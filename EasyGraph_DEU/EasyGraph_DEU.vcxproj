@@ -184,6 +184,8 @@
     <ResourceCompile Include="EasyGraph_DEU.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\resource\Background.bmp" />
+    <Image Include="..\resource\Background.png" />
     <Image Include="resource\classview.bmp" />
     <Image Include="resource\classview_hc.bmp" />
     <Image Include="resource\class_view.ico" />

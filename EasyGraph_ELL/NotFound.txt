@@ -21,6 +21,7 @@ l.DEU\\afxribbon.rc
         // Ressourcen für MFC-Menüband und -Steuerleiste\r\n
 #endif\r\n
 #endif\r\n
+C:\\DEVELOP\\Cplusplus\\EasyGraph\\resource\\Background.bmp
 &Neu\tStrg+N
 Ö&ffnen...\tStrg+O
 &Schließen
@@ -91,8 +92,8 @@ Realtime Monitoring
 Refreshtime [s]
 Bereich 1
 Bereich 2
-Refreshtime [s]
 Statistics
+Refreshtime [s]
 &Fenster
 Bereit
 SCRL

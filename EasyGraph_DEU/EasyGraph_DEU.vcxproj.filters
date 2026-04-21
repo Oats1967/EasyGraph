@@ -111,5 +111,11 @@
     <Image Include="resource\Toolbar_hc.png">
       <Filter>Ressourcendateien</Filter>
     </Image>
+    <Image Include="..\resource\Background.png">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
+    <Image Include="..\resource\Background.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </Image>
   </ItemGroup>
 </Project>

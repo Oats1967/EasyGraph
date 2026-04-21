@@ -124,6 +124,8 @@ IDR_MENU_IMAGES         BITMAP                  "resource\\menuimages.bmp"
 
 IDR_EXPLORER            BITMAP                  "resource\\explorer.bmp"
 
+IDB_BACKGROUND          BITMAP                  "C:\\DEVELOP\\Cplusplus\\EasyGraph\\resource\\Background.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -520,14 +522,15 @@ BEGIN
     IDS_FILE_VIEW           "Grafikauswahl"
     IDS_GLOBALSETTINGS      "Global settings"
     IDS_GRAFIKSELECT_VIEW   "Grafikauswahl"
+    IDS_HISTORY_DESCR       "Gib an, bis zu welchem Zeitraum in der Vergangenheit angezeigt werden soll."
     IDS_HISTORY_MIN         "Historie [min]"
     IDS_MF_ALL              "alle"
     IDS_MF_FEEDER           "Dosierung"
-    IDS_MF_LOGMESSAGE       "Logmeldungen"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_MF_LOGMESSAGE       "Logmeldungen"
     IDS_MF_ORDER            "Auftrag"
     IDS_OUTPUT_WND          "Ausgabe"
     IDS_PROPERTIES_WND      "Eigenschaften"
@@ -543,13 +546,14 @@ BEGIN
     IDS_P_NO                "Nein"
     IDS_P_OPTIONS           "Eine der folgenden Optionen: Ja, Nein"
     IDS_P_PROPERTYWINDOW    "Eigenschaftenfenster"
-    IDS_P_VIEW              "Ansicht"
 END
 
 STRINGTABLE
 BEGIN
+    IDS_P_VIEW              "Ansicht"
     IDS_P_YES               "Ja"
     IDS_REALTIMEMONITORING  "Realtime Monitoring"
+    IDS_REFRESHTIME_DESCR   "Definiert, nach welcher Zeit die Anzeige wieder aktualisiert wird."
     IDS_REFRESHTIME_S       "Refreshtime [s]"
     IDS_STATUS_PANE1        "Bereich 1"
     IDS_STATUS_PANE2        "Bereich 2"
@@ -562,24 +566,22 @@ BEGIN
     IDS_WB_DRIVECOMMAND     "Stellbefehl"
     IDS_WB_MASSFLOW         "Durchsatz"
     IDS_WB_NETWEIGHT        "Gewicht"
+END
+
+STRINGTABLE
+BEGIN
     IDS_WB_ROTSPEED         "Drehzahl"
     IDS_WB_SETPOINT         "Sollwert"
-END
-
-STRINGTABLE
-BEGIN
-    DS_                     "Refreshtime [s]"
-    IDS_REFRESHTIME_DESCR   "Definiert, nach welcher Zeit die Anzeige wieder aktualisiert wird."
-    IDS_HISTORY_DESCR       "Gib an, bis zu welchem Zeitraum in der Vergangenheit angezeigt werden soll."
-END
-
-STRINGTABLE
-BEGIN
     IDS_WB_SINGLEANALYSIS   "Einzelanalyse"
     IDS_WB_STATISTIC        "Statistik"
     IDS_WB_STATISTICS       "Statistics"
     IDS_WB_TOTALANALYSIS    "Gesamtanalyse"
     IDS_WB_TOTALIZER        "Totalisator"
+END
+
+STRINGTABLE
+BEGIN
+    DS_                     "Refreshtime [s]"
 END
 
 STRINGTABLE

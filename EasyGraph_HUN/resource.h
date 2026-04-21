@@ -2,16 +2,18 @@
 // Von Microsoft Visual C++ generierte Includedatei.
 // Verwendet durch EasyControl_DEU.rc
 #define DS_     10
-#define IDB_CLASS_VIEW     100
-#define IDB_CLASS_VIEW_24     101
-#define IDB_EXPLORER_24     102
-#define IDB_FILE_VIEW     103
-#define IDB_FILE_VIEW_24     104
-#define IDB_MENU_IMAGES_24     105
-#define IDB_PROPERTIES_HC     106
-#define IDB_SORT_24     107
-#define IDB_SPLASH     108
-#define IDB_TOOLBAR_HC     109
+#define IDB_BACKGROUND     100
+#define IDB_BITMAP1     101
+#define IDB_CLASS_VIEW     102
+#define IDB_CLASS_VIEW_24     103
+#define IDB_EXPLORER_24     104
+#define IDB_FILE_VIEW     105
+#define IDB_FILE_VIEW_24     106
+#define IDB_MENU_IMAGES_24     107
+#define IDB_PROPERTIES_HC     108
+#define IDB_SORT_24     109
+#define IDB_SPLASH     110
+#define IDB_TOOLBAR_HC     111
 #define IDC_CHART     200
 #define IDC_CHART_ANNUMBER     201
 #define IDC_CHART_DATE     202
@@ -170,7 +172,7 @@
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE 110
+#define _APS_NEXT_RESOURCE_VALUE 112
 #define _APS_NEXT_COMMAND_VALUE 32832
 #define _APS_NEXT_CONTROL_VALUE 213
 #define _APS_NEXT_SYMED_VALUE 105
