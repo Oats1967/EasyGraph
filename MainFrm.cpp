@@ -3,6 +3,7 @@
 //
 
 #include "pch.h"
+#include <cstdlib>
 #include "wmuser.h"
 #include "EasyGraph.h"
 #include "MainFrm.h"
@@ -280,10 +281,13 @@ void CMainFrame::GetRealMonitoringTimeSpan(DateToShow& rDate)
 	COleDateTimeSpan timediff;
 	const auto& rS = g_Statistics.GetSettings();
 	auto totalminutes = rS.m_RealMonitoringHistoryMinutes;
-	auto minutes	= totalminutes % 60U;
-	auto totalhours = totalminutes / 60U;
-	auto hours	    = totalhours % 60U;
-	auto days	    = totalhours / 24U;
+
+	div_t ti1 = div(_S32(totalminutes), 60);
+	auto minutes	= ti1.rem;
+	auto totalhours = ti1.quot;
+	div_t ti2 = div(_S32(totalhours), 24);
+	auto hours	    = ti2.rem;
+	auto days		= ti2.quot;
 
 
 	timediff.SetDateTimeSpan(days, hours, minutes, 0);
