@@ -18,6 +18,8 @@
 #include "wmuser.h"
 #include "Statistics.h"
 #include "StringConvert.h"
+#include "BitmapDC.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -64,7 +66,6 @@ CChartLineView::CChartLineView()
 				CBCGPColor::BCGP_COLOR::Gainsboro,
 				CBCGPColor::BCGP_COLOR::Indigo,
 				CBCGPColor::BCGP_COLOR::LightCoral }
-	, m_nZoomType{ BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE }
 	, m_strInfo{ _T("") }
 	, m_szANNumber{ _T("") }
 	, m_bInScroll{ FALSE }
@@ -93,61 +94,31 @@ void CChartLineView::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CChartLineView, CEasyGraphView)
 	//{{AFX_MSG_MAP(CChartLineView)
 	//}}AFX_MSG_MAP
-	ON_COMMAND_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnMenuSelect)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnUpdateMenuSelect)
 	ON_MESSAGE(WM_NEWDATE, OnNewDate)
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CChartLineView diagnostics
 
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CChartLineView message handlers
-void CChartLineView::OnMenuSelect(UINT id)
+BOOL CChartLineView::OnEraseBkgnd(CDC* pDC)
 {
-	switch (id)
+	static const uint32_t c_offsetY = 60U;
+	static const uint32_t c_offsetX = 40U;
+
+	auto result = CEasyGraphView::OnEraseBkgnd(pDC);
+	CRect aRect;
+	GetClientRect(aRect);
+
+	auto y = _S32(aRect.Height()) - _S32(c_offsetY);
+	if (y > 0)
 	{
-	case ID_MN_SELECT_LUPE:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY;
-		break;
-	case ID_MN_SELECT_WHEEL:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN;
-		break;
-	case ID_MN_SELECT_DISTANCE:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT;
-		break;
-	default:
-		m_nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE;
-		break;
+		CBitmapDC memdc(pDC, IDB_BACKGROUND);
+		auto s = memdc.GetBitmapDimensions();
+		pDC->BitBlt(c_offsetX, y, s.cx, s.cy, &memdc.GetDC(), 0, 0, SRCCOPY);
 	}
-	SendMessage(WM_NEWDATE);
+	return result;
 }
-
-
-void CChartLineView::OnUpdateMenuSelect(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(TRUE);
-	BOOL bCheck = FALSE;
-	switch (pCmdUI->m_nID)
-	{
-	case ID_MN_SELECT_LUPE:
-		bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY);
-		break;
-	case ID_MN_SELECT_WHEEL:
-		bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN);
-		break;
-	case ID_MN_SELECT_DISTANCE:
-		bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT);
-		break;
-	default:
-		bCheck = (m_nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE);
-		break;
-	}
-	pCmdUI->SetCheck(bCheck);
-}
-
 
 void CChartLineView::OnInitialUpdate() 
 {
@@ -201,15 +172,12 @@ void CChartLineView::OnInitialUpdate()
 void CChartLineView::AddLogItems()
 {
 	CBCGPBrush m_brFill4 = CBCGPBrush(CBCGPColor::LightYellow);
-	//CBCGPBrush m_brLine1 = CBCGPBrush(CBCGPColor::DarkRed);
-	//CBCGPBrush m_brLine2 = CBCGPBrush(CBCGPColor::DeepSkyBlue);
-	//CBCGPBrush m_brText1 = CBCGPBrush(CBCGPColor::SteelBlue);
 	CBCGPBrush m_brText2 = CBCGPBrush(CBCGPColor::Brown);
 
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 	pChart->RemoveAllChartObjects();
-	if (g_Statistics.GetLogMessages())
+	if (g_Statistics.GetLogEnable())
 	{
 		const auto& rLogDayList = g_Statistics.GetLogDaysList();
 		uint32_t nDataPointCount = rLogDayList.GetCount();
@@ -344,6 +312,7 @@ void CChartLineView::OnUpdateChart()
 
 	CBCGPChartAxis* pAxisX = pChart->GetChartAxis(BCGP_CHART_X_PRIMARY_AXIS);
 	pAxisX->m_axisLabelsFormat.m_textFormat.SetDrawingAngle(90);
+	pAxisX->SetAutoIntervalWidth();
 	pChart->SetThemeOpacity(100);
 
 	pChart->SetLegendPosition(BCGPChartLayout::LegendPosition::LP_BOTTOM);
@@ -358,7 +327,8 @@ void CChartLineView::OnUpdateZoom()
 	CBCGPChartVisualObject* pChart = m_wndChart.GetChart();
 	ASSERT_VALID(pChart);
 
-	switch (m_nZoomType)
+	auto nZoomType = g_Statistics.GetZoomType();
+	switch (nZoomType)
 	{
 	case BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN:
 		// Default - "Mouse wheel and pan" mode
@@ -378,7 +348,7 @@ void CChartLineView::OnUpdateZoom()
 		break;
 
 	}
-	pChart->SetZoomScrollConfig(m_nZoomType);
+	pChart->SetZoomScrollConfig(nZoomType);
 }
 
 

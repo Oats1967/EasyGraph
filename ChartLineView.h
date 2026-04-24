@@ -35,7 +35,6 @@ protected:
 	CFont			m_Font;
 	CBCGPChartCtrl	m_wndChart;
 
-	BCGPChartMouseConfig::ZoomScrollOptions	m_nZoomType;
 	CString				m_strInfo;
 	BOOL				m_bInScroll;
 	std::array<CBCGPColor::BCGP_COLOR, GLOBALDOSEMAXCOUNT> c_Colors;
@@ -83,8 +82,7 @@ public:
 
 	afx_msg LRESULT OnNewDate(WPARAM wParam, LPARAM lParam);
 
-	afx_msg void OnMenuSelect(UINT id);
-	afx_msg void OnUpdateMenuSelect(CCmdUI* pCmdUI);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 
 	DECLARE_MESSAGE_MAP()
 };

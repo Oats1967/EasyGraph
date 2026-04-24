@@ -53,8 +53,8 @@ class CEasyGraphView : public CBCGPFormView
 
 
 protected:
-	CBCGPStatic	m_wndTitle;
-	CString	m_strTitle;
+	CBCGPStatic							m_wndTitle;
+	CString								m_strTitle;
 	BOOL								m_bIsReady;
 	BOOL								m_bIsDarkBackground;
 	BOOL								m_bIsTexturedTheme;
@@ -161,7 +161,6 @@ protected:
 	afx_msg void OnUpdateChartExport(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateFilePrint(CCmdUI* pCmdUI);
 	afx_msg void OnUpdateFilePrintPreview(CCmdUI* pCmdUI);
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 
 	//}}AFX_MSG
 	afx_msg void OnFilePrintPreview();

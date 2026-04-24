@@ -45,15 +45,13 @@ public:
 #endif
 
 protected:  // Eingebettete Member der Steuerleiste
-	//CMFCMenuBar       m_wndMenuBar;
 	CMFCStatusBar     m_wndStatusBar;
 	CBCGPExplorerToolBar       m_wndToolBar;
 	CWorkspaceBar		m_wndWorkSpace;
-	// CMFCToolBarImages m_UserImages;
-	//COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 	CCalendarBar      m_wndCalendarView;
 	int32_t			  m_ActiveLine;
+
 
 private:
 	int				  m_nActiveLine = 0;
@@ -120,6 +118,10 @@ public:
 	LRESULT OnSetRefreshTime(WPARAM wParam, LPARAM lParam);
 	LRESULT OnSetHistory(WPARAM wParam, LPARAM lParam);
 	LRESULT OnClosePane(WPARAM, LPARAM lp);
+
+	afx_msg void OnMenuSelect(UINT id);
+	afx_msg void OnUpdateMenuSelect(CCmdUI* pCmdUI);
+
 
 	CView* GetFeatureView(CDemoFeature* pFeature);
 

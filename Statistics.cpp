@@ -4,6 +4,8 @@
 #include "StringConvert.h"
 
 
+#define SHRINKSIZE (500)
+
 CStatistics g_Statistics;
 
 //*********************************************************************************************************************************
@@ -36,7 +38,10 @@ void CStatistics::Init()
 	m_Settings.m_ActiveFeeder = 0;
 	m_FeederCount = 0;
 	m_DoseSelect = base::eMassflowSelect::eVIEWMAX;
-	m_LogMessages = FALSE;
+	m_RealMonitoring = FALSE;
+	m_ZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE;
+	m_LogEnable = FALSE;
+
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
@@ -112,6 +117,10 @@ BOOL CStatistics::LoadLogItemList()
 				tmTemp = OleDateTime2TM(dSO);
 			}
 		}
+		if ( ! IsZoom())
+		{
+			m_LogDaysList.Shrink(SHRINKSIZE);
+		}
 		m_LogDaysList.Extract(tmStart, OleDateTime2TM(dEO));
 		result = TRUE;
 	}
@@ -141,7 +150,6 @@ std::tm CStatistics::OleDateTime2TM(const COleDateTime& dSO)
 	tmStart.tm_isdst = -1;
 	return tmStart;
 }
-
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
 BOOL CStatistics::LoadRectItemList()
@@ -179,8 +187,23 @@ BOOL CStatistics::LoadRectItemList()
 				tmTemp = OleDateTime2TM(dSO);
 			}
 		}
+		if ( ! IsZoom() )
+		{
+			m_RecDaysList.Shrink(SHRINKSIZE);
+		}
 		m_RecDaysList.Extract(tmStart, OleDateTime2TM(dEO));
+		result = TRUE;
+	}
+	return result;
+}
 
+//*********************************************************************************************************************************
+//*********************************************************************************************************************************
+BOOL CStatistics::LoadData()
+{
+	auto result = LoadRectItemList();
+	if (result)
+	{
 		GetANNumbers();
 		if (!m_ANNumber.empty())
 		{
@@ -189,9 +212,11 @@ BOOL CStatistics::LoadRectItemList()
 		CalcTotalizerQMNUmber();
 		CalcTotalizerFeeder();
 		CalcFeederCount();
-		LoadLogItemList();
-		CalcLogRecMapping();
-		result = TRUE;
+		if (m_LogEnable)
+		{
+			LoadLogItemList();
+			CalcLogRecMapping();
+		}
 	}
 	return result;
 }
@@ -298,19 +323,21 @@ CString CStatistics::GetHeaderDateTime() const
 	VERIFY(szFrom.LoadString(IDS_S_FROM));
 	szFrom.Append(_T(": "));
 
-	if (m_Settings.m_StartTime == m_Settings.m_EndTime)
+	COleDateTime start(m_Settings.m_StartTime);
+	COleDateTime end(m_Settings.m_EndTime);
+	CString szStart = start.Format(_T("%d.%m.%y"));
+	CString szEnd = end.Format(_T("%d.%m.%y"));
+	if (szStart == szEnd)
 	{
 		COleDateTime aDate(m_Settings.m_StartTime);
-		szDate = szFrom + aDate.Format(_T("%d.%m.%y"));
+		szDate = szFrom + szStart;
 	}
 	else
 	{
 		CString szTo;
 		VERIFY(szTo.LoadString(IDS_S_TO));
 		szTo.Append(_T(": "));
-		COleDateTime start(m_Settings.m_StartTime);
-		COleDateTime end(m_Settings.m_EndTime);
-		szDate = szFrom + start.Format(_T("%d.%m.%y")) + _T(" ") + szTo + end.Format(_T("%d.%m.%y"));
+		szDate = szFrom + szStart + _T(" ") + szTo + szEnd;
 	}
 	return szDate;
 

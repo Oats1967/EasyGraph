@@ -37,6 +37,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CBCGPMultiViewFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_TB_LOGMESSAGE_BUTTON, &CMainFrame::OnUpdateLogMessages)
 	ON_COMMAND(ID_TB_VIEW, &CMainFrame::OnRealMonitoring)
 	ON_UPDATE_COMMAND_UI(ID_TB_VIEW, &CMainFrame::OnUpdateRealMonitoring)
+	ON_COMMAND_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnMenuSelect)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_MN_SELECT_DISTANCE, ID_MN_SELECT_WHEEL, OnUpdateMenuSelect)
+
 
 
 	//ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
@@ -263,13 +266,13 @@ void CMainFrame::OnLogMessages()
 
 	m_wndToolBar.GetButtonInfo(m_wndToolBar.CommandToIndex(ID_TB_LOGMESSAGE_BUTTON), nID, nStyle, iImage);
 	BOOL bPressed = (nStyle & TBBS_CHECKED) == 0;
-	g_Statistics.SetLogMessages(bPressed);
+	g_Statistics.SetLogEnable(bPressed);
 	UpdateNewData();
 }
 
 void CMainFrame::OnUpdateLogMessages(CCmdUI* pCmdUI)
 {
-	uint32_t bEnable = (g_Statistics.GetFeederCount() * g_Statistics.GetLogDaysList().GetCount()) > 0;
+	uint32_t bEnable = (g_Statistics.GetFeederCount()) > 0;
 	pCmdUI->Enable(bEnable);
 }
 
@@ -619,7 +622,7 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 
 void CMainFrame::UpdateNewData()
 {
-	g_Statistics.LoadRectItemList();
+	g_Statistics.LoadData();
 
 	// Find button index for command ID
 	{
@@ -719,7 +722,9 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 			g_Statistics.SetRealMonitoring(FALSE);
 			KillTimer(REFRESHTIMER);
 		}
+		BeginWaitCursor();
 		UpdateNewData();
+		EndWaitCursor();
 	}
 	return 0L;
 }
@@ -791,6 +796,57 @@ LRESULT CMainFrame::OnSetHistory(WPARAM wParam, LPARAM lParam)
 	return 0L;
 }
 
+
+/////////////////////////////////////////////////////////////////////////////
+// CChartLineView message handlers
+void CMainFrame::OnMenuSelect(UINT id)
+{
+	BCGPChartMouseConfig::ZoomScrollOptions nZoomType;
+
+	switch (id)
+	{
+	case ID_MN_SELECT_LUPE:
+		nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY;
+		break;
+	case ID_MN_SELECT_WHEEL:
+		nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN;
+		break;
+	case ID_MN_SELECT_DISTANCE:
+		nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT;
+		break;
+	default:
+		nZoomType = BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE;
+		break;
+	}
+	g_Statistics.SetZoomType(nZoomType);
+	UpdateNewData();
+}
+
+
+void CMainFrame::OnUpdateMenuSelect(CCmdUI* pCmdUI)
+{
+	pCmdUI->Enable(TRUE);
+	BOOL bCheck = FALSE;
+
+	auto nZoomType = g_Statistics.GetZoomType();
+
+	switch (pCmdUI->m_nID)
+	{
+	case ID_MN_SELECT_LUPE:
+		bCheck = (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_MAGNIFY);
+		break;
+	case ID_MN_SELECT_WHEEL:
+		bCheck = (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_WHEEL_PAN);
+		break;
+	case ID_MN_SELECT_DISTANCE:
+		bCheck = (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_SELECT);
+		break;
+	default:
+		bCheck = (nZoomType == BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE);
+		break;
+	}
+	pCmdUI->SetCheck(bCheck);
+}
 
 
 void CMainFrame::OnSelectView(int nView)

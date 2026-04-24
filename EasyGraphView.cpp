@@ -17,8 +17,6 @@
 #include "MainFrm.h"
 #include "EasyGraphDoc.h"
 #include "EasyGraphView.h"
-#include "BitmapDC.h"
-
 #include "ConfigItem.h"
 
 #ifdef _DEBUG
@@ -47,7 +45,6 @@ BEGIN_MESSAGE_MAP(CEasyGraphView, CBCGPFormView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, CBCGPFormView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, OnFilePrintPreview)
 	ON_MESSAGE(WM_INITDIALOG, HandleInitDialog)
-	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -81,25 +78,6 @@ CEasyGraphView::~CEasyGraphView()
 }
 
 
-BOOL CEasyGraphView::OnEraseBkgnd(CDC* pDC)
-{
-	static const uint32_t c_offsetY = 80U;
-	static const uint32_t c_offsetX = 40U;
-
-	auto result = CBCGPFormView::OnEraseBkgnd(pDC);
-
-	CRect aRect;
-	GetClientRect(aRect);
-
-	auto y = _S32(aRect.Height()) - _S32(c_offsetY);
-	if (y > 0)
-	{
-		CBitmapDC memdc(pDC, IDB_BACKGROUND);
-		auto s = memdc.GetBitmapDimensions();
-		pDC->BitBlt(c_offsetX, y, s.cx, s.cy, &memdc.GetDC(), 0, 0, SRCCOPY);
-	}
-	return result;
-}
 
 void CEasyGraphView::DoDataExchange(CDataExchange* pDX)
 {

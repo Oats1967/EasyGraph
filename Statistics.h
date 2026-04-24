@@ -35,8 +35,9 @@ class CStatistics
 	uint32_t				      m_FeederCount;
 	base::eMassflowSelect		  m_DoseSelect;
 	std::string					  m_ANNumber;
-	BOOL						  m_LogMessages;
 	BOOL						  m_RealMonitoring;
+	BOOL						  m_LogEnable;
+	BCGPChartMouseConfig::ZoomScrollOptions m_ZoomType;
 
 private:
 	//void GetQMNUmbers(void);
@@ -48,6 +49,8 @@ private:
 	void Init();
 	BOOL LoadLogItemList();
 	void LoadLogItemList(base::utils::CLogItemList& tempList, const std::tm& _tmStart);
+	BOOL LoadRectItemList();
+	void LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart);
 
 	static time_t ConvertTime(const DATE& rD)
 	{
@@ -64,12 +67,11 @@ private:
 		return rT.m_dt;
 	}
 
-	void LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart);
 	static std::tm OleDateTime2TM(const COleDateTime& dSO);
 
 
 public:
-    BOOL LoadRectItemList();
+	BOOL LoadData();
 
 	SETGET(const base::CLineGraphConfig&, LineGraphConfig);
 	SETGET(const base::utils::CProductItemList&, ProductDatabase);
@@ -80,10 +82,11 @@ public:
 	SETGET(const base::utils::CLogItemList&, LogDaysList);
 	SETGET(const uint32_t, FeederCount);
 	SETGET(const std::vector<int32_t>&, LogRecMapping);
-	SETGET(const BOOL, LogMessages);
 	SETGET(const base::CEasyGraphSettings&, Settings);
 	SETGET(const std::string&, ANNumber);
 	SETGET(const BOOL, RealMonitoring);
+	SETGET(const BOOL, LogEnable);
+	SETGET(BCGPChartMouseConfig::ZoomScrollOptions, ZoomType)
 
 	int32_t GetActiveFeeder(void) const
 	{	return m_Settings.m_ActiveFeeder;	}
@@ -125,6 +128,11 @@ public:
 
 	CString GetHeaderDateTime() const;
 	CString GetHeaderLine() const;
+
+	BOOL IsZoom() const
+	{
+		return BOOL(m_ZoomType != BCGPChartMouseConfig::ZoomScrollOptions::ZSO_NONE);
+	}
 
 	CStatistics()
 	{
