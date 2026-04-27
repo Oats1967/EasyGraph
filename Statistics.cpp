@@ -207,7 +207,7 @@ BOOL CStatistics::LoadData()
 		GetANNumbers();
 		if (!m_ANNumber.empty())
 		{
-			m_RecDaysList = m_RecDaysList.Extract(m_ANNumber);
+			m_RecDaysList.Extract(m_ANNumber);
 		}
 		CalcTotalizerQMNUmber();
 		CalcTotalizerFeeder();

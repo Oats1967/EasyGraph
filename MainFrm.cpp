@@ -622,6 +622,7 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 
 void CMainFrame::UpdateNewData()
 {
+	BeginWaitCursor();
 	g_Statistics.LoadData();
 
 	// Find button index for command ID
@@ -702,6 +703,7 @@ void CMainFrame::UpdateNewData()
 	{
 		pView->SendMessage(WM_NEWDATE);
 	}
+	EndWaitCursor();
 }
 
 
@@ -722,9 +724,7 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 			g_Statistics.SetRealMonitoring(FALSE);
 			KillTimer(REFRESHTIMER);
 		}
-		BeginWaitCursor();
 		UpdateNewData();
-		EndWaitCursor();
 	}
 	return 0L;
 }
