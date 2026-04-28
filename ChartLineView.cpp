@@ -231,15 +231,18 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 		pSeries = pChart->CreateSeries(szSeries, rLineAttrib.m_Color, BCGPChartType::BCGP_CT_SIMPLE, BCGPChartCategory(rLineAttrib.m_Category));
 		if (pSeries)
 		{
-			const auto& cTimeSpan = g_Statistics.GetDateToShow();
-			COleDateTime dtStartTime{ cTimeSpan.dateStart };
+			const auto& cTime = g_Statistics.GetDateToShow();
+			COleDateTime dtStartTime{ cTime.m_dateStart };
+			BOOL bSameDay = cTime.IsSameDay();
+			;
 
 			for (uint32_t i = 0; i < nDataPointCount; i++)
 			{
 				const auto& rItem = rRecDayList.GetItem(i);
 
 				COleDateTime dtTime{ rItem.GetTime() };
-				auto szTime = dtTime.Format(_T("%d.%m.%y %H:%M:%S"));
+				CString szTime = (bSameDay) ? dtTime.Format(_T("%H:%M:%S")) : dtTime.Format(_T("%d.%m.%y %H:%M:%S"));
+
 				int k = pSeries->AddDataPoint(szTime, rItem.Get(select, index));
 
 				if (pMarkerInfo)

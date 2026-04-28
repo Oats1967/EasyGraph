@@ -60,7 +60,7 @@ private:
 
 
 private:
-	void GetRealMonitoringTimeSpan(DateToShow& rDate);
+	void GetRealMonitoringTimeSpan(base::DateToShow& rDate);
 
 // Generierte Funktionen für die Meldungstabellen
 protected:

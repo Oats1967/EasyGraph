@@ -85,7 +85,7 @@ void CMainFrame::OnTimer(UINT_PTR nIDEvent)
 	{
 		// Aktion hier ausführen, z.B. StatusBar aktualisieren
 		uint32_t bEnable = g_Statistics.GetRealMonitoring();
-		DateToShow aDate;
+		base::DateToShow aDate;
 		GetRealMonitoringTimeSpan(aDate);
 
 		g_Statistics.SetDateToShow(aDate);
@@ -276,7 +276,7 @@ void CMainFrame::OnUpdateLogMessages(CCmdUI* pCmdUI)
 	pCmdUI->Enable(bEnable);
 }
 
-void CMainFrame::GetRealMonitoringTimeSpan(DateToShow& rDate)
+void CMainFrame::GetRealMonitoringTimeSpan(base::DateToShow& rDate)
 {
 	COleDateTime dateEnd = COleDateTime::GetCurrentTime();
 	COleDateTime dateStart = dateEnd;
@@ -292,12 +292,9 @@ void CMainFrame::GetRealMonitoringTimeSpan(DateToShow& rDate)
 	auto hours	    = ti2.rem;
 	auto days		= ti2.quot;
 
-
 	timediff.SetDateTimeSpan(days, hours, minutes, 0);
 	dateStart -= timediff;
-
-	rDate.dateStart = dateStart.m_dt;
-	rDate.dateEnd = dateEnd.m_dt;
+	rDate.SetStartEndTime(dateStart, dateEnd);
 }
 
 
@@ -307,7 +304,7 @@ void CMainFrame::OnRealMonitoring()
 	bEnable = !bEnable;
 	if (bEnable)
 	{
-		DateToShow aDate;
+		base::DateToShow aDate;
 		GetRealMonitoringTimeSpan(aDate);
 		g_Statistics.SetDateToShow(aDate);
 		g_Statistics.SetRealMonitoring(bEnable);
@@ -710,7 +707,7 @@ void CMainFrame::UpdateNewData()
 
 LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 {
-	auto pDate = (DateToShow*)wParam;
+	auto pDate = (base::DateToShow*)wParam;
 	if (pDate != nullptr)
 	{
 		g_Statistics.SetActiveFeeder(-1);

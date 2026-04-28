@@ -32,8 +32,7 @@ void CStatistics::Init()
 		rA.m_Color = CBCGPColor(c_Color[k]);
 	}
 	rAttribut[_S32(base::eMassflowSelect::eVIEWTOTALIZER)].m_Visible = FALSE;
-	time(&m_Settings.m_StartTime);
-	m_Settings.m_EndTime = m_Settings.m_StartTime;
+	m_Settings.m_ShowTime.now();;
 	m_Settings.m_ActiveLine = 0;
 	m_Settings.m_ActiveFeeder = 0;
 	m_FeederCount = 0;
@@ -73,11 +72,8 @@ void CStatistics::GetANNumbers(void)
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
-void CStatistics::LoadLogItemList(base::utils::CLogItemList& tempList, const std::tm& _tmStart)
+void CStatistics::LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& aTime)
 {
-	std::tm tmStart = _tmStart;
-	assert(tmStart.tm_isdst == -1);
-	time_t aTime = mktime(&tmStart);
 	tempList.SetFilename(aTime);
 	tempList.LoadAll();
 }
@@ -91,64 +87,41 @@ BOOL CStatistics::LoadLogItemList()
 	{
 		m_LogDaysList.Clear();
 		const auto& rLineItem = m_LineGraphConfig.m_field[ActiveLine];
-		COleDateTime dSO(m_Settings.m_StartTime);
-		COleDateTime dEO(m_Settings.m_EndTime);
+		auto dSO = m_Settings.m_ShowTime.m_dateStart;
+		auto dEO = m_Settings.m_ShowTime.m_dateEnd;
 
-		COleDateTimeSpan difftime = dEO - dSO;
-		int32_t days = difftime.GetDays();
-		COleDateTimeSpan dayskip(1, 0, 0, 0);
-
-		auto tmStart = OleDateTime2TM(dSO);
-		if (days == 0)
+		if (m_Settings.m_ShowTime.IsSameDay())
 		{
 			m_LogDaysList.SetPath(rLineItem.m_szLogPath);
-			LoadLogItemList(m_LogDaysList, tmStart);
+			LoadLogItemList(m_LogDaysList, dSO);
 		}
 		else
 		{
+			int32_t days = m_Settings.m_ShowTime.GetDiffDays();
 			base::utils::CLogItemList TempList;
 			TempList.SetPath(rLineItem.m_szLogPath);
-			auto tmTemp = tmStart;
 			for (int32_t k = 0; k <= days; k++)
 			{
-				LoadLogItemList(TempList, tmTemp);
+				auto newtime = COleDateTime(dSO) + COleDateTimeSpan(k, 0, 0, 0);
+				LoadLogItemList(TempList, base::utils::OleDateTime2Time(newtime));
 				m_LogDaysList += TempList;
-				dSO += dayskip;
-				tmTemp = OleDateTime2TM(dSO);
 			}
 		}
 		if ( ! IsZoom())
 		{
 			m_LogDaysList.Shrink(SHRINKSIZE);
 		}
-		m_LogDaysList.Extract(tmStart, OleDateTime2TM(dEO));
+		m_LogDaysList.Extract(dSO, dEO);
 		result = TRUE;
 	}
 	return result;
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
-void CStatistics::LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart)
+void CStatistics::LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& aTime)
 {
-	std::tm tmStart = _tmStart;
-	assert(tmStart.tm_isdst == -1);
-	time_t aTime = mktime(&tmStart);
 	tempList.SetFilename(aTime);
 	tempList.LoadAll();
-}
-//*********************************************************************************************************************************
-//*********************************************************************************************************************************
-std::tm CStatistics::OleDateTime2TM(const COleDateTime& dSO)
-{
-	tm tmStart;
-	memset(&tmStart, 0, sizeof(tmStart));
-	tmStart.tm_year = dSO.GetYear() - 1900;
-	tmStart.tm_mon = dSO.GetMonth() - 1;
-	tmStart.tm_mday = dSO.GetDay();
-	tmStart.tm_hour = dSO.GetHour();
-	tmStart.tm_min = dSO.GetMinute();
-	tmStart.tm_isdst = -1;
-	return tmStart;
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
@@ -161,37 +134,31 @@ BOOL CStatistics::LoadRectItemList()
 		m_RecDaysList.Clear();
 		m_RecDaysList.SetMaxItems(0);
 		const auto& rLineItem = m_LineGraphConfig.m_field[ActiveLine];
-		COleDateTime dSO(m_Settings.m_StartTime);
-		COleDateTime dEO(m_Settings.m_EndTime);
+		auto dSO = m_Settings.m_ShowTime.m_dateStart;
+		auto dEO = m_Settings.m_ShowTime.m_dateEnd;
 
-		COleDateTimeSpan difftime = dEO - dSO;
-		int32_t days = difftime.GetDays();
-		COleDateTimeSpan dayskip(1, 0, 0, 0);
-
-		auto tmStart = OleDateTime2TM(dSO);
-		if (days == 0)
+		if (m_Settings.m_ShowTime.IsSameDay())
 		{
 			m_RecDaysList.SetPath(rLineItem.m_szRecPath);
-			LoadRectItemList(m_RecDaysList, tmStart);
+			LoadRectItemList(m_RecDaysList, dSO);
 		}
 		else
 		{
+			int32_t days = m_Settings.m_ShowTime.GetDiffDays();
 			base::utils::CRecItemList TempList;
-			auto tmTemp = tmStart;
 			TempList.SetPath(rLineItem.m_szRecPath);
 			for (int32_t k = 0; k <= days; k++)
 			{
-				LoadRectItemList(TempList, tmTemp);
+				auto newtime = COleDateTime(dSO) + COleDateTimeSpan(k, 0, 0, 0);
+				LoadRectItemList(TempList, base::utils::OleDateTime2Time(newtime));
 				m_RecDaysList += TempList;
-				dSO += dayskip;
-				tmTemp = OleDateTime2TM(dSO);
 			}
 		}
-		if ( ! IsZoom() )
+		if (! IsZoom() )
 		{
 			m_RecDaysList.Shrink(SHRINKSIZE);
 		}
-		m_RecDaysList.Extract(tmStart, OleDateTime2TM(dEO));
+		m_RecDaysList.Extract(dSO, dEO);
 		result = TRUE;
 	}
 	return result;
@@ -323,17 +290,18 @@ CString CStatistics::GetHeaderDateTime() const
 	VERIFY(szFrom.LoadString(IDS_S_FROM));
 	szFrom.Append(_T(": "));
 
-	COleDateTime start(m_Settings.m_StartTime);
-	COleDateTime end(m_Settings.m_EndTime);
+	auto start = m_Settings.m_ShowTime.GetOleDateTimeStart();
 	CString szStart = start.Format(_T("%d.%m.%y"));
-	CString szEnd = end.Format(_T("%d.%m.%y"));
-	if (szStart == szEnd)
+
+	if (m_Settings.m_ShowTime.IsSameDay())
 	{
-		COleDateTime aDate(m_Settings.m_StartTime);
+		COleDateTime aDate(start);
 		szDate = szFrom + szStart;
 	}
 	else
 	{
+		auto end = m_Settings.m_ShowTime.GetOleDateTimeEnd();
+		CString szEnd = end.Format(_T("%d.%m.%y"));
 		CString szTo;
 		VERIFY(szTo.LoadString(IDS_S_TO));
 		szTo.Append(_T(": "));

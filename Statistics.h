@@ -12,12 +12,6 @@
 #include "BASE/include/EasyGraphSettings.h"
 
 
-struct DateToShow
-{
-	DATE dateStart;
-	DATE dateEnd;
-};
-
 
 using CTotalizerMap	 = CQualityMap<uint64_t, float32_t>;
 
@@ -48,26 +42,11 @@ private:
 	void CalcLogRecMapping(void);
 	void Init();
 	BOOL LoadLogItemList();
-	void LoadLogItemList(base::utils::CLogItemList& tempList, const std::tm& _tmStart);
+	void LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& _tmStart);
 	BOOL LoadRectItemList();
-	void LoadRectItemList(base::utils::CRecItemList& tempList, const std::tm& _tmStart);
+	void LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& _tmStart);
 
-	static time_t ConvertTime(const DATE& rD)
-	{
-		COleDateTime rT(rD);
-		SYSTEMTIME st;
-		rT.GetAsSystemTime(st);
-		CTime tme(st);
-		return tme.GetTime();
-	}
 
-	static DATE ConvertTime(const time_t& rD)
-	{
-		COleDateTime rT(rD);
-		return rT.m_dt;
-	}
-
-	static std::tm OleDateTime2TM(const COleDateTime& dSO);
 
 
 public:
@@ -112,18 +91,14 @@ public:
 	void SetLineAttribute(const base::eMassflowSelect select, const base::LineAttribute& lineAttribue)
 	{	m_Settings.m_Attribues[_S32(select)] = lineAttribue;	}
 
-	void SetDateToShow(const DateToShow& rDate)
+	void SetDateToShow(const base::DateToShow& rDate)
 	{	
-		m_Settings.m_StartTime = ConvertTime(rDate.dateStart);
-		m_Settings.m_EndTime = ConvertTime(rDate.dateEnd);
+		m_Settings.m_ShowTime = rDate;
 	}
 
-	const DateToShow GetDateToShow(void) const
+	const base::DateToShow& GetDateToShow(void) const
 	{
-		DateToShow rDate;
-		rDate.dateStart = ConvertTime(m_Settings.m_StartTime);
-		rDate.dateEnd   = ConvertTime(m_Settings.m_EndTime);
-		return rDate;
+		return m_Settings.m_ShowTime;
 	}
 
 	CString GetHeaderDateTime() const;
