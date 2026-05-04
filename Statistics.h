@@ -1,3 +1,20 @@
+//------------------------------------------------------------------------------------
+///
+///                           <<<   E A S Y C O N T R O L   >>>
+///
+///
+/// @brief  Declaration of module Statistics
+///
+/// @file   Statistics.h
+///
+///
+/// @coypright(c)  Ing.büro Hafer
+///                Branderweg 8A
+///                D-91058 Erlangen
+///
+/// @author        Detlef Hafer
+///
+//------------------------------------------------------------------------------------
 #pragma once
 
 #include <string>
@@ -34,7 +51,6 @@ class CStatistics
 	BCGPChartMouseConfig::ZoomScrollOptions m_ZoomType;
 
 private:
-	//void GetQMNUmbers(void);
 	void GetANNumbers(void);
 	void CalcTotalizerFeeder(void);
 	void CalcTotalizerQMNUmber(void);
@@ -42,11 +58,10 @@ private:
 	void CalcLogRecMapping(void);
 	void Init();
 	BOOL LoadLogItemList();
-	void LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& _tmStart);
 	BOOL LoadRectItemList();
-	void LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& _tmStart);
 
-
+	static void LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& _tmStart);
+	static void LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& _tmStart);
 
 
 public:

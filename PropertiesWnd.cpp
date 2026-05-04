@@ -29,6 +29,12 @@ struct ItemProperty
 };
 
 
+IMPLEMENT_DYNAMIC(CPropertySettingsGrid, CMFCPropertyGridProperty)
+IMPLEMENT_DYNAMIC(CPropertyGrid, CMFCPropertyGridProperty)
+IMPLEMENT_DYNAMIC(CPropertyColorGrid, CMFCPropertyGridProperty)
+
+
+
 /////////////////////////////////////////////////////////////////////////////
 // CResourceViewBar
 
@@ -478,7 +484,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam
 	}
 	else if (pRuntime->IsDerivedFrom(RUNTIME_CLASS(CPropertySettingsGrid)))
 	{
-		CPropertySettingsGrid* pUnique = (CPropertySettingsGrid*)pGrid;
+		auto* pUnique = (CPropertySettingsGrid*)pGrid;
 		switch (pUnique->GetId())
 		{
 		case ID_REFRESHTIME:
@@ -494,7 +500,7 @@ LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam
 	}
 	else
 	{
-		CPropertyGrid* pUnique = (CPropertyGrid*)pGrid;
+		auto* pUnique = (CPropertyGrid*)pGrid;
 		switch (pUnique->GetId())
 		{
 		case ID_LINEWIDTH:

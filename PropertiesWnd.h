@@ -23,6 +23,8 @@ public:
 
 class CPropertySettingsGrid : public CMFCPropertyGridProperty, public CUniqueProperty
 {
+	DECLARE_DYNAMIC(CPropertySettingsGrid)
+
 public:
 	CPropertySettingsGrid(const int32_t id, const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
 		LPCTSTR lpszEditMask = NULL, LPCTSTR lpszEditTemplate = NULL, LPCTSTR lpszValidChars = NULL) :
@@ -38,6 +40,8 @@ public:
 
 class CPropertyGrid : public CMFCPropertyGridProperty, public CUniqueProperty
 {
+	DECLARE_DYNAMIC(CPropertyGrid)
+
 public:
 	CPropertyGrid(const int32_t id, const base::eMassflowSelect select, const CString& strName, const COleVariant& varValue, LPCTSTR lpszDescr = NULL, DWORD_PTR dwData = 0,
 		LPCTSTR lpszEditMask = NULL, LPCTSTR lpszEditTemplate = NULL, LPCTSTR lpszValidChars = NULL) :
@@ -53,6 +57,8 @@ public:
 
 class CPropertyColorGrid : public CMFCPropertyGridColorProperty, public CUniqueProperty
 {
+	DECLARE_DYNAMIC(CPropertyColorGrid)
+
 public:
 	CPropertyColorGrid(const int32_t id, const base::eMassflowSelect select, const CString& strName, const COLORREF& color, CPalette* pPalette = NULL, LPCTSTR lpszDescr = NULL) :
 		CMFCPropertyGridColorProperty(strName, color, pPalette, lpszDescr),

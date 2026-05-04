@@ -72,7 +72,7 @@ void CStatistics::GetANNumbers(void)
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
-void CStatistics::LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& aTime)
+inline void CStatistics::LoadLogItemList(base::utils::CLogItemList& tempList, const time_t& aTime)
 {
 	tempList.SetFilename(aTime);
 	tempList.LoadAll();
@@ -118,7 +118,7 @@ BOOL CStatistics::LoadLogItemList()
 }
 //*********************************************************************************************************************************
 //*********************************************************************************************************************************
-void CStatistics::LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& aTime)
+inline void CStatistics::LoadRectItemList(base::utils::CRecItemList& tempList, const time_t& aTime)
 {
 	tempList.SetFilename(aTime);
 	tempList.LoadAll();
