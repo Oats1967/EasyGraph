@@ -40,8 +40,13 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CCalendarBar construction/destruction
 
-CCalendarBar::CCalendarBar()
+CCalendarBar::CCalendarBar() 
 {
+	VERIFY(m_Font.CreateFont(36, 0, 0, 0, FW_NORMAL,
+		FALSE, FALSE, 0, ANSI_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")));
+
 }
 
 CCalendarBar::~CCalendarBar()
@@ -63,6 +68,9 @@ int CCalendarBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndCalendars.EnableMutipleSelection (TRUE, 35 /* Max sel days */, TRUE);
 	m_wndCalendars.EnableWeekNumbers ();
 	m_wndCalendars.EnableVisualManagerStyle();
+	m_wndCalendars.SetSingleMonthMode(TRUE);
+	m_wndCalendars.SetFont(&m_Font);
+
 
 	UpdateCalendar ();
 	return 0;
@@ -111,6 +119,8 @@ LRESULT CCalendarBar::OnSelChanged(WPARAM, LPARAM)
 		CBCGPCalendar::GetMinMaxSelection (lstDates, date1, date2);
 
 		g_Date.SetStartEndTime(base::utils::GetFirstTimeOfDay(date1), base::utils::GetLastTimeOfDay(date2));
+		Slide(FALSE);
+		m_wndCalendars.ClearSelectedDates(FALSE, FALSE),
 		pFrame->SendMessage(WM_NEWDATE, WPARAM(&g_Date));
 	}
 	return 0;

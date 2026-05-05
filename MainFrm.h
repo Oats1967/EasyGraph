@@ -51,6 +51,8 @@ protected:  // Eingebettete Member der Steuerleiste
 	CPropertiesWnd    m_wndProperties;
 	CCalendarBar      m_wndCalendarView;
 	int32_t			  m_ActiveLine;
+	CDockablePane* m_pTabbedBar;
+
 
 
 private:

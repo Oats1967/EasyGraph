@@ -69,6 +69,8 @@ static UINT indicators[] =
 // CMainFrame-Erstellung/Zerstörung
 
 CMainFrame::CMainFrame() noexcept : m_ActiveLine (0)
+, m_pTabbedBar{ nullptr }
+
 {
 	// TODO: Hier Code für die Memberinitialisierung einfügen
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
@@ -247,12 +249,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndWorkSpace.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndCalendarView.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndWorkSpace);
-	CDockablePane* pTabbedBar = nullptr;
-	m_wndCalendarView.AttachToTabWnd(&m_wndWorkSpace, DM_SHOW, TRUE, &pTabbedBar);
+	m_wndCalendarView.AttachToTabWnd(&m_wndWorkSpace, DM_SHOW, TRUE, &m_pTabbedBar);
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
 	EnableDocking(CBRS_ALIGN_ANY);
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
+
+	m_pTabbedBar->ToggleAutoHide();
+	m_wndProperties.ToggleAutoHide();
 
 	RecalcLayout();
 	return 0;
@@ -360,7 +364,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strCalendarView;
 	bNameValid = strCalendarView.LoadString(IDS_CALENDAR_VIEW);
 	ASSERT(bNameValid);
-	if (!m_wndCalendarView.Create(strCalendarView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CALENDAR, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	if (!m_wndCalendarView.Create(strCalendarView, this, CRect(0, 0, 500, 200), TRUE, ID_VIEW_CALENDAR, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Fehler beim Erstellen des Klassenansichtsfensters.\n");
 		return FALSE; // Fehler beim Erstellen
@@ -370,7 +374,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strDoseSelectView;
 	bNameValid = strDoseSelectView.LoadString(IDS_GRAFIKSELECT_VIEW);
 	ASSERT(bNameValid);
-	if (!m_wndWorkSpace.Create(strDoseSelectView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_DOSESELECT, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	if (!m_wndWorkSpace.Create(strDoseSelectView, this, CRect(0, 0, 500, 200), TRUE, ID_VIEW_DOSESELECT, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Fehler beim Erstellen des Dateiansichtsfensters.\n");
 		return FALSE; // Fehler beim Erstellen
@@ -390,7 +394,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	CString strPropertiesWnd;
 	bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
 	ASSERT(bNameValid);
-	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 400, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Fehler beim Erstellen des Eigenschaftenfensters.\n");
 		return FALSE; // Fehler beim Erstellen
@@ -721,6 +725,13 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 			g_Statistics.SetRealMonitoring(FALSE);
 			KillTimer(REFRESHTIMER);
 		}
+#if 0
+		BOOL bAutoHideMode = m_wndCalendarView.IsAutoHideMode();
+		BOOL bVisible = m_wndCalendarView.IsVisible();
+		bVisible = m_pTabbedBar->IsVisible();
+		if (bAutoHideMode && bVisible)
+			m_wndCalendarView.ToggleAutoHide();
+#endif
 		UpdateNewData();
 	}
 	return 0L;

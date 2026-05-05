@@ -67,6 +67,7 @@ public:
 
 protected:
 	CBCGPTreeCtrlEx		m_wndTree;
+	CFont				m_Font;
 	int					m_nLastSelectedItem;
 
 	// Operations

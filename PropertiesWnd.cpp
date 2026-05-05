@@ -50,6 +50,10 @@ CPropertiesWnd::CPropertiesWnd() noexcept :
 	, m_nComboHeight{ 0 }
 	, m_LinienColorPos{ 0 }
 {
+	VERIFY(m_fntPropList.CreateFont(22, 0, 0, 0, FW_NORMAL,
+		FALSE, FALSE, 0, ANSI_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")));
 }
 
 CPropertiesWnd::~CPropertiesWnd()
@@ -139,23 +143,6 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// Kombinationsfeld erstellen:
 	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST | WS_BORDER | CBS_SORT | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-#if 0
-	if (!m_wndObjectCombo.Create(dwViewStyle, rectDummy, this, 1))
-	{
-		TRACE0("Fehler beim Erstellen des Eigenschaftenkombinationsfelds. \n");
-		return -1;      // Fehler beim Erstellen
-	}
-	CString szTemp;
-	VERIFY(szTemp.LoadString(IDS_P_APPLICATION));
-	m_wndObjectCombo.AddString(szTemp);
-	VERIFY(szTemp.LoadString(IDS_P_PROPERTYWINDOW));
-	m_wndObjectCombo.AddString(szTemp);
-	m_wndObjectCombo.SetCurSel(0);
-
-	CRect rectCombo;
-	m_wndObjectCombo.GetClientRect (&rectCombo);
-	m_nComboHeight = rectCombo.Height();
-#endif
 	m_nComboHeight = 0;
 
 	if (!m_wndPropList.Create(WS_VISIBLE | WS_CHILD, rectDummy, this, 2))
@@ -163,6 +150,7 @@ int CPropertiesWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Fehler beim Erstellen des Eigenschaftenrasters. \n");
 		return -1;      // Fehler beim Erstellen
 	}
+	m_wndPropList.SetFont(&m_fntPropList);
 
 	InitPropList();
 
@@ -342,8 +330,6 @@ CPropertyGrid* CPropertiesWnd::CreateProperty(const base::eMassflowSelect select
 //*****************************************************************************************************************************************
 void CPropertiesWnd::InitPropList()
 {
-	SetPropListFont();
-
 	m_wndPropList.EnableHeaderCtrl(FALSE);
 	m_wndPropList.EnableDescriptionArea();
 	m_wndPropList.SetVSDotNetLook();
@@ -441,37 +427,8 @@ void CPropertiesWnd::OnSetFocus(CWnd* pOldWnd)
 	CDockablePane::OnSetFocus(pOldWnd);
 	m_wndPropList.SetFocus();
 }
-
-void CPropertiesWnd::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
-{
-	CDockablePane::OnSettingChange(uFlags, lpszSection);
-	SetPropListFont();
-}
-
-
-void CPropertiesWnd::SetPropListFont()
-{
-	::DeleteObject(m_fntPropList.Detach());
-
-	LOGFONT lf;
-	afxGlobalData.fontRegular.GetLogFont(&lf);
-
-	NONCLIENTMETRICS info;
-	info.cbSize = sizeof(info);
-
-	afxGlobalData.GetNonClientMetrics(info);
-
-	lf.lfHeight = info.lfMenuFont.lfHeight;
-	lf.lfWeight = info.lfMenuFont.lfWeight;
-	lf.lfItalic = info.lfMenuFont.lfItalic;
-
-	m_fntPropList.CreateFontIndirect(&lf);
-
-	m_wndPropList.SetFont(&m_fntPropList);
-	//m_wndObjectCombo.SetFont(&m_fntPropList);
-}
-
-
+//*****************************************************************************************************************************************
+//*****************************************************************************************************************************************
 LRESULT CPropertiesWnd::OnPropertyChanged(__in WPARAM wparam, __in LPARAM lParam)
 {
 	// pProp will have all the variables and info of the active or change property

@@ -19,6 +19,7 @@
 class CCalendarBar : public CBCGPDockingControlBar
 {
 	friend class CMainFrame;
+	CFont m_Font;
 
 public:
 	CCalendarBar();

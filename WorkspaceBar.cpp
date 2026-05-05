@@ -70,6 +70,11 @@ CWorkspaceBar::CWorkspaceBar()
 			   CGroupData(IDS_WB_STATISTIC, RUNTIME_CLASS(CGroupView)) }
 {
 	m_nLastSelectedItem = -1;
+	VERIFY(m_Font.CreateFont(22, 0, 0, 0, FW_LIGHT,
+		FALSE, FALSE, 0, ANSI_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")));
+
 }
 
 CWorkspaceBar::~CWorkspaceBar()
@@ -126,6 +131,7 @@ int CWorkspaceBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create workspace view\n");
 		return -1;      // fail to create
 	}
+	m_wndTree.SetFont(&m_Font);
 
 	BCGP_GRID_FILTERBAR_OPTIONS filterBarOptions(_T("Search Chart Views"));
 	filterBarOptions.m_bIncludeGroups = TRUE;
@@ -307,57 +313,3 @@ LRESULT CWorkspaceBar::OnGridFilterBarChanged(WPARAM /*wp*/, LPARAM lp)
 
 	return 0L;
 }
-
-
-#if 0
-int CWorkspaceBar::Init()
-{
-	int nCount = sizeof(features) / sizeof(features[0]);
-	for (int i = 0; i < nCount; i++)
-	{
-		AddView(&features[i]);
-	}
-	return 0;
-}
-
-
-int CWorkspaceBar::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
-	if (CBCGPDockingControlBar::OnCreate(lpCreateStruct) == -1)
-		return -1;
-
-	ModifyStyle(0, WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
-
-	CRect rectDummy;
-	rectDummy.SetRectEmpty();
-
-	// Create tree window:
-	m_wndTree.SetVisualManagerColorTheme();
-
-	const DWORD dwViewStyle = WS_CHILD | WS_VISIBLE | TVS_HASLINES | TVS_TRACKSELECT |
-		TVS_LINESATROOT | TVS_HASBUTTONS | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT;
-
-	if (!m_wndTree.Create(dwViewStyle, rectDummy, this, idTree))
-	{
-		TRACE0("Failed to create workspace view\n");
-		return -1;      // fail to create
-	}
-
-	BCGP_GRID_FILTERBAR_OPTIONS filterBarOptions(_T("Search Chart Views"));
-	filterBarOptions.m_bIncludeGroups = TRUE;
-	m_wndTree.EnableFilterBar(TRUE, filterBarOptions);
-
-	m_wndTree.SetOutOfFilterLabel(_T("No items match your search."));
-
-	const int nCount = sizeof(groups) / sizeof(CBCGPMultiViewData);
-
-	for (int i = 0; i < nCount; i++)
-	{
-		AddFeatureGroup(groups[i]);
-	}
-
-	SelectView(0);
-	return 0;
-}
-
-#endif

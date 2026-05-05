@@ -234,7 +234,6 @@ CBCGPChartSeries* CChartLineView::CreateSeries( const base::eMassflowSelect sele
 			const auto& cTime = g_Statistics.GetDateToShow();
 			COleDateTime dtStartTime{ cTime.m_dateStart };
 			BOOL bSameDay = cTime.IsSameDay();
-			;
 
 			for (uint32_t i = 0; i < nDataPointCount; i++)
 			{
