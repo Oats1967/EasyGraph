@@ -220,7 +220,7 @@ void CWorkspaceBar::OnSelectTree(NMHDR* /*pNMHDR*/, LRESULT* pResult)
 			}
 		}
 	}
-
+	Slide(FALSE);
 	*pResult = 0;
 }
 

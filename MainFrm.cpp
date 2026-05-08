@@ -69,8 +69,6 @@ static UINT indicators[] =
 // CMainFrame-Erstellung/Zerstörung
 
 CMainFrame::CMainFrame() noexcept : m_ActiveLine (0)
-, m_pTabbedBar{ nullptr }
-
 {
 	// TODO: Hier Code für die Memberinitialisierung einfügen
 	theApp.m_nAppLook = theApp.GetInt(_T("ApplicationLook"), ID_VIEW_APPLOOK_VS_2008);
@@ -78,6 +76,12 @@ CMainFrame::CMainFrame() noexcept : m_ActiveLine (0)
 
 CMainFrame::~CMainFrame()
 {
+#if 0
+	VERIFY(m_Font.CreateFont(14, 0, 0, 0, FW_NORMAL,
+		FALSE, FALSE, 0, ANSI_CHARSET,
+		OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+		DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, _T("Arial")));
+#endif
 }
 
 
@@ -144,7 +148,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
-
 
 	//-----------------------
 	// Setup toolbar buttons:
@@ -249,13 +252,14 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndWorkSpace.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndCalendarView.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndWorkSpace);
-	m_wndCalendarView.AttachToTabWnd(&m_wndWorkSpace, DM_SHOW, TRUE, &m_pTabbedBar);
+	CDockablePane* pTabbedBar;
+	m_wndCalendarView.AttachToTabWnd(&m_wndWorkSpace, DM_SHOW, TRUE, &pTabbedBar);
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
 	EnableDocking(CBRS_ALIGN_ANY);
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
-	m_pTabbedBar->ToggleAutoHide();
+	pTabbedBar->ToggleAutoHide();
 	m_wndProperties.ToggleAutoHide();
 
 	RecalcLayout();
@@ -725,13 +729,6 @@ LRESULT CMainFrame::OnNewDate(WPARAM wParam, LPARAM lParam)
 			g_Statistics.SetRealMonitoring(FALSE);
 			KillTimer(REFRESHTIMER);
 		}
-#if 0
-		BOOL bAutoHideMode = m_wndCalendarView.IsAutoHideMode();
-		BOOL bVisible = m_wndCalendarView.IsVisible();
-		bVisible = m_pTabbedBar->IsVisible();
-		if (bAutoHideMode && bVisible)
-			m_wndCalendarView.ToggleAutoHide();
-#endif
 		UpdateNewData();
 	}
 	return 0L;
